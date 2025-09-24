@@ -17,25 +17,29 @@ const FrontPage = () => {
  
     return(
         <div>
-            <a href="/account-details">Account Details Page (temporary)</a>
+            {/* this account details link should replace login/sign up link at the 
+            top right corner (nav bar?) if user signed in */}
+            <a href="/account-details" rel="noopener noreferrer">Account Details Page (temporary)</a> <br></br>
             
-            <img src={logoImg} alt="helping hands logo"></img>
+            <img src={logoImg} alt="helping hands logo" width="200" height="200"></img>
+            {/* FIXME: place helping hands title next to the logo */}
             <h1>Helping Hands</h1>
+            
             <p><em>Nurturing a better future</em></p>
 
             
-            <img src={diversityImg} alt="diverse group of people"></img>
+            <img src={diversityImg} alt="diverse group of people" width="512" height="341"></img>
             <br></br>
             <h1>About Us</h1>
             <p>
-                For 400 years, Helping Hands has been in the non-profit business of saving perople around the globe. 
-                Whether it's building homes in Africa or escorting gambling addicts into rehab, we are 
-                always here to help. With over 500 centers across 17 continents and 90 galaxies, we're ready to 
-                lend a helping hand to anyone in need. <strong>Volunteering isn't just something we do -- it's something we live by.</strong> Volunteering runs in our veins. 
-                I eat volunteering for breakfast. When the waiter asks me for more cheese on my pasta at 
-                Olive Garden, I say, "No thank you, I'd rather you top it off with some shredded volunteering with
-                a side of canned volunteering and volunteering ice cream for desert". That's why when it comes to volunteering, 
-                we don't play around.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Impedit maxime modi et harum, sint repellat repellendus laudantium 
+                laboriosam eaque accusantium beatae, minus laborum, qui molestiae. 
+                Necessitatibus perspiciatis ullam modi vitae.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Impedit maxime modi et harum, sint repellat repellendus laudantium 
+                laboriosam eaque accusantium beatae, minus laborum, qui molestiae. 
+                Necessitatibus perspiciatis ullam modi vitae.
             </p>
             {/* <br></br> */}
             <h1>Mission Statement</h1>
@@ -49,12 +53,12 @@ const FrontPage = () => {
             </p>
             <h1>Gallery</h1>
             {/* flexbox */}
-            <img src={africaVolunteerImg} alt="volunteers in africa"></img>
-            <img src={africanPeopleImg} alt="african people"></img>
-            <img src={indiaVolunteerImg} alt="volunteers in india"></img>
-            <img src={languageExchangeImg} alt="language exchange event"></img>
-            <img src={mrBeastWellsImg} alt="mr beast posing with wells in africa"></img>
-            <img src={plantVolunteerImg} alt="volunteering by planting plants"></img>
+            <img src={africaVolunteerImg} alt="volunteers in africa" width="480" height="250"></img>
+            <img src={africanPeopleImg} alt="african people" width="466" height="311"></img>
+            <img src={indiaVolunteerImg} alt="volunteers in india" width="474" height="291"></img>
+            <img src={languageExchangeImg} alt="language exchange event" width="512" height="341"></img>
+            <img src={mrBeastWellsImg} alt="mr beast posing with wells in africa" width="540" height="337"></img>
+            <img src={plantVolunteerImg} alt="volunteering by planting plants" width="600" height="315"></img>
 
 
             <h1>Become One With Us.</h1>

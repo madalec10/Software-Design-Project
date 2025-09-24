@@ -23,7 +23,7 @@ const FrontPage = () => {
             
             <img src={logoImg} alt="helping hands logo" width="200" height="200"></img>
             {/* FIXME: place helping hands title next to the logo */}
-            <h1 id = "logo">Helping Hands</h1>
+            <h1 id = "logoText">Helping Hands</h1>
             
             <p><em>Nurturing a better future</em></p>
 

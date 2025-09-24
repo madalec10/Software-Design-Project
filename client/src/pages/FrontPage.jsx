@@ -9,6 +9,7 @@ import languageExchangeImg from "../assets/language-exchange.jpg"
 import mrBeastWellsImg from "../assets/mr-beast-wells.jpeg"
 import plantVolunteerImg from "../assets/plant-volunteer.jpg"
 import morpheusImg from "../assets/morpheus.jpg"
+import logoImg from "../assets/logo.jpg"
 
  
 const FrontPage = () => {
@@ -18,9 +19,11 @@ const FrontPage = () => {
         <div>
             <a href="/account-details">Account Details Page (temporary)</a>
             
-            
+            <img src={logoImg} alt="helping hands logo"></img>
             <h1>Helping Hands</h1>
-            <p><em>Lend a hand for a better future</em></p>
+            <p><em>Nurturing a better future</em></p>
+
+            
             <img src={diversityImg} alt="diverse group of people"></img>
             <br></br>
             <h1>About Us</h1>
@@ -37,8 +40,10 @@ const FrontPage = () => {
             {/* <br></br> */}
             <h1>Mission Statement</h1>
             <p>
-                Helping Hands seeks to improve the lives of underpriveleged communities through nurturing
-                health, education, and hapiness by fostering a community of volunteers with like-minded individuals.  
+                Our mission is simple: <strong>To leave the world a better place than we found it.</strong>
+                <br></br>
+                Helping Hands seeks to improve the lives of underpriveleged communities in
+                health, education, and hapiness while fostering an ever-expanding community.  
                 We strive to connect people like never before, and help everyone for a better future. 
                 
             </p>

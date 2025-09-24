@@ -3,9 +3,25 @@
   outline: 2px solid red;
 }
 
+#logoImg {
+    display: block;
+    margin: 0 auto;
+}
 
+#motto{
+    padding: 0px;
+    margin-bottom: 200px;
+    text-align: center;
+}
+
+
+#signInPrompt {
+    padding: auto;
+    text-align: center;
+}
 
 #logoText {
+    padding: 0px;
     color: teal;
     font-size: 50px;
 }
@@ -39,8 +55,8 @@ p {
 }
 
 .bigImg {
-    width: auto;
-    height: 700px;
+    width: 1200px;
+    height: auto;
     display: block;
     margin: 0 auto;
 }

@@ -44,7 +44,7 @@ const FrontPage = () => {
             {/* <br></br> */}
             <h1>Mission Statement</h1>
             <p>
-                Our mission is simple: <strong>To leave the world a better place than we found it.</strong>
+                <p id = "mission">Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
                 <br></br>
                 Helping Hands seeks to improve the lives of underpriveleged communities in
                 health, education, and hapiness while fostering an ever-expanding community.  

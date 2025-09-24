@@ -10,13 +10,27 @@
     font-size: 50px;
 }
 
+#mission {
+    text-align: center;
+    padding: 10px;
+}
+
 h1 {
-    padding: 30px;
+    padding: 80px;
     text-align: center;
     margin-bottom: 10px;
     color: black;
-    font-family: "Times New Roman", Times, serif;
+    font-family: Arial, Verdana, Helvetica;
     font-size: 80px;
+}
+
+p {
+    padding: 110px;
+    text-align: auto;
+    margin-bottom: 30px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 40px;
 }
 
 .gallery {
@@ -27,4 +41,6 @@ h1 {
 .bigImg {
     width: auto;
     height: 700px;
+    display: block;
+    margin: 0 auto;
 }

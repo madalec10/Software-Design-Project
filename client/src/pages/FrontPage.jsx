@@ -6,9 +6,10 @@ import africanPeopleImg from "../assets/african-people.jpg"
 import diversityImg from "../assets/diversity.jpg"
 import indiaVolunteerImg from "../assets/india-volunteer.jpg"
 import languageExchangeImg from "../assets/language-exchange.jpg"
-import mrBeastWellsImg from "../assets/mr-beast-wells.jpeg"
+// import mrBeastWellsImg from "../assets/mr-beast-wells.jpeg"
+import diverseFriendsImg from "../assets/diverse-friends.jpg"
 import plantVolunteerImg from "../assets/plant-volunteer.jpg"
-import morpheusImg from "../assets/morpheus.jpg"
+// import morpheusImg from "../assets/morpheus.jpg"
 import logoImg from "../assets/logo.jpg"
 
  
@@ -57,12 +58,14 @@ const FrontPage = () => {
             <img src={africanPeopleImg} alt="african people" width="466" height="311"></img>
             <img src={indiaVolunteerImg} alt="volunteers in india" width="474" height="291"></img>
             <img src={languageExchangeImg} alt="language exchange event" width="512" height="341"></img>
-            <img src={mrBeastWellsImg} alt="mr beast posing with wells in africa" width="540" height="337"></img>
+            {/* <img src={mrBeastWellsImg} alt="mr beast posing with wells in africa" width="540" height="337"></img> */}
             <img src={plantVolunteerImg} alt="volunteering by planting plants" width="600" height="315"></img>
 
 
-            <h1>Become One With Us.</h1>
-            <img src={morpheusImg} alt="pill scene from the matrix film"></img>
+            <h1>Lend a Helping Hand Today!</h1>
+
+            {/* <img src={morpheusImg} alt="pill scene from the matrix film"></img> */}
+            <img src={diverseFriendsImg} alt="diverse group of friends" with="915" height="400"></img>
             <p><a href="Login.jsx">Login</a> or <a href="SignUp.jsx">Create an Account</a></p>
         </div>
         

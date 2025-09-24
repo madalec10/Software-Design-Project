@@ -23,7 +23,7 @@ const AccountDetails = () => {
             <p><strong>State: </strong></p>
             <p><strong>Zip Code: </strong></p>
             
-            <h4>Address 1</h4>
+            <h4>Address 2</h4>
             <p><strong>City: </strong></p>
             <p><strong>State: </strong></p>
             <p><strong>Zip Code: </strong></p>

@@ -16,7 +16,7 @@ const FrontPage = () => {
  
     return(
         <div>
-            <a href="AccountDetails.jsx">Account Details Page (temporary)</a>
+            <a href="/account-details">Account Details Page (temporary)</a>
             
             
             <h1>Helping Hands</h1>

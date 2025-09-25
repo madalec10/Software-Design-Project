@@ -1,4 +1,5 @@
 import React from 'react'
+import style from '../AccountDetails.module.css'
  
 const AccountDetails = () => {
     console.log("AccountDetails")
@@ -6,31 +7,39 @@ const AccountDetails = () => {
     return(
         <div>
             
-            <h1 class = "header">Account Details</h1>
+            <h1 class = {style.header}>Account Details</h1>
 
             <h3>Personal Information</h3>
             
-            <p><strong>Full Name: </strong>Walter Hartwell White Sr.</p>
-            <p><strong>Date of Birth: </strong>September 7, 1958</p>
-            <p><strong>Gender: </strong>Male</p>
+            <span class = {style.field}><strong>Full Name: </strong></span>
+            <span class = {style.value}>Walter Hartwell White Sr.</span>
+            <br></br>
+
+            <span class = {style.field}><strong>Date of Birth: </strong></span>
+            <span class = {style.value}>September 7, 1958</span>
+            <br></br>
+
+            <span class = {style.field}><strong>Gender: </strong></span>
+            <span class = {style.value}>Male</span>
+            <br></br>
             
 
-            <h3>Place of Residence</h3>
+            <h3 class = {style.header}>Place of Residence</h3>
             
-            <p><strong>Address 1: </strong>308 Negra Arroyo Lane</p>
-            <p><strong>City: </strong>Albuquerque</p>
-            <p><strong>State: </strong>New Mexico</p>
-            <p><strong>Zip Code: </strong>87111</p>
+            <span class = {style.field}><strong>Address 1: </strong>308 Negra Arroyo Lane</span>
+            <span class = {style.field}><strong>City: </strong>Albuquerque</span>
+            <span class = {style.field}><strong>State: </strong>New Mexico</span>
+            <span class = {style.field}><strong>Zip Code: </strong>87111</span>
             
-            <p><strong>Address 2: </strong>NA</p>
-            <p><strong>City: </strong>NA</p>
-            <p><strong>State: </strong>NA</p>
-            <p><strong>Zip Code: </strong>NA</p>
+            <span class = {style.field}><strong>Address 2: </strong>NA</span>
+            <span class = {style.field}><strong>City: </strong>NA</span>
+            <span class = {style.field}><strong>State: </strong>NA</span>
+            <span class = {style.field}><strong>Zip Code: </strong>NA</span>
 
-            <h4>Other</h4>
-            <p><strong>Skills: </strong>Chemistry, Baking, Car Washes</p>
-            <p><strong>Preferences: </strong>The color blue</p> {/* idk what preferences mean exactly */}
-            <p><strong>Availability: </strong>M, W, F</p>
+            <h3 class = {style.header}>Other Information</h3>
+            <span class = {style.field}><strong>Skills: </strong>Chemistry, Baking, Car Washes</span>
+            <span class = {style.field}><strong>Preferences: </strong>The color blue</span> {/* idk what preferences mean exactly */}
+            <span class = {style.field}><strong>Availability: </strong>M, W, F</span>
 
         </div>
     )

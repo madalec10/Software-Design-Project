@@ -6,7 +6,7 @@ const AccountDetails = () => {
     return(
         <div>
             
-            <h1>Account Details</h1>
+            <h1 class = "header">Account Details</h1>
 
             <h3>Personal Information</h3>
             

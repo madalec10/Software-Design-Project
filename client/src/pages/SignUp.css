@@ -10,7 +10,7 @@ input[type="password"]:invalid:not(:placeholder-shown) {
     justify-self: center;
 }
 
-.form{
+.signup-form{
     margin: 20px auto;
     width: 200px;
     padding: 1em;
@@ -20,7 +20,7 @@ input[type="password"]:invalid:not(:placeholder-shown) {
     flex-direction: column;
 }
 
-input{
+.signup-input{
     margin: 5px;
 }
 
@@ -31,7 +31,7 @@ input{
     margin-bottom: 10px;
 }
 
-button{
+.signup-button{
     width: 100px;
     align-self: center;
     border-radius: 1em;
@@ -39,6 +39,6 @@ button{
     background-color: transparent;
 }
 
-label{
+.signup-label{
     padding-left: 4px;
 }

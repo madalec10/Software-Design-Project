@@ -6,7 +6,7 @@
     justify-self: center;
 }
 
-.form{
+.login-form{
     margin: 20px auto;
     width: 200px;
     padding: 1em;
@@ -16,7 +16,7 @@
     flex-direction: column;
 }
 
-input{
+.login-input{
     margin: 5px;
 }
 
@@ -27,7 +27,7 @@ input{
     margin-bottom: 10px;
 }
 
-button{
+.login-button{
     width: 100px;
     align-self: center;
     border-radius: 1em;
@@ -35,6 +35,6 @@ button{
     background-color: transparent;
 }
 
-label{
+.login-label{
     padding-left: 4px;
 }

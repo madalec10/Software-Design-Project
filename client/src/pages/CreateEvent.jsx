@@ -44,12 +44,12 @@ const CreateEvent = () => {
                     onChange={handleChange}
                     onCreateOption={handleCreate}
                     value={selectedOptions}
-                    className="create-event-input"
+                    className="create-event-skills"
                     required
                 />
 
                 <label for="urgency" className="create-event-label">Urgency Level:</label>
-                <select name="urgency" required>
+                <select className="create-event-select" name="urgency" required>
                     <option value="" disabled selected required>Select Urgency Level</option>
                     <option value="high">Help Necessary</option>
                     <option value="medium">Help Wanted</option>
@@ -66,9 +66,9 @@ const CreateEvent = () => {
                 <input type="number" className="create-event-input" name="volunteer-count" placeholder='1-100' required min="1" max="100" />
 
                 <label for="description" className="create-event-label">Event Description:</label>
-                <textarea className="create-event-input" name="description" placeholder="Describe the event..." required maxLength={500}></textarea>
+                <textarea className="create-event-textarea" name="description" placeholder="Describe the event..." required maxLength={500}></textarea>
 
-                <button type="submit">Create Event</button>
+                <button className="create-event-button" type="submit">Create Event</button>
             </form>
         </div>
     )

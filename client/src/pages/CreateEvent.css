@@ -20,19 +20,30 @@
     margin: 5px;
 }
 
-button{
+.create-event-button{
     width: 100px;
     align-self: center;
     border-radius: 1em;
     cursor: pointer;
     background-color: transparent;
+    margin-top: 5px;
 }
 
-label{
+.create-event-label{
     padding-left: 4px;
 }
 
-select{
+.create-event-select{
     margin: 5px;
     padding: 5px;
+}
+
+.create-event-skills{
+    margin: 5px;
+}
+
+.create-event-textarea{
+    margin: 5px;
+    height: 100px;
+    resize: vertical;
 }

@@ -18,8 +18,19 @@ const Navbar = () => {
                         <a href="/events">Events</a>
                     </li>
                     <li>
+<<<<<<< HEAD
                         <a href="/volunteer-history">Volunteer History</a>
                     </li>
+=======
+                        <a href = "/manage-events"> Manage Events</a>
+                    </li>
+                    <li>
+                        <a href="/volunteer-history">Volunteer History</a>
+                    </li>
+                     <li>
+                        <a href="/notifications">Notifications</a>
+                    </li>
+>>>>>>> e2910d9 (Initial commit of my work)
                 </ul>
             </div>
             <div className="navbar-right">
@@ -40,3 +51,7 @@ const Navbar = () => {
 
 
 export default Navbar;
+<<<<<<< HEAD
+=======
+
+>>>>>>> e2910d9 (Initial commit of my work)

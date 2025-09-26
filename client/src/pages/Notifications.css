@@ -1,0 +1,98 @@
+h1 {
+  text-align: center;
+}
+
+/* Top bar */
+.Notifications-Bar {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.Notifications-Page {
+  background: linear-gradient(to bottom, #f3f4f6, #ffffff);
+}
+
+
+
+
+/* Badge row */
+.alerts {
+  display: flex;
+  gap: 5px;
+}
+.alerts-number {
+  border: 2px solid black;
+  border-radius: 14px;
+  padding: 2px 8px;
+  background-color: rgb(243, 90, 90);
+  color: white;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+/* The card container */
+.Notifications-List {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  padding: 18px;
+  width: clamp(320px, 60%, 900px);
+  margin: 16px auto;
+  list-style-type: none;
+  
+}
+
+/* Each notification line */
+.Notifications {
+  margin: 0;
+  padding: 0;
+  border-radius: 50px;
+}
+
+/* Your pill-style button for each notification */
+.noti-button {
+  background-color: #ffffff;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .06s ease;
+}
+.noti-button:hover {
+  background: linear-gradient(135deg, #60fa81, #25eb2f);
+  color: #0b0f0b;
+  border-color: transparent;
+}
+
+/* “Mark all as read” button (your colors) */
+.read-button {
+  background: linear-gradient(135deg, #f6413b, #eb5325);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, transform .06s ease;
+  border: 2px solid black;
+  margin-bottom: ;;
+}
+.read-button:hover {
+  background: linear-gradient(135deg, #60fa60, #3bf63b);
+}
+.read-button:active {
+  transform: scale(0.98);
+}

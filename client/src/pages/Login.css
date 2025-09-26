@@ -1,0 +1,40 @@
+.LogIn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-self: center;
+}
+
+.form{
+    margin: 20px auto;
+    width: 200px;
+    padding: 1em;
+    border: 1px solid;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    margin: 5px;
+}
+
+.link{
+    display: flex;
+    justify-content: center;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+button{
+    width: 100px;
+    align-self: center;
+    border-radius: 1em;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+label{
+    padding-left: 4px;
+}

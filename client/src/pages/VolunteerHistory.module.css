@@ -1,9 +1,21 @@
+* {
+  outline: 2px solid red;
+}
 
+.pageName {
+    margin-left: 80px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 80px;
+}
 
-.header {
-    padding: 40px;
-    margin-left: 40px;
-    text-align: auto;
+.eventName {
+    margin-left: 80px;
+    padding: 30px;
+    text-align: center;
     margin-bottom: 10px;
     color: black;
     font-family: Arial, Verdana, Helvetica;
@@ -11,17 +23,19 @@
 }
 
 .field {
-    padding: 80px;
+    font-weight: bold;
+    padding: 10px;
     text-align: auto;
     margin-bottom: 10px;
+    margin-left: 80px;
     color: black;
     font-family: Arial, Verdana, Helvetica;
     font-size: 30px;
 }
 
 .value {
-    margin-left: -70px;
-    padding: 0px;
+    margin-left: 0px;
+    padding: 10px;
     text-align: auto;
     margin-bottom: 10px;
     color: black;
@@ -29,12 +43,12 @@
     font-size: 20px;
 }
 
-.pageName {
+.descValue {
     margin-left: 80px;
     padding: 0px;
-    text-align: center;
+    text-align: auto;
     margin-bottom: 10px;
     color: black;
     font-family: Arial, Verdana, Helvetica;
-    font-size: 80px;
+    font-size: 20px;
 }

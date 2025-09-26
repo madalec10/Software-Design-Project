@@ -1,37 +1,71 @@
 import React from 'react'
+import style from "./VolunteerHistory.module.css"
  
 const VolunteerHistory = () => {
     console.log("VolunteerHistory")
  
     return(
         <div>
-            <h1>Volunteer History</h1>
+            <h1 class = {style.pageName}>Volunteer History</h1>
             <br></br>
 
-            <h2>Beach Clean Up</h2>
-            <p><strong>Date: </strong> April 19, 2020 <strong>Time: </strong>5:00pm <strong>Location: </strong>Galveston Beach</p>
-            <h4>Description: </h4>
-            <p>
+            <h2 class = {style.eventName}>Beach Clean Up</h2>
+
+            <span class = {style.field}>Date:</span>
+            <span class = {style.value}>April 19, 2020</span>
+
+            <span class = {style.field}>Time:</span>
+            <span class = {style.value}>5:00pm</span>
+
+            <span class = {style.field}>Location:</span>
+            <span class = {style.value}>Galveston Beach</span>
+            
+            
+            <h4 class = {style.field}>Description:</h4>
+            <p class = {style.descValue}>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
                 Mollitia iste animi voluptatem nesciunt earum deleniti id. 
                 At consectetur labore explicabo quae eum voluptates! 
                 Ab, quod laboriosam! Quaerat officia recusandae est.
             </p>
 
-            <h2>Downtown Soup Kitchen</h2>
-            <p><strong>Date: </strong> November 4, 2023 <strong>Time: </strong>7:30am <strong>Location: </strong>Northwest Food Bank</p>
-            <h4>Description: </h4>
-            <p>
+
+            <h2 class = {style.eventName}>Downtown Soup Kitchen</h2>
+
+            <span class = {style.field}>Date:</span>
+            <span class = {style.value}>November 4, 2023</span>
+
+            <span class = {style.field}>Time:</span>
+            <span class = {style.value}>7:30am</span>
+
+            <span class = {style.field}>Location:</span>
+            <span class = {style.value}>Northwest Food Bank</span>
+
+
+            <h4 class = {style.field}>Description:</h4>
+            <p class = {style.descValue}>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
                 Mollitia iste animi voluptatem nesciunt earum deleniti id. 
                 At consectetur labore explicabo quae eum voluptates! 
                 Ab, quod laboriosam! Quaerat officia recusandae est.
             </p>
 
-            <h2>Gotham Retirement Homes</h2>
-            <p><strong>Date: </strong> December 90, 2049 <strong>Time: </strong>11:30pm <strong>Location: </strong>Central Senior Center</p>
-            <h4>Description: </h4>
-            <p>
+
+
+            <h2 class = {style.eventName}>Gotham Retirement Home</h2>
+
+            <span class = {style.field}>Date:</span>
+            <span class = {style.value}>December 90, 2049</span>
+
+            <span class = {style.field}>Time:</span>
+            <span class = {style.value}>11:30pm</span>
+
+            <span class = {style.field}>Location:</span>
+            <span class = {style.value}>Central Senior Center</span>
+            
+            
+            <h4 class = {style.field}>Description:</h4>
+            <p class = {style.descValue}>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
                 Mollitia iste animi voluptatem nesciunt earum deleniti id. 
                 At consectetur labore explicabo quae eum voluptates! 

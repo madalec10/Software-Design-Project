@@ -17,9 +17,8 @@ const FrontPage = () => {
  
     return(
         <div>
-            {/* this account details link should replace login/sign up link at the 
-            top right corner (nav bar?) if user signed in */}
-            <a href="/account-details" rel="noopener noreferrer">Account Details Page (temporary)</a> <br></br>
+            {/* FIXME: this link is temporary. should replace the login/signup links at the nav bar when user already signed in */}
+            <a href="/account-details" rel="noopener noreferrer" class = {style.accountLink}>Account Details</a> <br></br>
             
             <img src={logoImg} class = {style.logoImg} alt="helping hands logo" width="200" height="200"></img>
             {/* FIXME: place helping hands title next to the logo */}
@@ -65,7 +64,7 @@ const FrontPage = () => {
             <h1 class = {style.askJoin}>Lend a Helping Hand Today!</h1>
 
             <img src={diverseFriendsImg} class = {style.bigImg} alt="diverse group of friends" with="915" height="400"></img>
-            <p class = {style.enterAccount}><a href="/log-in">Login</a> or <a href="/sign-up">Create an Account</a></p>
+            <p class = {style.enterAccount}><a href="/log-in">Login</a> or <a href="/sign-up">Create an Account</a>!</p>
         </div>
         
 

@@ -8,10 +8,9 @@ import ManageEvents from './pages/ManageEvents.jsx';
 import VolunteerHistory from './pages/VolunteerHistory.jsx';
 import AccountDetails from './pages/AccountDetails.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
-<<<<<<< HEAD
-=======
+
 import Notifications from './pages/Notifications.jsx';
->>>>>>> e2910d9 (Initial commit of my work)
+
 
 import {
   BrowserRouter,
@@ -35,10 +34,9 @@ function App() {
           <Route path="/volunteer-history" element={<VolunteerHistory/>}/>
           <Route path="/account-details" element={<AccountDetails/>}/>
           <Route path="/create-event" element={<CreateEvent/>}/>
-<<<<<<< HEAD
-=======
+
           <Route path="/notifications" element={<Notifications/>}/>
->>>>>>> e2910d9 (Initial commit of my work)
+e2910d9 (Initial commit of my work)
           
         </Routes>
       </BrowserRouter>

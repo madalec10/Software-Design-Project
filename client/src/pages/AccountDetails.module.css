@@ -1,4 +1,6 @@
-
+* {
+  outline: 2px solid red;
+}
 
 .header {
     padding: 40px;
@@ -11,16 +13,17 @@
 }
 
 .field {
-    padding: 80px;
+    padding: 0px;
     text-align: auto;
     margin-bottom: 10px;
+    margin-left: 80px;
     color: black;
     font-family: Arial, Verdana, Helvetica;
     font-size: 30px;
 }
 
 .value {
-    margin-left: -70px;
+    margin-left: 20px;
     padding: 0px;
     text-align: auto;
     margin-bottom: 10px;

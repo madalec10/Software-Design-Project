@@ -1,0 +1,134 @@
+.EventsMatch {
+    text-align: center;
+    margin-top: 50px;
+    font-weight: bold;
+
+
+}
+
+.Event-Cards {
+    
+    list-style-type: none;
+    /* Removes the bullets */
+    margin: 0;
+    /* Often good to remove default margin */
+    padding: 0;
+    /* Often good to remove default padding */
+
+
+}
+
+p {
+    font-weight: lighter;
+    margin: 10px;
+    font-size: 20px;
+
+}
+
+button {
+    
+    border-radius: 20px;
+    height: 45px;
+    width: 100px;
+    font-weight: bold;
+
+    
+
+}
+
+h2 {
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.Events-Match-List {
+    display: flex;
+    flex-wrap: wrap;
+    /* allow wrapping */
+    justify-content: center;
+    /* center the cards */
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+    /* spacing between cards */
+}
+
+.Events-Match-List li {
+    list-style: none;
+    border: 2px black solid;
+    border-radius: 40px;
+    padding: 20px;
+    width: 45%;
+    /* ~2 cards per row with some gap */
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.Events-list {
+    display: flex;
+    flex-wrap: wrap;
+    /* allow wrapping */
+    justify-content: center;
+    /* center the cards */
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+    /* spacing between cards */
+}
+
+.Events-list li {
+    list-style: none;
+    border: 2px black solid;
+    border-radius: 40px;
+    padding: 20px;
+    width: 45%;
+    /* ~2 cards per row with some gap */
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+.Events-Match-List li img,
+.Events-list li img {
+
+    margin: auto;
+    border: 2px solid black;
+    width: 100%;
+    /* fill the card width */
+    max-width: 450px;
+    /* optional: prevent it from getting too large */
+    height: auto;
+    /* maintain aspect ratio */
+    display: block;
+    /* remove inline spacing */
+    margin-bottom: 10px;
+    border-radius: 12px;
+    /* optional: rounded corners */
+    border-radius: 140px;
+}
+
+p {
+    letter-spacing: 1px;
+    font-size: 17px;
+    font-weight:bold;
+    color:rgb(22, 21, 21);
+
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+
+}
+.wrapper
+{
+    text-align: center;
+}
+hr {
+  border: none;
+  height: 1px;
+  /* Set the hr color */
+  color: #333;  /* old IE */
+  background-color: #333;  /* Modern Browsers */
+}

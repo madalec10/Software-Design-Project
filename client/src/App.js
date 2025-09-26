@@ -9,6 +9,9 @@ import VolunteerHistory from './pages/VolunteerHistory.jsx';
 import AccountDetails from './pages/AccountDetails.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 
+import Notifications from './pages/Notifications.jsx';
+
+
 import {
   BrowserRouter,
   Routes,
@@ -31,6 +34,9 @@ function App() {
           <Route path="/volunteer-history" element={<VolunteerHistory/>}/>
           <Route path="/account-details" element={<AccountDetails/>}/>
           <Route path="/create-event" element={<CreateEvent/>}/>
+
+          <Route path="/notifications" element={<Notifications/>}/>
+e2910d9 (Initial commit of my work)
           
         </Routes>
       </BrowserRouter>

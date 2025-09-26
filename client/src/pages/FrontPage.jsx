@@ -1,5 +1,5 @@
 import React from 'react'
-import style from '../FrontPage.module.css'
+import style from './FrontPage.module.css'
 
 // is there a way I can import images from a single directory instead of this
 import africaVolunteerImg from "../assets/africa-volunteer.png"

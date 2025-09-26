@@ -1,5 +1,5 @@
 import React from 'react'
-import style from '../AccountDetails.module.css'
+import style from './AccountDetails.module.css'
  
 const AccountDetails = () => {
     console.log("AccountDetails")

@@ -1,11 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../utils/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 import "./Login.css"
 
 const LogIn = () => {
     console.log("LogIn")
- 
+    const { login } = useAuth()
+    const navigate = useNavigate()
+
+    const handleAdminClick = async (e) => {
+        e.preventDefault()  //prevents page refresh on button click
+        login("Admin")
+        navigate('/')
+    }
+    const handleVolunteerClick = async (e) => {
+        e.preventDefault()  //prevents page refresh on button click
+        login("Volunteer")
+        navigate('/')
+    }
+
+
     return(
         <div>
             <form className="form">
@@ -19,8 +35,8 @@ const LogIn = () => {
                 
                 <Link to="/sign-up" className='link'>Don't have an account?</Link>
                 
-                <button type="submit">User Log In</button>
-                <button type="submit">Admin Log In</button>
+                <button onClick={handleVolunteerClick} type="submit">User Log In</button>
+                <button onClick={handleAdminClick} type="submit">Admin Log In</button>
             </form>
         </div>
     )

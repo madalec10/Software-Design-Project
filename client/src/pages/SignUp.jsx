@@ -1,10 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../utils/AuthContext'
+import { useNavigate } from 'react-router-dom'
  
 import "./SignUp.css"
 
 const SignUp = () => {
     console.log("SignUp")
+    const { login } = useAuth()
+    const navigate = useNavigate()
+
+    const handleClick = async (e) => {
+        e.preventDefault()  //prevents page refresh on button click
+        login("Volunteer")
+        navigate('/')
+    }
  
     return(
         <div>
@@ -22,7 +32,7 @@ const SignUp = () => {
 
                 <Link to="/log-in" className='link'>Already have an account?</Link>
                 
-                <button type="submit">Sign Up</button>
+                <button onClick={handleClick} type="submit">Sign Up</button>
                 
             </form>
         </div>

@@ -1,11 +1,10 @@
 import React from 'react'
-import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 import { useState } from 'react';
 
 import "./CreateEvent.css"
 
-
-const options = [
+const initialOptions = [
     { value: "Organizing", label: "Organizing" },
     { value: "Power Tools", label: "Power Tools" },
     { value: "Teamwork", label: "Teamwork" },
@@ -17,9 +16,16 @@ const CreateEvent = () => {
     console.log("CreateEvent")
 
     const [selectedOptions, setSelectedOptions] = useState([]);
-    
-    const handleChange = (selectedOptions) => {
-        setSelectedOptions(selectedOptions);
+    const [options, setOptions] = useState(initialOptions);
+
+    const handleChange = (selected) => {
+        setSelectedOptions(selected);
+    };
+
+    const handleCreate = (inputValue) => {
+        const newOption = { value: inputValue, label: inputValue };
+        setOptions(prev => [...prev, newOption]);
+        setSelectedOptions(prev => [...(prev || []), newOption]);
     };
 
     return(
@@ -31,13 +37,16 @@ const CreateEvent = () => {
                 <input className="create-event-input" placeholder='Volunteer Clean Up' name="name" required maxLength={100}/>
                 
                 <label for="skills" className="create-event-label">Required Skills:</label>
-                <Select name="skills" 
-                options={options} 
-                isMulti 
-                onChange={handleChange} 
-                value={selectedOptions} 
-                className="create-event-input"
-                required/>
+                <CreatableSelect
+                    name="skills"
+                    options={options}
+                    isMulti
+                    onChange={handleChange}
+                    onCreateOption={handleCreate}
+                    value={selectedOptions}
+                    className="create-event-input"
+                    required
+                />
 
                 <label for="urgency" className="create-event-label">Urgency Level:</label>
                 <select name="urgency" required>

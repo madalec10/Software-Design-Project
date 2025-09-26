@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 import { useState } from 'react';
 
-import "./../CreateEvent.css"
+import "./CreateEvent.css"
 
 
 const options = [

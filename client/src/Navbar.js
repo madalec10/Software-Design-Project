@@ -22,6 +22,9 @@ const Navbar = () => {
             <li>
               <a href="/manage-events">Manage Events</a>
             </li>
+            <li>
+              <a href="/event-matcher">Event Matcher</a>
+            </li>
           </>)}
 
           {role == 'Volunteer' && (<>

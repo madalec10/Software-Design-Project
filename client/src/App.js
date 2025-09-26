@@ -9,6 +9,7 @@ import VolunteerHistory from './pages/VolunteerHistory.jsx';
 import AccountDetails from './pages/AccountDetails.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 import Notifications from './pages/Notifications.jsx';
+import EventMatcher from './pages/EventMatcher.jsx';
 import ProtectedAdminRoutes from './utils/ProtectedAdminRoutes.jsx';
 import ProtectedVolunteerRoutes from './utils/ProtectedVolunteerRoutes.jsx';
 
@@ -44,6 +45,7 @@ function App() {
           <Route element={<ProtectedAdminRoutes/>}>
             <Route path="/create-event" element={<CreateEvent/>}/>
             <Route path="/manage-events" element={<ManageEvents/>}/>
+            <Route path="/event-matcher" element={<EventMatcher/>}/>
           </Route>
 
           <Route element={<ProtectedVolunteerRoutes/>}>

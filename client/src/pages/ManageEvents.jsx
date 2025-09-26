@@ -8,7 +8,7 @@ const ManageEvents = () => {
       <div className="ManageEvents-Page">
         <h1>Manage Events</h1>
 
-        <a className="CreateEvent-Button">
+        <a className="CreateEvent-Button" href='/create-event'>
           Create New Event
         </a>
 

@@ -1,10 +1,10 @@
 import React from 'react'
-import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 import { useState } from 'react';
 
+import "./CreateEvent.css"
 
-
-const options = [
+const initialOptions = [
     { value: "Organizing", label: "Organizing" },
     { value: "Power Tools", label: "Power Tools" },
     { value: "Teamwork", label: "Teamwork" },
@@ -16,9 +16,16 @@ const CreateEvent = () => {
     console.log("CreateEvent")
 
     const [selectedOptions, setSelectedOptions] = useState([]);
-    
-    const handleChange = (selectedOptions) => {
-        setSelectedOptions(selectedOptions);
+    const [options, setOptions] = useState(initialOptions);
+
+    const handleChange = (selected) => {
+        setSelectedOptions(selected);
+    };
+
+    const handleCreate = (inputValue) => {
+        const newOption = { value: inputValue, label: inputValue };
+        setOptions(prev => [...prev, newOption]);
+        setSelectedOptions(prev => [...(prev || []), newOption]);
     };
 
     return(
@@ -30,16 +37,19 @@ const CreateEvent = () => {
                 <input className="create-event-input" placeholder='Volunteer Clean Up' name="name" required maxLength={100}/>
                 
                 <label for="skills" className="create-event-label">Required Skills:</label>
-                <Select name="skills" 
-                options={options} 
-                isMulti 
-                onChange={handleChange} 
-                value={selectedOptions} 
-                className="create-event-input"
-                required/>
+                <CreatableSelect
+                    name="skills"
+                    options={options}
+                    isMulti
+                    onChange={handleChange}
+                    onCreateOption={handleCreate}
+                    value={selectedOptions}
+                    className="create-event-skills"
+                    required
+                />
 
                 <label for="urgency" className="create-event-label">Urgency Level:</label>
-                <select name="urgency" required>
+                <select className="create-event-select" name="urgency" required>
                     <option value="" disabled selected required>Select Urgency Level</option>
                     <option value="high">Help Necessary</option>
                     <option value="medium">Help Wanted</option>
@@ -56,9 +66,9 @@ const CreateEvent = () => {
                 <input type="number" className="create-event-input" name="volunteer-count" placeholder='1-100' required min="1" max="100" />
 
                 <label for="description" className="create-event-label">Event Description:</label>
-                <textarea className="create-event-input" name="description" placeholder="Describe the event..." required maxLength={500}></textarea>
+                <textarea className="create-event-textarea" name="description" placeholder="Describe the event..." required maxLength={500}></textarea>
 
-                <button type="submit">Create Event</button>
+                <button className="create-event-button" type="submit">Create Event</button>
             </form>
         </div>
     )

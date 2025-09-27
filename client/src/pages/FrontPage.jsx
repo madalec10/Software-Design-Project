@@ -52,13 +52,21 @@ const FrontPage = () => {
             </p>
             <h1 class = {style.header}>Gallery</h1>
             {/* flexbox */}
-            <img src={africaVolunteerImg} class = {style.galleryImg} alt="volunteers in africa" width="480" height="250"></img>
-            <img src={africanPeopleImg} class = {style.galleryImg} alt="african people" width="466" height="311"></img>
-            <br></br>
-            <img src={indiaVolunteerImg} class = {style.galleryImg} alt="volunteers in india" width="474" height="291"></img>
-            <img src={languageExchangeImg} class = {style.galleryImg} alt="language exchange event" width="512" height="341"></img>
-            <br></br>
-            <img src={plantVolunteerImg} class = {style.galleryImg} alt="volunteering by planting plants" width="600" height="315"></img>
+
+            <div class = {style.row1}>
+                <img src={africaVolunteerImg} class = {style.galleryImg} alt="volunteers in africa" width="480" height="250"></img>
+                <img src={africanPeopleImg} class = {style.galleryImg} alt="african people" width="466" height="311"></img>
+            </div>
+
+            <div class = {style.row2}>
+                <img src={indiaVolunteerImg} class = {style.galleryImg} alt="volunteers in india" width="474" height="291"></img>
+                <img src={languageExchangeImg} class = {style.galleryImg} alt="language exchange event" width="512" height="341"></img>
+            </div>
+            
+            {/* <br></br> */}
+            
+            {/* <br></br> */}
+            {/* <img src={plantVolunteerImg} class = {style.galleryImg} alt="volunteering by planting plants" width="600" height="315"></img> */}
 
 
             <h1 class = {style.askJoin}>Lend a Helping Hand Today!</h1>

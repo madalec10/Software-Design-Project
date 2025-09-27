@@ -1,4 +1,7 @@
-
+/* comment this  and (flex) border when submitting */
+/* * {
+  outline: 2px solid red;
+} */
 
 
 .logoImg {
@@ -45,7 +48,32 @@
     font-size: 40px;
 }
 
+
+/* add row1 and row2 flex containers */
+.row1 {
+    display: flex;
+    padding: 5px;
+    /* border: 7px solid purple; */
+    align-items: center;
+    justify-content: center;
+}
+
+.row2 {
+    display: flex;
+    padding: 5px;
+    /* border: 7px solid purple; */
+    align-items: center;
+    justify-content: center;
+}
+
 .galleryImg {
+    /* display: flex; */
+    
+    height: 400px;
+    flex: 1 1 0;
+    /* border: 5px solid red; */
+    object-fit: cover;
+
     width: auto;
     height: 400px;
 }

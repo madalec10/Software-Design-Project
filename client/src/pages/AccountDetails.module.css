@@ -1,37 +1,28 @@
-/* * {
-    outline: 2px solid red;
-} */
+/* flexbox */
 
-/* flexbox containers */
 
-.personal {
-
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
 }
 
-
-/* address 1 and 2 conatiners are within residence container */
-.residence {
-
+.child {
+    border: 20px solid purple;
+    border-radius: 50px;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
 }
 
-.address1 {
-
-}
-
-.address2 {
-
-}
-
-.other {
-
-}
-
-/* ------------ */
+/* ----- */
 
 .header {
     padding: 40px;
     margin-left: 40px;
-    text-align: auto;
+    text-align: center;
     margin-bottom: 10px;
     color: black;
     font-family: Arial, Verdana, Helvetica;

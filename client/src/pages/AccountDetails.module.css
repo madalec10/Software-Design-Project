@@ -1,4 +1,32 @@
+/* * {
+    outline: 2px solid red;
+} */
 
+/* flexbox containers */
+
+.personal {
+
+}
+
+
+/* address 1 and 2 conatiners are within residence container */
+.residence {
+
+}
+
+.address1 {
+
+}
+
+.address2 {
+
+}
+
+.other {
+
+}
+
+/* ------------ */
 
 .header {
     padding: 40px;

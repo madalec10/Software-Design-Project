@@ -1,3 +1,20 @@
+.child {
+    border: 20px solid teal;
+    border-radius: 50px;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+
 
 
 .pageName {

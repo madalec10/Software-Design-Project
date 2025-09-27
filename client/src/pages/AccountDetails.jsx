@@ -13,39 +13,47 @@ const AccountDetails = () => {
             
             <h1 class = {style.pageName}>Account Details</h1>
 
-            <h3 class = {style.header}>Personal Information</h3>
+
+
+
+            {/* personal info section */}
+                    <h3 class = {style.header}>Personal Information</h3>
+                
+                    <span class = {style.field}><strong>Full Name: </strong></span>
+                    <input
+                        class = {style.value}
+                        type = "text"
+                        value = {fullName}
+                        onChange = {(e) => setFullName(e.target.value)}
+                        placeholder = "Walter Hartwell White Sr."
+                        maxLength = {50}
+                    />
+                    <span style={{ color: 'red' }}><em>  limit 50 characters, required</em></span>
+                    <br></br>
+
+                    <span class = {style.field}><strong>Date of Birth: </strong></span>
+                    <input
+                        class = {style.value}
+                        type = "text"
+                        placeholder = "September 7, 1958"
+                        maxLength = {50}
+                    />
+                    <span style={{ color: 'gray' }}><em>  limit 50 characters, optional</em></span>
+                    <br></br>
+
+                    <span class = {style.field}><strong>Gender: </strong></span>
+                    <input
+                        class = {style.value}
+                        type = "text"
+                        placeholder = "Male"
+                        maxLength = {50}
+                    />
+                    <span style={{ color: 'gray' }}><em>  limit 50 characters, optional</em></span>
+                    <br></br>
+
             
-            <span class = {style.field}><strong>Full Name: </strong></span>
-            <input
-                class = {style.value}
-                type = "text"
-                value = {fullName}
-                onChange = {(e) => setFullName(e.target.value)}
-                placeholder = "Walter Hartwell White Sr."
-                maxLength = {50}
-            />
-            <span style={{ color: 'red' }}><em>  limit 50 characters, required</em></span>
-            <br></br>
-
-            <span class = {style.field}><strong>Date of Birth: </strong></span>
-            <input
-                class = {style.value}
-                type = "text"
-                placeholder = "September 7, 1958"
-                maxLength = {50}
-            />
-            <span style={{ color: 'gray' }}><em>  limit 50 characters, optional</em></span>
-            <br></br>
-
-            <span class = {style.field}><strong>Gender: </strong></span>
-            <input
-                class = {style.value}
-                type = "text"
-                placeholder = "Male"
-                maxLength = {50}
-            />
-            <span style={{ color: 'gray' }}><em>  limit 50 characters, optional</em></span>
-            <br></br>
+            
+            
             
 
             <h3 class = {style.header}>Place of Residence</h3>

@@ -240,30 +240,51 @@ const AccountDetails = () => {
 
             <h3 class = {style.header}>Other Information</h3>
             
+            {/* Skills */}
             <span class = {style.field}><strong>Skills: </strong></span>
-            {/* put multi select menu here */}
-
-            <select class = {style.value} name = "skill" multiple required>
-                <option value = "select-skill" required>Select Skill</option>
-                <option value = "communicate" required>Good Communicator</option>
-                <option value = "strong" required>Strong</option>
-                <option value = "creative" required>Creativity</option>
-                <option value = "sales" required>Sales</option>
-                <option value = "problem-solver" required>Problem Solver</option>
+            <select class = {style.value} name = "skill" required multiple>
+                <option value = "select-skill" >Select Skill</option>
+                <option value = "communicate" >Good Communicator</option>
+                <option value = "strong" >Strong</option>
+                <option value = "creative" >Creativity</option>
+                <option value = "sales" >Sales</option>
+                <option value = "problem-solver" >Problem Solver</option>
             </select>
             <span style={{ color: 'red' }}><em>  required</em></span>
             <br></br>
 
 
-            <span class = {style.value}>Chemistry, Baking, Car Washes</span>
+            {/* <span class = {style.value}>Chemistry, Baking, Car Washes</span>
+            <br></br> */}
+            
+
+
+            {/* Preferences */}
+            <span class = {style.field}><strong>Preferences: </strong></span>
+            <input
+                class = {style.value}
+                type = "text"
+                placeholder = "The color blue"
+                maxLength = {500}
+            />
+            <span style={{ color: 'gray' }}><em>  limit 500 characters, optional</em></span>
             <br></br>
 
-            <span class = {style.field}><strong>Preferences: </strong></span> {/* idk what preferences mean exactly */}
-            <span class = {style.value}>The color blue</span>
-            <br></br>
             
-            {/* FIXME: change this to calendar selection thingy */}
-            <span class = {style.field}><strong>Availability: </strong>M, W, F</span>
+            
+            <span class = {style.field}><strong>Availability: </strong></span>
+            <select class = {style.value} name = "available" required multiple>
+                <option value = "Monday">Monday</option>
+                <option value = "Tuesday">Tuesday</option>
+                <option value = "Wednesday">Wednesday</option>
+                <option value = "Thursday">Thursday</option>
+                <option value = "Friday">Friday</option>
+                <option value = "Saturday">Saturday</option>
+                <option value = "Sunday">Sunday</option>
+
+            </select>
+            <span style={{ color: 'red' }}><em>  required</em></span>
+            <br></br>
 
         </div>
     )

@@ -1,0 +1,69 @@
+
+/* flexbox */
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.child {
+    border: 20px solid teal;
+    border-radius: 50px;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+/* ----- */
+
+.pageName {
+    margin-left: 80px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 80px;
+}
+
+.eventName {
+    margin-left: 80px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 50px;
+}
+
+.field {
+    font-weight: bold;
+    padding: 10px;
+    text-align: auto;
+    margin-bottom: 10px;
+    margin-left: 80px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 30px;
+}
+
+.value {
+    margin-left: 0px;
+    padding: 10px;
+    text-align: auto;
+    margin-bottom: 10px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 20px;
+}
+
+.descValue {
+    margin-left: 80px;
+    padding: 0px;
+    text-align: auto;
+    margin-bottom: 10px;
+    color: black;
+    font-family: Arial, Verdana, Helvetica;
+    font-size: 20px;
+}

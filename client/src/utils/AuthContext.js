@@ -20,12 +20,8 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
     // Login function
-    const login = (role) => {
-        
-        
-        
-        
-        const userData = { role };
+    const login = (email, role) => {
+        const userData = { email, role };
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData)); // Save as JSON
     };

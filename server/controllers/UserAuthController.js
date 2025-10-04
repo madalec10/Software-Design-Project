@@ -2,11 +2,12 @@ import app from "../app.js";
 import express from "express";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken"
-app.use(express.json())
 
-const salt = await bcrypt.genSalt();  // generate once
-const hashedPassword1 = await bcrypt.hash("password123", salt);
-const hashedPassword2 = await bcrypt.hash("password", salt);
+
+
+const hashedPassword1 = bcrypt.hashSync("password", 10);
+const hashedPassword2 = bcrypt.hashSync("password1234", 10);
+
 
 const users = [
   {

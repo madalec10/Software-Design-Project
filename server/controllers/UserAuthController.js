@@ -4,7 +4,22 @@ import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken"
 app.use(express.json())
 
-const users = []
+const salt = await bcrypt.genSalt();  // generate once
+const hashedPassword1 = await bcrypt.hash("password123", salt);
+const hashedPassword2 = await bcrypt.hash("password", salt);
+
+const users = [
+  {
+    email: "volunteer@gmail.com",
+    password: hashedPassword1,
+    role: "Volunteer"
+  },
+  {
+    email: "admin@gmail.com",
+    password: hashedPassword2,
+    role: "Admin"
+  },
+];
 
 const getAllUsers = async (req, res) => {
     res.json(users)
@@ -30,9 +45,15 @@ const signUp = async (req, res) => {
             password: hashedPassword
         }
         users.push(user)
-        const token = jwt.sign(user, process.env.SECRET_TOKEN)
+        const token = jwt.sign({ email: user.email, role: user.role }, process.env.SECRET_TOKEN)
+        res.cookie("token", token, {
+            httpOnly: true,   // prevents client-side JS from reading cookie
+            sameSite: "strict", // CSRF protection
+            maxAge: 60 * 60 * 1000 * 24 // 24 hours
+        });
         res.json({
-            token: token
+            email: user.email,
+            role: user.role
         })
             
     }
@@ -49,9 +70,15 @@ const logIn = async (req, res) => {
     }
     try {
         if(await bcrypt.compare(req.body.password, user.password)){
-            const token = jwt.sign(user, process.env.SECRET_TOKEN)
+            const token = jwt.sign({ email: user.email, role: user.role }, process.env.SECRET_TOKEN)
+            res.cookie("token", token, {
+                httpOnly: true,   // prevents client-side JS from reading cookie
+                sameSite: "strict", // CSRF protection
+                maxAge: 60 * 60 * 1000 * 24 // 24 hours
+            });
             res.json({
-                token: token
+                email: user.email,
+                role: user.role
             })
         }
         else{

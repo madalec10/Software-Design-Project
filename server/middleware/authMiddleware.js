@@ -4,8 +4,7 @@ dotenv.config();
 
 
 export function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = req.cookies.token; // read cookie
     if(token == null){
         return res.status(401).send("Authentication Failed")
     }

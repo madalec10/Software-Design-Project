@@ -43,7 +43,8 @@ const signUp = async (req, res) => {
         console.log(hashedPassword)
         const user = {
             email: req.body.email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: "Volunteer"
         }
         users.push(user)
         const token = jwt.sign({ email: user.email, role: user.role }, process.env.SECRET_TOKEN)

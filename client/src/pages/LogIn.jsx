@@ -41,7 +41,7 @@ const LogIn = () => {
         localStorage.removeItem("user");
 
         try{
-            const res = await axios.post('http://localhost:8800/log-in', userData, {
+            const res = await axios.post('http://localhost:8800/sign-up', userData, {
                 headers:{
                     'Content-Type' : 'application/json'
                 },

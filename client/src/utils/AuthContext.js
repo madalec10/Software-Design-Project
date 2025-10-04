@@ -7,7 +7,6 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     // Load user from localStorage on app start
     useEffect(() => {
@@ -43,13 +42,11 @@ export const AuthProvider = ({ children }) => {
 
         // Clear frontend state
         localStorage.removeItem("user");
-        setIsLoggingOut(true);
         setUser(null);
-        setTimeout(() => setIsLoggingOut(false), 500);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isLoggingOut }}>
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

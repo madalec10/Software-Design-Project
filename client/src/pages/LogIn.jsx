@@ -37,6 +37,9 @@ const LogIn = () => {
 
     const handleClick = async (e) => {
         e.preventDefault()
+        login(null, null);
+        localStorage.removeItem("user");
+
         try{
             const res = await axios.post('http://localhost:8800/log-in', userData, {
                 headers:{
@@ -51,6 +54,8 @@ const LogIn = () => {
             navigate('/')
         }
         catch(err){
+            login(null, null);
+            localStorage.removeItem("user");
             window.alert(err.response.data.error);
         }
     

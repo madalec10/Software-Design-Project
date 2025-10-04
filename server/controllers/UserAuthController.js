@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 
 
 
-const hashedPassword1 = bcrypt.hashSync("password", 10);
+const hashedPassword1 = bcrypt.hashSync("password1111", 10);
 const hashedPassword2 = bcrypt.hashSync("password1234", 10);
 
 
@@ -92,5 +92,14 @@ const logIn = async (req, res) => {
     }
 }
 
+const logOut = async(req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.json({ message: "Logged out successfully" });
+}
 
-export { getAllUsers, getUser, signUp, logIn };
+
+export { getAllUsers, getUser, signUp, logIn, logOut };

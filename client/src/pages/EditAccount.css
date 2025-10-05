@@ -1,7 +1,8 @@
-/* flexbox */
+* {
+  outline: 2px solid red;
+}
 
-
-.parent {
+/* .parent {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +18,6 @@
     flex-direction: row-reverse;
 }
 
-/* ----- */
 
 .header {
     padding: 40px;
@@ -57,4 +57,4 @@
     color: black;
     font-family: Arial, Verdana, Helvetica;
     font-size: 80px;
-}
+} */

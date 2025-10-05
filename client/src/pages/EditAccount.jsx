@@ -5,6 +5,8 @@ import './EditAccount.css';
 import CreatableSelect from 'react-select/creatable';
 import {useState} from "react";
  
+// step1: name all classes normally step 2: end all clases with "EA"
+
 const EditAccount = () => {
     console.log("EditAccount")
  
@@ -12,13 +14,44 @@ const EditAccount = () => {
     
     return(
         <div>
-            <div>
-                <h1>Edit Account</h1>
-            </div>
             
-            {/* <div className="parent">
-                <h1 className=
-            </div> */}
+
+            {/* page title */}
+            <div className="parent">
+                <h1 className="pageName">Edit Account</h1>
+                <p className="required">* required</p>
+            </div>
+
+            {/* personal information */}
+            <div className="parent">
+                <div className="personal">
+                    <h1 className="header">Personal Information</h1>
+                    
+                    {/* address 1 */}
+                    <div className="addressBox">
+
+                    </div>
+
+                    {/* address 2 */}
+                    <div className="addressBox">
+
+                    </div>
+                </div>
+            </div>
+
+            {/* contact information */}
+            <div className="parent">
+                <div className="contact">
+                    
+                </div>
+            </div>
+
+            {/* attributes */}
+            <div className="parent">
+                <div className="attributes">
+
+                </div>
+            </div>
             
 
 

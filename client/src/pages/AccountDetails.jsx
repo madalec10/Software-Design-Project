@@ -11,7 +11,7 @@ const AccountDetails = () => {
             
             
             <div>
-                <a href="/edit-account">Edit Account</a>
+                <button><a href="/edit-account">Edit Account</a></button>
             </div>
         </div>
     )

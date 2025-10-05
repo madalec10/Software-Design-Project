@@ -24,7 +24,7 @@ const FrontPage = () => {
             </div>
             
             <div className="parent">
-                <div className="centerImg">
+                <div className="topImg">
                     <img src={diversityImg} alt="diverse group of people"></img>
                 </div>
             </div>
@@ -42,11 +42,13 @@ const FrontPage = () => {
                     </p>
                 </div>
             </div>
+
+            <hr/>
             
             <div className="parent">
                 <h1 className="header">Mission Statement</h1>
                 <div className="mission">
-                    <p className="missionSentence">Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
+                    <p className="paragraph">Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
                     <p className="paragraph">
                         Helping Hands seeks to improve the lives of underpriveleged communities in
                         health, education, and hapiness while fostering an ever-expanding community.  
@@ -54,6 +56,8 @@ const FrontPage = () => {
                     </p>
                 </div>
             </div>
+
+            <hr/>
 
             <div className="parent">
                 <div className="gallery">
@@ -68,12 +72,14 @@ const FrontPage = () => {
                     </div>
                 </div>
             </div>
+
+            <hr/>
             
             <div className="parent">
                 <div className="account">
                     <h1 className="header">Lend a Helping Hand Today!</h1>
 
-                    <img src={diverseFriendsImg} alt="diverse group of friends"></img>
+                    <img src={diverseFriendsImg} className="bottomImg" alt="diverse group of friends"></img>
                     
                     <div className="enterAccount">
                         <a href="/log-in">Login</a> &nbsp;or&nbsp; <a href="/sign-up">Create an Account</a>&nbsp;!

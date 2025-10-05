@@ -1,5 +1,5 @@
 import React from 'react';
-import './EditAccount.module.css';
+import './EditAccount.css';
 
 
 import CreatableSelect from 'react-select/creatable';

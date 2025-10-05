@@ -7,6 +7,7 @@ import Events from './pages/Events.jsx';
 import ManageEvents from './pages/ManageEvents.jsx';
 import VolunteerHistory from './pages/VolunteerHistory.jsx';
 import AccountDetails from './pages/AccountDetails.jsx';
+import EditAccount from './pages/EditAccount.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 import Notifications from './pages/Notifications.jsx';
 import EventMatcher from './pages/EventMatcher.jsx';
@@ -51,6 +52,7 @@ function App() {
           <Route element={<ProtectedVolunteerRoutes/>}>
             <Route path="/notifications" element={<Notifications/>}/>
             <Route path="/account-details" element={<AccountDetails/>}/>
+            <Route path="/edit-account" element={<EditAccount/>}/>
             <Route path="/volunteer-history" element={<VolunteerHistory/>}/>
           </Route>
           

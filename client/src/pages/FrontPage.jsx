@@ -50,8 +50,9 @@ const FrontPage = () => {
             <hr/>
             
             <div className="parent">
-                <h1 className="header">Mission Statement</h1>
+                
                 <div className="mission">
+                    <h1 className="header">Mission Statement</h1>
                     <p className="paragraph">Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
                     <p className="paragraph">
                         Helping Hands seeks to improve the lives of underpriveleged communities in

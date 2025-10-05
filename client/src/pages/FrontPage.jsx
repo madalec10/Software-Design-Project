@@ -1,13 +1,17 @@
 import React from 'react';
 import './FrontPage.css';
 
-import africaVolunteerImg from "../assets/africa-volunteer.png";
-import africanPeopleImg from "../assets/african-people.jpg";
-import diversityImg from "../assets/diversity.jpg";
-import indiaVolunteerImg from "../assets/india-volunteer.jpg";
-import languageExchangeImg from "../assets/language-exchange.jpg";
-import diverseFriendsImg from "../assets/diverse-friends.jpg";
 import logoImg from "../assets/logo.jpg";
+
+import beach from '../assets/beach-cleanup.jpg'
+import dog from '../assets/dog.jpg'
+import nurse from '../assets/nursing-home.JPG'
+import plant from '../assets/planting.jpg'
+import soup from '../assets/soup-kitchen.jpg'
+import teach from '../assets/teacher.png'
+
+import diversityImg from "../assets/diversity.jpg";
+import diverseFriendsImg from "../assets/diverse-friends.jpg";
 
 const FrontPage = () => {
     console.log("FrontPage")
@@ -64,11 +68,13 @@ const FrontPage = () => {
                     <h1 className="header">Gallery</h1>
 
                     <div>
-                        <img src={africaVolunteerImg} alt="volunteers in africa"></img>
-                        <img src={africanPeopleImg} alt="african people"></img>
-
-                        <img src={indiaVolunteerImg} alt="volunteers in india"></img>
-                        <img src={languageExchangeImg} alt="language exchange event"></img>
+                        {/* gallery images go here */}
+                        <img src={beach} alt="volunteers cleaning up at the beach"></img>
+                        <img src={dog} alt="volunteers taking care of a dog"></img>
+                        <img src={nurse} alt="people volunteering at a nursing home"></img>
+                        <img src={plant} alt="a group of people planting a plant"></img>
+                        <img src={soup} alt="people volunteering at a soup kitchen"></img>
+                        <img src={teach} alt="a volunteer teaching a child"></img>
                     </div>
                 </div>
             </div>

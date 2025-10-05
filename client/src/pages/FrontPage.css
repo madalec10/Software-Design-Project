@@ -2,51 +2,53 @@
   outline: 2px solid red;
 } */
 
-.header {
+/* FIXME: end all classNames with "FP" */
+
+.headerFP {
     font-size: 70px;
 }
-.parent {
+.parentFP {
     padding: 40px;
 }
-.paragraph {
+.paragraphFP {
     font-size: 30px;
     padding: 20px 150px; /*top&bottom, left&right*/
 }
-.topImg, .bottomImg {
+.topImgFP, .bottomImgFP {
     border-radius: 50px;
 }
 
 /* -------------------- */
-.logo {
+.logoFP {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.logo img, .logo h1, .logo p {
+.logoFP img, .logoFP h1, .logoFP p {
     margin: 0;
 }
-.logoImg {
+.logoImgFP {
     width: 300px;
     height: auto;
 }
-.logoText {
+.logoTextFP {
     font-weight: 900;
     font-size: 60px;
 }
-.motto {
+.mottoFP {
     font-style: italic;
     font-weight: 500;
     font-size: 30px;
 }
 /* -------------------- */
-.topImg {
+.topImgFP {
     display: flex;
     justify-content: center;
     height: 800px;
     width: auto;
 }
 /* -------------------- */
-.aboutUs {
+.aboutUsFP {
     display: flex;
     flex-direction: column;
 }
@@ -55,7 +57,7 @@
 
 } */
 /* -------------------- */
-.mission {
+.missionFP {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,13 +66,13 @@
 /* .gallery {
 
 } */
-.galleryImages {
+.galleryImagesFP {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
 }
-.galleryImages img {
+.galleryImagesFP img {
     height: 300px;
     width: auto;
     border-radius: 15px;
@@ -79,18 +81,18 @@
     
 } */
 /* -------------------- */
-.account {
+.accountFP {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.bottomImg {
+.bottomImgFP {
     display: flex;
     justify-content: center;
     height: auto;
     width: 1000px;
 }
-.enterAccount {
+.enterAccountFP {
     display: flex;
     justify-content: center;
     font-size: 40px;

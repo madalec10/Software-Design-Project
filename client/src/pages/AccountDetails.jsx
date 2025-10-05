@@ -5,7 +5,14 @@ const AccountDetails = () => {
  
     return(
         <div>
-            Account Details
+            <div>
+                <h1>Account Details</h1>
+            </div>
+            
+            
+            <div>
+                <a href="/edit-account">Edit Account</a>
+            </div>
         </div>
     )
 }

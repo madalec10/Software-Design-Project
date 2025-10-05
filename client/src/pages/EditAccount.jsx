@@ -12,8 +12,14 @@ const EditAccount = () => {
     
     return(
         <div>
+            <div>
+                <h1>Edit Account</h1>
+            </div>
             
-            <h1 class = "pageName">Account Details</h1>
+            {/* <div className="parent">
+                <h1 className=
+            </div> */}
+            
 
 
             

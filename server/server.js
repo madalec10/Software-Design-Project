@@ -1,5 +1,8 @@
-import app from "./app.js";
+import express from "express";
+import app from './app.js'
 
-app.listen(8800, ()=>{
-    console.log("Connected to backend!")
-})
+
+
+app.listen(8800, () => {
+    console.log("Connected to backend!");
+});

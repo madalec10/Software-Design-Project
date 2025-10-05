@@ -1,7 +1,9 @@
 import React from 'react'
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../utils/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios' //api calls
 
 import "./Login.css"
 
@@ -9,6 +11,18 @@ const LogIn = () => {
     console.log("LogIn")
     const { login } = useAuth()
     const navigate = useNavigate()
+
+    const [userData, setLogin] = useState({ //login json inialized to be empty
+        email:"",
+        password:"",
+    })
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+
+    const handleChange = (e) =>{ // given target to given value
+        setLogin(prev=>({...prev, [e.target.name]: e.target.value}))
+    }
 
     const handleAdminClick = async (e) => {
         e.preventDefault()  //prevents page refresh on button click
@@ -21,6 +35,33 @@ const LogIn = () => {
         navigate('/')
     }
 
+    const handleClick = async (e) => {
+        e.preventDefault()
+        login(null, null);
+        localStorage.removeItem("user");
+
+        try{
+            const res = await axios.post('http://localhost:8800/sign-up', userData, {
+                headers:{
+                    'Content-Type' : 'application/json'
+                },
+                withCredentials: true,
+            }); 
+            const { role } = res.data
+            
+                
+            login(userData.email, role)
+            navigate('/')
+        }
+        catch(err){
+            login(null, null);
+            localStorage.removeItem("user");
+            window.alert(err.response.data.error);
+        }
+    
+    
+    }
+
 
     return(
         <div>
@@ -28,15 +69,14 @@ const LogIn = () => {
                 <h2>Log in</h2>
                 
                 <label for="email">Email:</label>
-                <input type="email" placeholder='person123@gmail.com' name="Email" required maxLength={40}/>
+                <input type="email" onChange={handleChange} placeholder='person123@gmail.com' name="email" required maxLength={40}/>
                 
                 <label for="password">Password:</label>
-                <input type="password" placeholder='ABC123' name="Password" required minLength={12} maxLength={16}/>
+                <input type="password" onChange={handleChange} placeholder='ABC123' name="password" required minLength={12} maxLength={16}/>
                 
                 <Link to="/sign-up" className='link'>Don't have an account?</Link>
                 
-                <button onClick={handleVolunteerClick} type="submit">User Log In</button>
-                <button onClick={handleAdminClick} type="submit">Admin Log In</button>
+                <button onClick={handleClick} type="submit">Log In</button>
             </form>
         </div>
     )

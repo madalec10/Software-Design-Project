@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
+
 
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     // Load user from localStorage on app start
     useEffect(() => {
@@ -20,26 +21,32 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
     // Login function
-    const login = (role) => {
-        
-        
-        
-        
-        const userData = { role };
+    const login = (email, role) => {
+        const userData = { email, role };
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData)); // Save as JSON
     };
 
     // Logout function
-    const logout = () => {
-        localStorage.removeItem("user"); // Remove user completely
-        setIsLoggingOut(true)
-        setUser(null); // Update state
-        setTimeout(() => setIsLoggingOut(false), 500)
+    const logout = async () => {
+        try {
+        //  Call backend to clear cookie
+        await axios.post(
+                "http://localhost:8800/logout",
+                {},
+                { withCredentials: true } // important so cookie is sent
+            );
+        } catch (err) {
+            console.error("Failed to logout on backend", err);
+        }
+
+        // Clear frontend state
+        localStorage.removeItem("user");
+        setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isLoggingOut }}>
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

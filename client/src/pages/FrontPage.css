@@ -12,6 +12,9 @@
     font-size: 30px;
     padding: 20px 150px; /*top&bottom, left&right*/
 }
+.topImg, .bottomImg {
+    border-radius: 50px;
+}
 
 /* -------------------- */
 .logo {

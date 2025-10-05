@@ -25,7 +25,7 @@ const FrontPage = () => {
             
             <div className="parent">
                 <div className="topImg">
-                    <img src={diversityImg} alt="diverse group of people"></img>
+                    <img src={diversityImg} className="topImg" alt="diverse group of people"></img>
                 </div>
             </div>
             

@@ -3,12 +3,12 @@ import './FrontPage.css';
 
 import logoImg from "../assets/logo.jpg";
 
-import beach from '../assets/beach-cleanup.jpg'
-import dog from '../assets/dog.jpg'
-import nurse from '../assets/nursing-home.JPG'
-import plant from '../assets/planting.jpg'
-import soup from '../assets/soup-kitchen.jpg'
-import teach from '../assets/teacher.png'
+import beach from '../assets/beach-cleanup.jpg';
+import dog from '../assets/dog.jpg';
+import nurse from '../assets/nursing-home.JPG';
+import plant from '../assets/planting.jpg';
+import soup from '../assets/soup-kitchen.jpg';
+import teach from '../assets/teacher.png';
 
 import diversityImg from "../assets/diversity.jpg";
 import diverseFriendsImg from "../assets/diverse-friends.jpg";
@@ -67,8 +67,7 @@ const FrontPage = () => {
                 <div className="gallery">
                     <h1 className="header">Gallery</h1>
 
-                    <div>
-                        {/* gallery images go here */}
+                    <div className="galleryImages">
                         <img src={beach} alt="volunteers cleaning up at the beach"></img>
                         <img src={dog} alt="volunteers taking care of a dog"></img>
                         <img src={nurse} alt="people volunteering at a nursing home"></img>
@@ -88,7 +87,9 @@ const FrontPage = () => {
                     <img src={diverseFriendsImg} className="bottomImg" alt="diverse group of friends"></img>
                     
                     <div className="enterAccount">
-                        <a href="/log-in">Login</a> &nbsp;or&nbsp; <a href="/sign-up">Create an Account</a>&nbsp;!
+                        <a href="/log-in">Login</a>
+                        &nbsp;or&nbsp; 
+                        <a href="/sign-up">Create an Account</a>&nbsp;!
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 } */
 
 .parent {
-  margin: 60px 200px;
+  margin: 60px 500px;
   padding: 40px;
   outline: 5px solid black;
   border-radius: 50px;
@@ -28,7 +28,7 @@
 
 }
 .description {
-
+  font-weight: 600;
 }
 .beach, .coal, .tree, .nurse, .feral, .soup, .lebron {
   /* outline: 7px solid purple; */

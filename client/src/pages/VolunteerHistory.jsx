@@ -37,7 +37,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Beach Clean Up</h1>
 
                         <div className="textLine">
-                            <span className="date">October 14, 2025</span>
+                            <span className="date">October 14, 2024</span>
                             <span> • </span>
                             <span className="time">3:40 PM</span>
                             <span> • </span>
@@ -68,7 +68,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Kids Coal Drive</h1>
 
                         <div className="textLine">
-                            <span className="date">December 5, 2025</span>
+                            <span className="date">December 5, 2024</span>
                             <span> • </span>
                             <span className="time">9:00 AM</span>
                             <span> • </span>
@@ -99,7 +99,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Tree Planting</h1>
 
                         <div className="textLine">
-                            <span className="date">October 18, 2025</span>
+                            <span className="date">October 18, 2024</span>
                             <span> • </span>
                             <span className="time">2:30 PM</span>
                             <span> • </span>
@@ -129,7 +129,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Nursing Homes</h1>
 
                         <div className="textLine">
-                            <span className="date">November 14, 2025</span>
+                            <span className="date">November 14, 2024</span>
                             <span> • </span>
                             <span className="time">11:00 AM</span>
                             <span> • </span>
@@ -160,7 +160,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Animal Shelter</h1>
 
                         <div className="textLine">
-                            <span className="date">January 8, 2026</span>
+                            <span className="date">January 8, 2025</span>
                             <span> • </span>
                             <span className="time">4:30 PM</span>
                             <span> • </span>
@@ -191,7 +191,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Soup Kitchen</h1>
 
                         <div className="textLine">
-                            <span className="date">February 12, 2026</span>
+                            <span className="date">February 12, 2025</span>
                             <span> • </span>
                             <span className="time">1:30 PM</span>
                             <span> • </span>
@@ -222,7 +222,7 @@ const VolunteerHistory = () => {
                         <h1 className="header">Special Needs School</h1>
 
                         <div className="textLine">
-                            <span className="date">October 20, 2025</span>
+                            <span className="date">October 20, 2024</span>
                             <span> • </span>
                             <span className="time">4:30 PM</span>
                             <span> • </span>

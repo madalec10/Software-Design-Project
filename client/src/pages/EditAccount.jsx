@@ -2,6 +2,7 @@ import React from 'react';
 import './EditAccount.css';
 
 import CreatableSelect from 'react-select/creatable';
+import DatePicker from 'react-multi-date-picker';
 import { useState } from 'react';
  
 // step 1: name all classes normally 
@@ -10,7 +11,18 @@ import { useState } from 'react';
 const EditAccount = () => {
     console.log("EditAccount")
  
+    // delete later
     const [fullName, setFullName] = useState("");
+
+    // FIXME: modify this code after it works
+    const [dateOfBirth, setDateOfBirth] = useState("");//date of birth
+    const[selectedDates, setSelectedDates] = useState([]);//for availability
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Selected Dates:", selectedDates);
+    };
+    
     
     return(
         <div>
@@ -35,8 +47,9 @@ const EditAccount = () => {
 
                         <br></br>
                         
-                        <label for="birth" className="label">Date of Birth:</label>
-                        <input name="birth" className="input" type="date"/> 
+                        <label htmlFor="birth" className="label">Date of Birth:</label>
+                        <input id="birth" name="birth" className="input" type="date" value={dateOfBirth}
+                        onChange={(e) => setDateOfBirth(e.target.value)}/> 
 
                         <br></br>
 
@@ -215,6 +228,22 @@ const EditAccount = () => {
                 <div className="parent">
                     <div className="attributes">
                         <h1 className="header">Attributes</h1>
+
+                        {/* FIXME: modify this after it works */}
+                        <label className="label">Availability:</label>
+                        <DatePicker
+                            multiple
+                            value={selectedDates}
+                            onChange={setSelectedDates}
+                            format="MM-DD-YYYY"
+                            sort
+                        />
+                        <div>
+                            Selected Dates: {selectedDates.length > 0 ? selectedDates.join(", ") : "None"}
+                        </div>
+
+
+
                     </div>
                 </div>
 

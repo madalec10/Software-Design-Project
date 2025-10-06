@@ -90,7 +90,7 @@ const EditAccount = () => {
 
                         {/* ADDRESS 1 */}
                         <div className="addressBox">
-                            <h1 className="subheader">Address 1*</h1>
+                            <h1 className="subHeader">Address 1*</h1>
 
                             <label for="address1" className="label">Address 1:</label>
                             <input name="address1" className="input" placeholder="308 Negra Arroyo Lane" maxLength={100} required/>
@@ -169,7 +169,7 @@ const EditAccount = () => {
 
                         {/* ADDRESS 2 */}
                         <div className="addressBox">
-                            <h1 className="subheader">Address 2</h1>
+                            <h1 className="subHeader">Address 2</h1>
 
                             <label for="address2" className="label">Address 2:</label>
                             <input name="address2" className="input" placeholder="308 Negra Arroyo Lane" maxLength={100}/>
@@ -253,7 +253,7 @@ const EditAccount = () => {
                         <label for="skills" className="label">Skills:</label>
                         <CreatableSelect
                             name="skills"
-                            className="skills"
+                            className="multiSelect"
                             options={options}
                             isMulti
                             onchange={handleChange}

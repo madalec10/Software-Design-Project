@@ -1,7 +1,6 @@
 import React from 'react'
 import './AccountDetails.css'
 
-// FIXME: after css finished, end all classes with "AD"
 
 const AccountDetails = () => {
     console.log("AccountDetails")

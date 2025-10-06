@@ -56,7 +56,7 @@ const FrontPage = () => {
                     <p className="paragraphFP">Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
                     <p className="paragraphFP">
                         Helping Hands seeks to improve the lives of underpriveleged communities in
-                        health, education, and hapiness while fostering an ever-expanding community.  
+                        health, education, and happiness while fostering an ever-expanding community.  
                         We strive to connect people like never before, and help everyone for a better future. 
                     </p>
                 </div>

@@ -51,10 +51,11 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            Come on over to Galveston Beach to help clean up 
+                            trash with your fellow volunteers! Plastic bags will 
+                            be provided for participants to fill trash with. Afterwards, 
+                            we will gather together as a group and sort trash into recycling
+                            materials and trash materials. 
                         </p>
                     </div>
                 </div>
@@ -81,10 +82,11 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            Calling all volunteers! Mr. Kringle needs your help this 
+                            holiday season! Using the official North Pole naughty list 
+                            provided by the man himself, we will be organizing coals by 
+                            sizes according childrens' mischief level. Any donated coal 
+                            would be appreciated. 
                         </p>
                     </div>
                 </div>
@@ -111,10 +113,10 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            Come together this October in nurturing a better future 
+                            for mother nature. In honor of National Rincon Day, we will 
+                            be planting 3,360 trees around Rincon National Park. Great 
+                            opportunity for those who love nature and helping the environment. 
                         </p>
                     </div>
                 </div>
@@ -141,10 +143,11 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            While rounding up the gang loose at Arkham Asylum, the 
+                            Dark Knight needs your help rounding up the elderly
+                            in the nursing homes for a good time! Help facilitate 
+                            several thrilling events like bingo and charades. 
+                            Includes a brief guest appearance from Justice Gang. 
                         </p>
                     </div>
                 </div>
@@ -171,10 +174,11 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            The staff at the IFAS are looking into toys and structures 
+                            to help relieve the stress of their residents! Join them on 
+                            January of next year to create wooden climbing structures. 
+                            Perfect for those who like working with their hands and 
+                            enjoy socializing with feral animals. 
                         </p>
                     </div>
                 </div>
@@ -201,10 +205,11 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            The Cola-Cola Company is looking to get into the 
+                            soup industry and also happens to be in a giving mood. 
+                            Come volunteer for the local Missouri community in 
+                            being one of the first to serve fresh hot bowls of 
+                            Coca-Cola soup. 
                         </p>
                     </div>
                 </div>
@@ -231,10 +236,10 @@ const VolunteerHistory = () => {
                         </div>
 
                         <p className="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Officia exercitationem facilis eos nulla reiciendis iusto 
-                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
-                            quidem delectus aut fugiat asperiores quod.
+                            Come join us in the grand opening of Lebron James' special 
+                            needs school. Volunteers will give tours around the campus 
+                            and facilitate with delivering the end of day kindergarten 
+                            curriculum. 
                         </p>
                     </div>
                 </div>

@@ -63,7 +63,7 @@ const EditAccount = () => {
                         
                         <label for="fullName" className="label">Full Name:</label>
                         <input name="fullName" className="input" placeholder="Walter Hartwell White Sr." maxLength={50} required/>
-                        <span>*</span>
+                        <span style={{ color: "red" }}>*</span>
 
                         <br></br>
                         
@@ -94,13 +94,13 @@ const EditAccount = () => {
 
                             <label for="address1" className="label">Address 1:</label>
                             <input name="address1" className="input" placeholder="308 Negra Arroyo Lane" maxLength={100} required/>
-                            <span>*</span>
+                            <span style={{ color: "red" }}>*</span>
 
                             <br></br>
 
                             <label for="city1" className="label">City:</label>
                             <input name="city1" className="input" placeholder="Albuquerque" maxlength={100} required/>
-                            <span>*</span>
+                            <span style={{ color: "red" }}>*</span>
 
                             <br></br>
 
@@ -158,13 +158,13 @@ const EditAccount = () => {
                                 <option value="WV">WV</option>
                                 <option value="WY">WY</option>
                             </select>
-                            <span>*</span>
+                            <span style={{ color: "red" }}>*</span>
 
                             <br></br>
 
                             <label for="zip1" className="label">Zip Code:</label>
                             <input name="zip1" className="input" placeholder="87111" minLength={5} maxLength={9} required/>
-                            <span>*</span>
+                            <span style={{ color: "red" }}>*</span>
                         </div>
 
                         {/* ADDRESS 2 */}
@@ -253,7 +253,7 @@ const EditAccount = () => {
                         <label for="skills" className="label">Skills:</label>
                         <CreatableSelect
                             name="skills"
-                            className="select"
+                            className="skills"
                             options={options}
                             isMulti
                             onchange={handleChange}
@@ -261,6 +261,15 @@ const EditAccount = () => {
                             value={selectedOptions}
                             required
                         />
+                        <span style={{ color: "red" }}>*</span>
+
+                        <br></br>
+
+                        <label for="preferences" className="label">Preferences:</label>
+                        <br></br>
+                        <textarea name="preferences" className="textArea" placeholder="I like my sandwiches without the crust" maxLength={500}/>
+
+                        <br></br>
 
                         {/* FIXME: modify this after it works */}
                         <label className="label">Availability:</label>
@@ -271,9 +280,10 @@ const EditAccount = () => {
                             format="MM-DD-YYYY"
                             sort
                         />
-                        <div>
+                        <span style={{ color: "red" }}>*</span>
+                        {/* <div>
                             Selected Dates: {selectedDates.length > 0 ? selectedDates.join(", ") : "None"}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

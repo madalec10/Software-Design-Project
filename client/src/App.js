@@ -12,6 +12,7 @@ import Notifications from './pages/Notifications.jsx';
 import EventMatcher from './pages/EventMatcher.jsx';
 import ProtectedAdminRoutes from './utils/ProtectedAdminRoutes.jsx';
 import ProtectedVolunteerRoutes from './utils/ProtectedVolunteerRoutes.jsx';
+import UpdateEvent from './pages/UpdateEvent.jsx';
 
 
 import {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/create-event" element={<CreateEvent/>}/>
             <Route path="/manage-events" element={<ManageEvents/>}/>
             <Route path="/event-matcher" element={<EventMatcher/>}/>
+            <Route path="/update-event" element={<UpdateEvent/>}/>
           </Route>
 
           <Route element={<ProtectedVolunteerRoutes/>}>

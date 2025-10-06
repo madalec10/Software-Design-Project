@@ -51,7 +51,7 @@ const EditAccount = () => {
             {/* PAGE TITLE */}
             <div className="parent">
                 <h1 className="pageName">Edit Account</h1>
-                <p className="required">* required</p>
+                <p className="required" style={{ color: "red" }}>* <em>required</em></p>
             </div>
 
             <form>

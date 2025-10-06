@@ -261,7 +261,7 @@ const EditAccount = () => {
                                 className="multiSelect"
                                 options={options}
                                 isMulti
-                                onchange={handleChange}
+                                onChange={handleChange}
                                 onCreateOption={handleCreate}
                                 value={selectedOptions}
                                 required

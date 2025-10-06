@@ -1,13 +1,29 @@
-* {
+/* * {
   outline: 2px solid red;
+} */
+/* events match list */
+.grandparent {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    gap: 70px;
 }
+/* event cards */
 .parent {
     padding: 40px;
+    list-style-type: none;
+    margin: 0;
+    padding: 1;
+    outline: 10px solid black;
+    border-radius: 30px;
+    width: 20%;
 }
 .header {
-    font-size: 40px;
+    font-size: 35px;
 }
-.label {
+/* .label {
 
 }
 .input {
@@ -15,10 +31,13 @@
 }
 .select {
 
-}
+} */
 
 
 /* -------------------- */
+.parentTitle {
+    margin: 40px;
+}
 .title {
     display: flex;
     flex-direction: column;
@@ -32,21 +51,22 @@
     font-size: 20px;
 }
 /* -------------------- */
-.personal {
-    
-}
+/* .personal {
+
+} */
 /* -------------------- */
-.contact {
+/* .contact {
 
 }
 .addressBox {
 
-}
+} */
 .subHeader {
-    font-size: 30px;
+    font-size: 25px;
+    font-weight: 400;
 }
 /* -------------------- */
-.attributes {
+/* .attributes {
 
 }
 .multiSelect {
@@ -57,8 +77,11 @@
 }
 .available {
 
-}
+} */
 /* -------------------- */
 .button {
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 50px 500px;
 }

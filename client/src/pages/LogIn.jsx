@@ -22,6 +22,7 @@ const LogIn = () => {
 
     const handleChange = (e) =>{ // given target to given value
         setLogin(prev=>({...prev, [e.target.name]: e.target.value}))
+        console.log(userData);
     }
 
     const handleAdminClick = async (e) => {
@@ -38,6 +39,7 @@ const LogIn = () => {
     const handleClick = async (e) => {
         e.preventDefault()
         login(null, null);
+        console.log(userData);
         localStorage.removeItem("user");
 
         try{

@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/UserAuthRoutes.js";
+import eventRoutes from "./routes/EventsRoutes.js";
 
 const app = express()
 
@@ -18,5 +19,6 @@ app.use(cookieParser());
 
 // Mount routes
 app.use("/", authRoutes);
+app.use("/", eventRoutes);
 
 export default app

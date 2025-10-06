@@ -23,7 +23,7 @@ const users = [
 ];
 
 const getAllUsers = async (req, res) => {
-    res.json(users)
+    res.status(200).json(users)
 }
 
 const getUser = async (req, res) => {
@@ -35,9 +35,10 @@ const signUp = async (req, res) => {
     if(user != null){
         return res.status(400).send("User already exists")
     }
+    console.log(process.env.SECRET_TOKEN)
     try {
             
-        const salt =  await bcrypt.genSalt()
+        const salt =  await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
         console.log(salt)
         console.log(hashedPassword)
@@ -47,16 +48,18 @@ const signUp = async (req, res) => {
             role: "Volunteer"
         }
         users.push(user)
+        
         const token = jwt.sign({ email: user.email, role: user.role }, process.env.SECRET_TOKEN)
         res.cookie("token", token, {
             httpOnly: true,   // prevents client-side JS from reading cookie
             sameSite: "strict", // CSRF protection
             maxAge: 60 * 60 * 1000 * 24 // 24 hours
         });
-        res.json({
+        res.status(200).json({
             email: user.email,
             role: user.role
         })
+        
             
     }
     catch {
@@ -78,13 +81,13 @@ const logIn = async (req, res) => {
                 sameSite: "strict", // CSRF protection
                 maxAge: 60 * 60 * 1000 * 24 // 24 hours
             });
-            res.json({
+            res.status(200).json({
                 email: user.email,
                 role: user.role
             })
         }
         else{
-            res.send("Not Authorized")
+            res.status(401).send("Not Authorized")
         }
 
     }
@@ -99,7 +102,7 @@ const logOut = async(req, res) => {
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
   });
-  res.json({ message: "Logged out successfully" });
+  res.status(200).json({ message: "Logged out successfully" });
 }
 
 

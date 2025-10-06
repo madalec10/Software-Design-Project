@@ -1,11 +1,11 @@
 import React from 'react';
 import './EditAccount.css';
 
-
 import CreatableSelect from 'react-select/creatable';
-import {useState} from "react";
+import { useState } from 'react';
  
-// step1: name all classes normally step 2: end all clases with "EA"
+// step 1: name all classes normally 
+// step 2: end all clases with "EA"
 
 const EditAccount = () => {
     console.log("EditAccount")
@@ -22,40 +22,63 @@ const EditAccount = () => {
                 <p className="required">* required</p>
             </div>
 
-            {/* personal information */}
-            <div className="parent">
-                <div className="personal">
-                    <h1 className="header">Personal Information</h1>
-                    
-                    {/* address 1 */}
-                    <div className="addressBox">
+            <form>
 
+                {/* personal information */}
+                <div className="parent">
+                    <div className="personal">
+                        <h1 className="header">Personal Information</h1>
+                        
+                        <label for="fullName" className="label">Full Name:</label>
+                        <input name="fullName" className="input" placeholder="Walter Hartwell White Sr." maxLength={50} required/>
+                        <span>*</span>
+
+                        <br></br>
+                        
+                        <label for="birth" className="label">Date of Birth:</label>
+                        <input name="birth" className="input" type="date"/> 
+
+                        <br></br>
+
+                        <label for="gender" className="label">Gender:</label>
+                        <select name="gender" className="select">
+                            {/* <option value="" disabled selected>Male</option> */}
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
+                </div>
 
-                    {/* address 2 */}
-                    <div className="addressBox">
+                {/* contact information */}
+                <div className="parent">
+                    <div className="contact">
+                        <h1 className="header">Contact Information</h1>
 
+                        {/* address 1 */}
+                        <div className="addressBox">
+
+                        </div>
+
+                        {/* address 2 */}
+                        <div className="addressBox">
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {/* contact information */}
-            <div className="parent">
-                <div className="contact">
-                    
+                {/* attributes */}
+                <div className="parent">
+                    <div className="attributes">
+                        <h1 className="header">Attributes</h1>
+                    </div>
                 </div>
-            </div>
-
-            {/* attributes */}
-            <div className="parent">
-                <div className="attributes">
-
-                </div>
-            </div>
             
+            </form>
 
 
-            
+            {/* OLD CODE BELOW------------------------------------------------------------------------- */}
+
             {/* personal info section */}
             <div class="parent">
                 <div class="child">

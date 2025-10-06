@@ -1,5 +1,5 @@
 import React from 'react'
-import style from "./VolunteerHistory.module.css"
+import './VolunteerHistory.css'
  
 const VolunteerHistory = () => {
     console.log("VolunteerHistory")

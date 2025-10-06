@@ -85,21 +85,21 @@ h2 {
   font-size: 0.85rem;
 }
 
-.Event-Button.update {
+.Event-Button-update {
   background-color: #28a745;
   color: white;
 }
 
-.Event-Button.update:hover {
+.Event-Button-update:hover {
   background-color: #1f7a33;
 }
 
-.Event-Button.delete {
+.Event-Button-delete {
   background-color: #dc3545;
   color: white;
 }
 
-.Event-Button.delete:hover {
+.Event-Button-delete:hover {
   background-color: #a71d2a;
 }
 
@@ -107,5 +107,12 @@ h2 {
   background-color: #f7f7f7;
   color: #666;
   box-shadow: none;
+
+}
+.buttons{
+  display: flex;
+  justify-content: center;
+  gap:5px;
+
 }
 

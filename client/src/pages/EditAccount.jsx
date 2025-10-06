@@ -4,9 +4,7 @@ import './EditAccount.css';
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from 'react-multi-date-picker';
 import { useState } from 'react';
- 
-// step 1: name all classes normally 
-// step 2: end all clases with "EA"
+
 const initialOptions = [
     { value: "Organizing", label: "Organizing" },
     { value: "Power Tools", label: "Power Tools" },

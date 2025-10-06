@@ -4,6 +4,7 @@ import { useState } from 'react';
 import DatePicker, { DateObject } from "react-multi-date-picker"
 import TimePicker from "react-multi-date-picker/plugins/analog_time_picker"
 
+
 import "./CreateEvent.css"
 
 const initialOptions = [
@@ -14,8 +15,8 @@ const initialOptions = [
     { value: "Time Management", label: "Time Management" }
 ];
 
-const CreateEvent = () => {
-    console.log("CreateEvent")
+const UpdateEvent = () => {
+    console.log("UpdateEvent")
 
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [options, setOptions] = useState(initialOptions);
@@ -94,4 +95,4 @@ const CreateEvent = () => {
     )
 }
  
-export default CreateEvent
+export default UpdateEvent

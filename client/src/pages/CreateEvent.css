@@ -47,3 +47,7 @@
     height: 100px;
     resize: vertical;
 }
+
+.date-picker{
+    width: 96%;
+}

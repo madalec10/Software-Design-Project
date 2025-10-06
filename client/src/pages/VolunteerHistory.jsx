@@ -6,13 +6,13 @@ import './VolunteerHistory.css'
 /*
 events: 
 
-galveston beach clean up
-coal for naughty kids drive
-rincon park tree planting
-gotham nursing homes assistance
-feral animal shelter assistance
-downtown houston soup kitchen
-lebron james school for special needs
+BEACH: galveston beach clean up
+COAL: coal for naughty kids drive
+TREE: rincon park tree planting
+NURSE: gotham nursing homes assistance
+FERAL: feral animal shelter assistance
+SOUP: downtown houston soup kitchen
+LEBRON: lebron james school for special needs
 */
  
 const VolunteerHistory = () => {
@@ -20,14 +20,40 @@ const VolunteerHistory = () => {
  
     return(
         <div>
+            {/* PAGE TITLE */}
+            <div className="parentTitle">
+                <div className="title">
+                    <h1 className="pageName">Volunteer History</h1>
+                </div>
+            </div>
+            
+            {/* BEACH */}
             <div className="parent">
                 <div className="child">
+                    <div className="beach">
+                        <h1 className="header">Beach Clean Up</h1>
 
+                        <span className="day">October 14, 2025</span>
+                        <span className="time">3:40 PM</span>
+                        <span className="location">Galveston Beach</span>
+
+                        <p className="description">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Officia exercitationem facilis eos nulla reiciendis iusto 
+                            deserunt nisi totam ad ipsa iste itaque, dicta dolor 
+                            quidem delectus aut fugiat asperiores quod.
+                        </p>
+                    </div>
                 </div>
-            </div>    
+            </div>
+
+            {/* COAL */}
+            {/* TREE */}
+            {/* NURSE */}
+            {/* FERAL */}
+            {/* SOUP */}
+            {/* LEBRON */}
     
-
-
 
         </div>
     )

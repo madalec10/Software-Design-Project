@@ -37,11 +37,17 @@ const VolunteerHistory = () => {
                         <h1 className="header">Beach Clean Up</h1>
 
                         <div className="textLine">
-                           <span className="date">October 14, 2025</span>
+                            <span className="date">October 14, 2025</span>
                             <span> • </span>
                             <span className="time">3:40 PM</span>
                             <span> • </span>
                             <span className="location">Galveston Beach</span>
+                        </div>
+
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: Organizing, Teamwork</span>
+                            <span> • </span>
+                            <span className="urgency">Help Necessary</span>
                         </div>
 
                         <p className="description">
@@ -68,6 +74,12 @@ const VolunteerHistory = () => {
                             <span className="location">Downtown Ohio Fire Department</span>
                         </div>
 
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: None</span>
+                            <span> • </span>
+                            <span className="urgency">Help Needed</span>
+                        </div>
+
                         <p className="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                             Officia exercitationem facilis eos nulla reiciendis iusto 
@@ -90,6 +102,12 @@ const VolunteerHistory = () => {
                             <span className="time">2:30 PM</span>
                             <span> • </span>
                             <span className="location">Rincon National Park</span>
+                        </div>
+
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: Time Management</span>
+                            <span> • </span>
+                            <span className="urgency">Help Would be Appreciated</span>
                         </div>
 
                         <p className="description">
@@ -116,6 +134,12 @@ const VolunteerHistory = () => {
                             <span className="location">Gotham Nursing Homes</span>
                         </div>
 
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: Communication</span>
+                            <span> • </span>
+                            <span className="urgency">Help Necessary</span>
+                        </div>
+
                         <p className="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                             Officia exercitationem facilis eos nulla reiciendis iusto 
@@ -138,6 +162,12 @@ const VolunteerHistory = () => {
                             <span className="time">4:30 PM</span>
                             <span> • </span>
                             <span className="location">International Feral Animal Shelter</span>
+                        </div>
+
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: Power Tools</span>
+                            <span> • </span>
+                            <span className="urgency">Help Would be Appreciated</span>
                         </div>
 
                         <p className="description">
@@ -164,6 +194,12 @@ const VolunteerHistory = () => {
                             <span className="location">Missouri Coca-Cola Factory</span>
                         </div>
 
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: Communication, Time Management</span>
+                            <span> • </span>
+                            <span className="urgency">Help Needed</span>
+                        </div>
+
                         <p className="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                             Officia exercitationem facilis eos nulla reiciendis iusto 
@@ -186,6 +222,12 @@ const VolunteerHistory = () => {
                             <span className="time">4:30 PM</span>
                             <span> • </span>
                             <span className="location">Lebron James School for Special Needs</span>
+                        </div>
+
+                        <div className="textLine">
+                            <span className="skills">Skill(s) Needed: Communication</span>
+                            <span> • </span>
+                            <span className="urgency">Help Necessary</span>
                         </div>
 
                         <p className="description">

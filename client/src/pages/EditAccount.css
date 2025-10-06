@@ -66,21 +66,21 @@
     font-weight: 400;
 }
 /* -------------------- */
-.attributes {
+/* .attributes {
 
 }
 .multiSelect {
 
-}
+} */
 .textArea {
     margin: 5px;
     width: 330px;
     height: 100px;
     resize: vertical;
 }
-.available {
+/* .available {
 
-}
+} */
 /* -------------------- */
 .button {
     display: flex;

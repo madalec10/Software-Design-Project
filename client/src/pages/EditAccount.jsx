@@ -49,34 +49,34 @@ const EditAccount = () => {
             
 
             {/* PAGE TITLE */}
-            <div className="parentTitle">
-                <div className="title">
-                    <h1 className="pageName">Edit Account</h1>
-                    <p className="required" style={{ color: "red" }}>* <em>required</em></p>
+            <div className="parentTitleEA">
+                <div className="titleEA">
+                    <h1 className="pageNameEA">Edit Account</h1>
+                    <p className="requiredEA" style={{ color: "red" }}>* <em>required</em></p>
                 </div>
             </div>
 
             <form>
-                <ul className="grandparent">
+                <ul className="grandparentEA">
                     {/* PERSONAL INFORMATION */}
-                    <li className="parent">
-                        <div className="personal">
-                            <h1 className="header">Personal Information</h1>
+                    <li className="parentEA">
+                        <div className="personalEA">
+                            <h1 className="headerEA">Personal Information</h1>
                             
-                            <label for="fullName" className="label">Full Name:</label>
-                            <input name="fullName" className="input" placeholder="Walter Hartwell White Sr." maxLength={50} required/>
+                            <label for="fullName" className="labelEA">Full Name:</label>
+                            <input name="fullName" className="inputEA" placeholder="Walter Hartwell White Sr." maxLength={50} required/>
                             <span style={{ color: "red" }}>*</span>
 
                             <br></br>
                             
-                            <label htmlFor="birth" className="label">Date of Birth:</label>
-                            <input id="birth" name="birth" className="input" type="date" value={dateOfBirth}
+                            <label htmlFor="birth" className="labelEA">Date of Birth:</label>
+                            <input id="birth" name="birth" className="inputEA" type="date" value={dateOfBirth}
                             onChange={(e) => setDateOfBirth(e.target.value)}/> 
 
                             <br></br>
 
-                            <label for="gender" className="label">Gender:</label>
-                            <select name="gender" className="select">
+                            <label for="gender" className="labelEA">Gender:</label>
+                            <select name="gender" className="selectEA">
                                 <option value="" disabled selected>Select Gender</option>
                                 <option value="male">Male</option> {/*display default?*/}
                                 <option value="female">Female</option>
@@ -86,31 +86,31 @@ const EditAccount = () => {
                     </li>
 
                     {/* CONTACT INFORMATION */}
-                    <li className="parent">
-                        <div className="contact">
-                            <h1 className="header">Contact Information</h1>
+                    <li className="parentEA">
+                        <div className="contactEA">
+                            <h1 className="headerEA">Contact Information</h1>
 
                             {/* ADDRESS 1 */}
-                            <div className="addressBox">
-                                <h1 className="subHeader">
+                            <div className="addressBoxEA">
+                                <h1 className="subHeaderEA">
                                     Address 1
                                     {/* <span style={{ color: "red" }}>*</span> */}
                                 </h1>
 
-                                <label for="address1" className="label">Address 1:</label>
-                                <input name="address1" className="input" placeholder="308 Negra Arroyo Lane" maxLength={100} required/>
+                                <label for="address1" className="labelEA">Address 1:</label>
+                                <input name="address1" className="inputEA" placeholder="308 Negra Arroyo Lane" maxLength={100} required/>
                                 <span style={{ color: "red" }}>*</span>
 
                                 <br></br>
 
-                                <label for="city1" className="label">City:</label>
-                                <input name="city1" className="input" placeholder="Albuquerque" maxlength={100} required/>
+                                <label for="city1" className="labelEA">City:</label>
+                                <input name="city1" className="inputEA" placeholder="Albuquerque" maxlength={100} required/>
                                 <span style={{ color: "red" }}>*</span>
 
                                 <br></br>
 
-                                <label for="state1" className="label">State:</label>{/*display default? */}
-                                <select name="state1" className="select" required>
+                                <label for="state1" className="labelEA">State:</label>{/*display default? */}
+                                <select name="state1" className="selectEA" required>
                                     <option value="" disabled selected>Select State</option>
                                     <option value="AK">AK</option>
                                     <option value="AL">AL</option>
@@ -167,27 +167,27 @@ const EditAccount = () => {
 
                                 <br></br>
 
-                                <label for="zip1" className="label">Zip Code:</label>
-                                <input name="zip1" className="input" placeholder="87111" minLength={5} maxLength={9} required/>
+                                <label for="zip1" className="labelEA">Zip Code:</label>
+                                <input name="zip1" className="inputEA" placeholder="87111" minLength={5} maxLength={9} required/>
                                 <span style={{ color: "red" }}>*</span>
                             </div>
 
                             {/* ADDRESS 2 */}
-                            <div className="addressBox">
-                                <h1 className="subHeader">Address 2</h1>
+                            <div className="addressBoxEA">
+                                <h1 className="subHeaderEA">Address 2</h1>
 
-                                <label for="address2" className="label">Address 2:</label>
-                                <input name="address2" className="input" placeholder="308 Negra Arroyo Lane" maxLength={100}/>
-
-                                <br></br>
-
-                                <label for="city2" className="label">City:</label>
-                                <input name="city2" className="input" placeholder="Albuquerque" maxlength={100}/>
+                                <label for="address2" className="labelEA">Address 2:</label>
+                                <input name="address2" className="inputEA" placeholder="308 Negra Arroyo Lane" maxLength={100}/>
 
                                 <br></br>
 
-                                <label for="state2" className="label">State:</label>{/*display default? */}
-                                <select name="state2" className="select">
+                                <label for="city2" className="labelEA">City:</label>
+                                <input name="city2" className="inputEA" placeholder="Albuquerque" maxlength={100}/>
+
+                                <br></br>
+
+                                <label for="state2" className="labelEA">State:</label>{/*display default? */}
+                                <select name="state2" className="selectEA">
                                     <option value="" disabled selected>Select State</option>
                                     <option value="AK">AK</option>
                                     <option value="AL">AL</option>
@@ -243,22 +243,22 @@ const EditAccount = () => {
 
                                 <br></br>
 
-                                <label for="zip2" className="label">Zip Code:</label>
-                                <input name="zip2" className="input" placeholder="87111" minLength={5} maxLength={9}/>
+                                <label for="zip2" className="labelEA">Zip Code:</label>
+                                <input name="zip2" className="inputEA" placeholder="87111" minLength={5} maxLength={9}/>
                             </div>
                         </div>
                     </li>
 
                     {/* ATTRIBUTES */}
-                    <li className="parent">
-                        <div className="attributes">
-                            <h1 className="header">Attributes</h1>
+                    <li className="parentEA">
+                        <div className="attributesEA">
+                            <h1 className="headerEA">Attributes</h1>
 
                             {/* FIXME: modify this after it works */}
-                            <label for="skills" className="label">Skills:</label>
+                            <label for="skills" className="labelEA">Skills:</label>
                             <CreatableSelect
                                 name="skills"
-                                className="multiSelect"
+                                className="multiSelectEA"
                                 options={options}
                                 isMulti
                                 onChange={handleChange}
@@ -270,16 +270,16 @@ const EditAccount = () => {
 
                             <br></br>
 
-                            <label for="preferences" className="label">Preferences:</label>
+                            <label for="preferences" className="labelEA">Preferences:</label>
                             <br></br>
-                            <textarea name="preferences" className="textArea" placeholder="I like my sandwiches without the crust" maxLength={500}/>
+                            <textarea name="preferences" className="textAreaEA" placeholder="I like my sandwiches without the crust" maxLength={500}/>
 
                             <br></br>
 
                             {/* FIXME: modify this after it works */}
-                            <label className="label">Availability:</label>
+                            <label className="labelEA">Availability:</label>
                             <DatePicker
-                                className="available"
+                                className="availablEA"
                                 multiple
                                 value={selectedDates}
                                 onChange={setSelectedDates}
@@ -294,7 +294,7 @@ const EditAccount = () => {
                     </li>
                 </ul>
 
-                <div className="button" >
+                <div className="buttonEA" >
                     <button type="save">Save Changes</button>
                 </div>
 

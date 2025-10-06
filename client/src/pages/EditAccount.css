@@ -2,7 +2,7 @@
   outline: 2px solid red;
 } */
 /* events match list */
-.grandparent {
+.grandparentEA {
     display: flex;
     flex-wrap: wrap; 
     justify-content: center;
@@ -11,7 +11,7 @@
     gap: 70px;
 }
 /* event cards */
-.parent {
+.parentEA {
     padding: 40px;
     list-style-type: none;
     margin: 0;
@@ -20,69 +20,69 @@
     border-radius: 30px;
     width: 20%;
 }
-.header {
+.headerEA {
     font-size: 35px;
 }
-/* .label {
+/* .labelEA {
 
 }
-.input {
+.inputEA {
 
 }
-.select {
+.selectEA {
 
 } */
 
 
 /* -------------------- */
-.parentTitle {
+.parentTitleEA {
     margin: 40px;
 }
-.title {
+.titleEA {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px 500px; /*top&bottom, left&right*/
 }
-.pageName {
+.pageNameEA {
     font-size: 70px;
 }
-.required {
+.requiredEA {
     font-size: 20px;
 }
 /* -------------------- */
-/* .personal {
+/* .personalEA {
 
 } */
 /* -------------------- */
-/* .contact {
+/* .contactEA {
 
 }
-.addressBox {
+.addressBoxEA {
 
 } */
-.subHeader {
+.subHeaderEA {
     font-size: 25px;
     font-weight: 400;
 }
 /* -------------------- */
-/* .attributes {
+/* .attributesEA {
 
 }
-.multiSelect {
+.multiSelectEA {
 
 } */
-.textArea {
+.textAreaEA {
     margin: 5px;
     width: 330px;
     height: 100px;
     resize: vertical;
 }
-/* .available {
+/* .availableEA {
 
 } */
 /* -------------------- */
-.button {
+.buttonEA {
     display: flex;
     flex-direction: column;
     justify-content: center;

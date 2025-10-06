@@ -2,8 +2,7 @@
   outline: 2px solid red;
 } */
 
-/* grandparentEA */
-.parent {
+.parentAD {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -11,8 +10,7 @@
   padding: 0;
   gap: 70px;
 }
-/* parentEA */
-.child {
+.childAD {
   padding: 40px;
   list-style-type: none;
   margin: 0;
@@ -21,53 +19,53 @@
   border-radius: 30px;
   width: 20%;
 }
-.header {
+.headerAD {
   font-size: 35px;
 }
 
-.field {
+.fieldAD {
   font-weight: 800;
 }
-/* .value {
+/* .valueAD {
 
 } */
-.textLine {
+.textLineAD {
   margin-bottom: 7px;
 }
 /* -------------------- */
-.parentTitle {
+.parentTitleAD {
   margin: 40px;
 }
-.title {
+.titleAD {
   margin: 20px 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.pageName {
+.pageNameAD {
   font-size: 70px;
 }
 /* -------------------- */
-/* .personal {
+/* .personalAD {
 
 } */
 /* -------------------- */
-/* .contact {
+/* .contactAD {
 
 } */
-/* .addressBox {
+/* .addressBoxAD {
 
 } */
-.subHeader {
+.subHeaderAD {
   font-size: 25px;
   font-weight: 400;
 }
 /* -------------------- */
-/* .attributes {
+/* .attributesAD {
 
 } */
 /* -------------------- */
-.button {
+.buttonAD {
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -7,10 +7,10 @@ import './VolunteerHistory.css'
 events: 
 
 galveston beach clean up
-toys for tots toy drive
-discovery green tree planting
-gotham nursing homes
-aspca animal shelter assistance
+coal for naughty kids drive
+rincon park tree planting
+gotham nursing homes assistance
+feral animal shelter assistance
 downtown houston soup kitchen
 lebron james school for special needs
 */

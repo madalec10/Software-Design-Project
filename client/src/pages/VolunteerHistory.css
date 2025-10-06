@@ -3,13 +3,20 @@
 } */
 
 .parent {
-
+  margin: 90px 200px;
+  padding: 40px;
+  outline: 5px solid black;
+  border-radius: 50px;
 }
 .child {
-
+  /* outline: 5px solid blue; */
+  
 }
 .header {
 
+}
+.textLine {
+  /* outline: 5px solid greenyellow; */
 }
 .date {
 
@@ -23,6 +30,12 @@
 .description {
 
 }
+.beach, .coal, .tree, .nurse, .feral, .soup, .lebron {
+  /* outline: 7px solid purple; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 /* -------------------- */
 .parentTitle {
 
@@ -31,7 +44,7 @@
 
 }
 .pageName {
-
+  font-size: 70px;
 }
 /* -------------------- */
 .beach {
@@ -59,5 +72,5 @@
 }
 /* -------------------- */
 .lebron {
-  
+
 }

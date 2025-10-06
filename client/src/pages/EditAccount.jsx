@@ -94,7 +94,7 @@ const EditAccount = () => {
                             <div className="addressBox">
                                 <h1 className="subHeader">
                                     Address 1
-                                    <span style={{ color: "red" }}>*</span>
+                                    {/* <span style={{ color: "red" }}>*</span> */}
                                 </h1>
 
                                 <label for="address1" className="label">Address 1:</label>

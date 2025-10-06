@@ -7,6 +7,13 @@ import { useState } from 'react';
  
 // step 1: name all classes normally 
 // step 2: end all clases with "EA"
+const initialOptions = [
+    { value: "Organizing", label: "Organizing" },
+    { value: "Power Tools", label: "Power Tools" },
+    { value: "Teamwork", label: "Teamwork" },
+    { value: "Communication", label: "Communication" },
+    { value: "Time Management", label: "Time Management" }
+];
 
 const EditAccount = () => {
     console.log("EditAccount")
@@ -21,6 +28,19 @@ const EditAccount = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Selected Dates:", selectedDates);
+    };
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [options, setOptions] = useState(initialOptions);
+
+    const handleChange = (selected) => {
+        setSelectedOptions(selected);
+    };
+
+    const handleCreate = (inputValue) => {
+        const newOption = { value: inputValue, label: inputValue };
+        setOptions(prev => [...prev, newOption]);
+        setSelectedOptions(prev => [...(prev || []), newOption]);
     };
     
     
@@ -230,6 +250,19 @@ const EditAccount = () => {
                         <h1 className="header">Attributes</h1>
 
                         {/* FIXME: modify this after it works */}
+                        <label for="skills" className="label">Skills:</label>
+                        <CreatableSelect
+                            name="skills"
+                            className="select"
+                            options={options}
+                            isMulti
+                            onchange={handleChange}
+                            onCreateOption={handleCreate}
+                            value={selectedOptions}
+                            required
+                        />
+
+                        {/* FIXME: modify this after it works */}
                         <label className="label">Availability:</label>
                         <DatePicker
                             multiple
@@ -241,9 +274,6 @@ const EditAccount = () => {
                         <div>
                             Selected Dates: {selectedDates.length > 0 ? selectedDates.join(", ") : "None"}
                         </div>
-
-
-
                     </div>
                 </div>
 

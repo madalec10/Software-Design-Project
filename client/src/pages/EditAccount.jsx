@@ -50,8 +50,10 @@ const EditAccount = () => {
 
             {/* PAGE TITLE */}
             <div className="parent">
-                <h1 className="pageName">Edit Account</h1>
-                <p className="required" style={{ color: "red" }}>* <em>required</em></p>
+                <div className="title">
+                    <h1 className="pageName">Edit Account</h1>
+                    <p className="required" style={{ color: "red" }}>* <em>required</em></p>
+                </div>
             </div>
 
             <form>
@@ -274,6 +276,7 @@ const EditAccount = () => {
                         {/* FIXME: modify this after it works */}
                         <label className="label">Availability:</label>
                         <DatePicker
+                            className="available"
                             multiple
                             value={selectedDates}
                             onChange={setSelectedDates}

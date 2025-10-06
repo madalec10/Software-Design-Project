@@ -2,10 +2,10 @@
   outline: 2px solid red;
 }
 .parent {
-    
+    padding: 40px;
 }
 .header {
-
+    font-size: 40px;
 }
 .label {
 
@@ -16,16 +16,24 @@
 .select {
 
 }
-/* -------------------- */
-.pageName {
 
+
+/* -------------------- */
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 500px; /*top&bottom, left&right*/
+}
+.pageName {
+    font-size: 70px;
 }
 .required {
-
+    font-size: 20px;
 }
 /* -------------------- */
 .personal {
-
+    
 }
 /* -------------------- */
 .contact {
@@ -35,7 +43,7 @@
 
 }
 .subHeader {
-
+    font-size: 30px;
 }
 /* -------------------- */
 .attributes {
@@ -47,7 +55,10 @@
 .textArea {
 
 }
+.available {
+
+}
 /* -------------------- */
 .button {
-    
+
 }

@@ -33,8 +33,8 @@ const getEvent = async (req, res) => {
 }
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)
-    res.json(events)
-}
+    res.status(200).send("Event Deleted Successfully!")
+  }
 const updateEvent = async (req, res) => {
   // Identify which event to update
   const name = req.body.name;
@@ -115,8 +115,4 @@ const createEvent = async (req, res) => {
     event: newEvent
   });
 };
-
-
-
-
 export { getEvents, getEvent, deleteEvent, updateEvent,createEvent }

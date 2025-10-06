@@ -270,7 +270,7 @@ const EditAccount = () => {
 
                             <label for="preferences" className="labelEA">Preferences:</label>
                             <br></br>
-                            <textarea name="preferences" className="textAreaEA" placeholder="I like my sandwiches without the crust" maxLength={500}/>
+                            <textarea name="preferences" className="textAreaEA" placeholder="No crust on sandwiches" maxLength={500}/>
 
                             <br></br>
 

@@ -1,82 +1,102 @@
-import React from 'react'
-import style from './FrontPage.module.css'
+import React from 'react';
+import './FrontPage.css';
 
-// is there a way I can import images from a single directory instead of this
-import africaVolunteerImg from "../assets/africa-volunteer.png"
-import africanPeopleImg from "../assets/african-people.jpg"
-import diversityImg from "../assets/diversity.jpg"
-import indiaVolunteerImg from "../assets/india-volunteer.jpg"
-import languageExchangeImg from "../assets/language-exchange.jpg"
-import diverseFriendsImg from "../assets/diverse-friends.jpg"
-import plantVolunteerImg from "../assets/plant-volunteer.jpg"
-import logoImg from "../assets/logo.jpg"
+import logoImg from "../assets/logo.jpg";
 
- 
+import beach from '../assets/beach-cleanup.jpg';
+import dog from '../assets/dog.jpg';
+import nurse from '../assets/nursing-home.JPG';
+import plant from '../assets/planting.jpg';
+import soup from '../assets/soup-kitchen.jpg';
+import teach from '../assets/teacher.png';
+
+import diversityImg from "../assets/diversity.jpg";
+import diverseFriendsImg from "../assets/diverse-friends.jpg";
+
 const FrontPage = () => {
     console.log("FrontPage")
  
     return(
         <div>
-            {/* FIXME: this link is temporary. should replace the login/signup links at the nav bar when user already signed in */}
-            <a href="/account-details" rel="noopener noreferrer" class = {style.accountLink}>Account Details</a> <br></br>
-            
-            <img src={logoImg} class = {style.logoImg} alt="helping hands logo" width="200" height="200"></img>
-            {/* FIXME: place helping hands title next to the logo */}
-            <h1 class = {style.logoText}>Helping Hands</h1>
-            
-            <p class = {style.motto}><em>Nurturing a better future</em></p>
 
+            <div className="parentFP">
+                <div className="logoFP">
+                    <img src={logoImg} className="logoImgFP" alt="helping hands logo"></img>
+                    <h1 className="logoTextFP">Helping Hands</h1>
+                    <p className="mottoFP">Nurturing a better future</p>
+                </div>
+            </div>
             
-            <img src={diversityImg} class = {style.bigImg} alt="diverse group of people" width="512" height="341"></img>
-            <br></br>
-            <h1 class = {style.header}>About Us</h1>
-            <p class = {style.body}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Impedit maxime modi et harum, sint repellat repellendus laudantium 
-                laboriosam eaque accusantium beatae, minus laborum, qui molestiae. 
-                Necessitatibus perspiciatis ullam modi vitae.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Impedit maxime modi et harum, sint repellat repellendus laudantium 
-                laboriosam eaque accusantium beatae, minus laborum, qui molestiae. 
-                Necessitatibus perspiciatis ullam modi vitae.
-            </p>
-            {/* <br></br> */}
-            <h1 class = {style.header}>Mission Statement</h1>
-            <p class = {style.body}>
-                <p class = {style.mission}>Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
-                <br></br>
-                Helping Hands seeks to improve the lives of underpriveleged communities in
-                health, education, and hapiness while fostering an ever-expanding community.  
-                We strive to connect people like never before, and help everyone for a better future. 
+            <div className="parentFP">
+                <div className="topImgFP">
+                    <img src={diversityImg} className="topImgFP" alt="diverse group of people"></img>
+                </div>
+            </div>
+            
+            <div className="parentFP">
+                <div className="aboutUsFP">
+                    <h1 className="headerFP">About Us</h1>
+
+                    <p className="paragraphFP">
+                        At Helping Hands, we believe in the value of helping others. Since 1970, we have
+                        helped over 4 people across 30 states and counting. Today, we've grown into a vast
+                        network of like minded people that are eager to lend a helping hand to those in
+                        need. Through our online platform, we can easily connect volunteers to events that 
+                        match their skills and interests like never before -- so don't be a stranger and lend a helping hand today!
+                    </p>
+                </div>
+            </div>
+
+            <hr/>
+            
+            <div className="parentFP">
                 
-            </p>
-            <h1 class = {style.header}>Gallery</h1>
-            {/* flexbox */}
-
-            <div class = {style.row1}>
-                <img src={africaVolunteerImg} class = {style.galleryImg} alt="volunteers in africa" width="480" height="250"></img>
-                <img src={africanPeopleImg} class = {style.galleryImg} alt="african people" width="466" height="311"></img>
+                <div className="missionFP">
+                    <h1 className="headerFP">Mission Statement</h1>
+                    <p className="paragraphFP">Our mission is simple: <strong>To leave the world a better place than we found it.</strong></p>
+                    <p className="paragraphFP">
+                        Helping Hands seeks to improve the lives of underpriveleged communities in
+                        health, education, and happiness while fostering an ever-expanding community.  
+                        We strive to connect people like never before, and help everyone for a better future. 
+                    </p>
+                </div>
             </div>
 
-            <div class = {style.row2}>
-                <img src={indiaVolunteerImg} class = {style.galleryImg} alt="volunteers in india" width="474" height="291"></img>
-                <img src={languageExchangeImg} class = {style.galleryImg} alt="language exchange event" width="512" height="341"></img>
+            <hr/>
+
+            <div className="parentFP">
+                <div className="galleryFP">
+                    <h1 className="headerFP">Gallery</h1>
+
+                    <div className="galleryImagesFP">
+                        <img src={beach} alt="volunteers cleaning up at the beach"></img>
+                        <img src={dog} alt="volunteers taking care of a dog"></img>
+                        <img src={nurse} alt="people volunteering at a nursing home"></img>
+                        <img src={plant} alt="a group of people planting a plant"></img>
+                        <img src={soup} alt="people volunteering at a soup kitchen"></img>
+                        <img src={teach} alt="a volunteer teaching a child"></img>
+                    </div>
+                </div>
             </div>
+
+            <hr/>
             
-            {/* <br></br> */}
+            <div className="parentFP">
+                <div className="accountFP">
+                    <h1 className="headerFP">Lend a Helping Hand Today!</h1>
+
+                    <img src={diverseFriendsImg} className="bottomImgFP" alt="diverse group of friends"></img>
+                    
+                    <div className="enterAccountFP">
+                        <a href="/log-in">Login</a>
+                        &nbsp;or&nbsp; 
+                        <a href="/sign-up">Sign Up</a>&nbsp;!
+                    </div>
+                </div>
+            </div>
+
             
-            {/* <br></br> */}
-            {/* <img src={plantVolunteerImg} class = {style.galleryImg} alt="volunteering by planting plants" width="600" height="315"></img> */}
-
-
-            <h1 class = {style.askJoin}>Lend a Helping Hand Today!</h1>
-
-            <img src={diverseFriendsImg} class = {style.bigImg} alt="diverse group of friends" with="915" height="400"></img>
-            <p class = {style.enterAccount}><a href="/log-in">Login</a> or <a href="/sign-up">Create an Account</a>!</p>
         </div>
-        
-
-        
     )
 }
  

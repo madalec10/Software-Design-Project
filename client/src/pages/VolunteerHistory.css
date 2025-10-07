@@ -2,75 +2,75 @@
   outline: 2px solid red;
 } */
 
-.parent {
+.parentVH {
   margin: 60px 500px;
   padding: 40px;
   outline: 5px solid black;
   border-radius: 50px;
 }
-.child {
+.childVH {
   /* outline: 5px solid blue; */
   
 }
-.header {
+.headerVH {
 
 }
-.textLine {
+.textLineVH {
   /* outline: 5px solid greenyellow; */
 }
-.date {
+.dateVH {
 
 }
-.time {
+.timeVH {
 
 }
-.location {
+.locationVH {
 
 }
-.description {
+.descriptionVH {
   font-weight: 600;
 }
-.beach, .coal, .tree, .nurse, .feral, .soup, .lebron {
+.beachVH, .coalVH, .treeVH, .nurseVH, .feralVH, .soupVH, .lebronVH {
   /* outline: 7px solid purple; */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 /* -------------------- */
-.parentTitle {
+.parentTitleVH {
 
 }
-.title {
+.titleVH {
 
 }
-.pageName {
+.pageNameVH {
   font-size: 70px;
 }
 /* -------------------- */
-.beach {
+.beachVH {
 
 }
 /* -------------------- */
-.coal {
+.coalVH {
 
 }
 /* -------------------- */
-.tree {
+.treeVH {
 
 }
 /* -------------------- */
-.nurse {
+.nurseVH {
 
 }
 /* -------------------- */
-.feral {
+.feralVH {
 
 }
 /* -------------------- */
-.soup {
+.soupVH {
 
 }
 /* -------------------- */
-.lebron {
+.lebronVH {
 
 }

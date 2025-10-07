@@ -90,7 +90,7 @@ const FrontPage = () => {
                     <div className="enterAccountFP">
                         <a href="/log-in">Login</a>
                         &nbsp;or&nbsp; 
-                        <a href="/sign-up">Create an Account</a>&nbsp;!
+                        <a href="/sign-up">Sign Up</a>&nbsp;!
                     </div>
                 </div>
             </div>

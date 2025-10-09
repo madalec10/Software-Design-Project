@@ -17,6 +17,10 @@ LEBRON: lebron james school for special needs
 
 // FIXME: are locations supposed to be an actual address
 // or can they also be names of locations? 
+
+// NOTE TO SELF: add a load more button after 4 events
+
+// NICE TO HAVE: side by side events
  
 const VolunteerHistory = () => {
     console.log("VolunteerHistory")

@@ -48,7 +48,7 @@ function App() {
             <Route path="/create-event" element={<CreateEvent/>}/>
             <Route path="/manage-events" element={<ManageEvents/>}/>
             <Route path="/event-matcher" element={<EventMatcher/>}/>
-            <Route path="/update-event" element={<UpdateEvent/>}/>
+            <Route path="/update-event/:eventName" element={<UpdateEvent/>}/>
           </Route>
 
           <Route element={<ProtectedVolunteerRoutes/>}>

@@ -82,6 +82,7 @@ const CreateEvent = () => {
       <form className="create-event-form" onSubmit={handleSubmit}>
         <h2>Create Event</h2>
 
+        {/* Event Name */}
         <label htmlFor="name" className="create-event-label">Event Name:</label>
         <input
           className="create-event-input"
@@ -91,6 +92,7 @@ const CreateEvent = () => {
           maxLength={100}
         />
 
+        {/* Required Skills */}
         <label htmlFor="skills" className="create-event-label">Required Skills:</label>
         <CreatableSelect
           name="skills"
@@ -103,6 +105,7 @@ const CreateEvent = () => {
           required
         />
 
+        {/* Urgency Level */}
         <label htmlFor="urgency" className="create-event-label">Urgency Level:</label>
         <select
           className="create-event-select"
@@ -116,7 +119,7 @@ const CreateEvent = () => {
           <option value="low">Help Would be Appreciated</option>
         </select>
 
-        {/* Separate Date and Time Pickers */}
+        {/* Date Picker */}
         <label htmlFor="date" className="create-event-label">Event Date:</label>
         <DatePicker
           value={selectedDate}
@@ -127,6 +130,7 @@ const CreateEvent = () => {
           required
         />
 
+        {/* Time Picker */}
         <label htmlFor="time" className="create-event-label">Event Time:</label>
         <DatePicker
           value={selectedTime}
@@ -139,6 +143,7 @@ const CreateEvent = () => {
           required
         />
 
+        {/* Location Text Field */}
         <label htmlFor="location" className="create-event-label">Event Location:</label>
         <input
           type="text"
@@ -148,6 +153,7 @@ const CreateEvent = () => {
           required
         />
 
+        {/* Volunteer Count */}
         <label htmlFor="volunteer-count" className="create-event-label">Number of Volunteers Needed:</label>
         <input
           type="number"
@@ -159,6 +165,7 @@ const CreateEvent = () => {
           max="100"
         />
 
+        {/* Description */}
         <label htmlFor="description" className="create-event-label">Event Description:</label>
         <textarea
           className="create-event-textarea"

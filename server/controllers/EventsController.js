@@ -28,13 +28,16 @@ let events = [
 const getEvents = async (req, res) => {
     res.json(events)
 }
+
 const getEvent = async (req, res) => {
     res.json(events.filter(event => event.name === req.body.name))
 }
+
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)
     res.json(events)
 }
+
 const updateEvent = async (req, res) => {
   // Identify which event to update
   const name = req.body.name;
@@ -119,4 +122,4 @@ const createEvent = async (req, res) => {
 
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent,createEvent }
+export { getEvents, getEvent, deleteEvent, updateEvent, createEvent }

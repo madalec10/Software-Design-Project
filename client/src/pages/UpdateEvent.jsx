@@ -22,6 +22,7 @@ const UpdateEvent = () => {
     const { eventName } = useParams();
     const navigate = useNavigate(); // For redirecting after update
 
+    // Set up the storing of event data
     const [eventData, setEventData] = useState({
         name: '',
         skills: [],
@@ -39,12 +40,14 @@ const UpdateEvent = () => {
     const [loading, setLoading] = useState(false);
 
 
+    // Fetch the event data based on name
     useEffect(() => {
         const fetchEvent = async () => {
             try {
                 const response = await axios.get(`http://localhost:8800/events/${eventName}`);
                 const data = response.data;
 
+                // format the urgency                      maybe fix this later to not need it
                 const mapUrgencyToValue = (urgencyText) => {
                     if (urgencyText === "Help Needed") return "high";
                     if (urgencyText === "Help Wanted") return "medium";
@@ -52,17 +55,16 @@ const UpdateEvent = () => {
                     return ""; // Default case
                 };
 
+                // Format the skills to have it show up correctly
                 const skillsArray = data.requiredSkills
                     ? data.requiredSkills.split(',').map(skill => skill.trim())
                     : [];
                 const formattedSkills = skillsArray.map(skill => ({ value: skill, label: skill }));
 
-                // When data is fetched, update eventData state
+                // Set the data 
                 setEventData({
                     name: data.name || '',
-                    // Use the newly formatted skills
                     skills: formattedSkills,
-                    // Use the mapped urgency value
                     urgency: mapUrgencyToValue(data.urgency),
                     date: data.date ? new DateObject(data.date) : new DateObject(),
                     time: data.time ? new DateObject().setHour(data.time.split(':')[0]).setMinute(data.time.split(':')[1]) : new DateObject(),
@@ -97,6 +99,7 @@ const UpdateEvent = () => {
         }));
     };
 
+    // To update the event data regardless if anything was actually changed
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);

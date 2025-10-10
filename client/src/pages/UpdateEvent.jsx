@@ -1,9 +1,10 @@
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import DatePicker, { DateObject } from "react-multi-date-picker"
 import TimePicker from "react-multi-date-picker/plugins/analog_time_picker"
-
+import axios from 'axios';
 
 import "./CreateEvent.css"
 
@@ -18,81 +19,244 @@ const initialOptions = [
 const UpdateEvent = () => {
     console.log("UpdateEvent")
 
-    const [selectedOptions, setSelectedOptions] = useState([]);
+    const { eventName } = useParams();
+    const navigate = useNavigate(); // For redirecting after update
+
+    const [eventData, setEventData] = useState({
+        name: '',
+        skills: [],
+        urgency: '',
+        date: new DateObject(),
+        time: new DateObject(),
+        location: '',
+        volunteerCount: '',
+        description: ''
+    });
+
     const [options, setOptions] = useState(initialOptions);
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+        const fetchEvent = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8800/events/${eventName}`);
+                const data = response.data;
+
+                const mapUrgencyToValue = (urgencyText) => {
+                    if (urgencyText === "Help Needed") return "high";
+                    if (urgencyText === "Help Wanted") return "medium";
+                    if (urgencyText === "Help Would be Appreciated") return "low";
+                    return ""; // Default case
+                };
+
+                const skillsArray = data.requiredSkills
+                    ? data.requiredSkills.split(',').map(skill => skill.trim())
+                    : [];
+                const formattedSkills = skillsArray.map(skill => ({ value: skill, label: skill }));
+
+                // When data is fetched, update eventData state
+                setEventData({
+                    name: data.name || '',
+                    // Use the newly formatted skills
+                    skills: formattedSkills,
+                    // Use the mapped urgency value
+                    urgency: mapUrgencyToValue(data.urgency),
+                    date: data.date ? new DateObject(data.date) : new DateObject(),
+                    time: data.time ? new DateObject().setHour(data.time.split(':')[0]).setMinute(data.time.split(':')[1]) : new DateObject(),
+                    location: data.location || '',
+                    volunteerCount: data.volunteersNeeded || '',
+                    description: data.description || ''
+                });
+
+            } catch (error) {
+                console.error("Error fetching event data:", error);
+            }
+        };
+
+        fetchEvent();
+    }, [eventName]);
 
     // For handling skills selection and creation
-    const handleChange = (selected) => {
-        setSelectedOptions(selected);
+    const handleSkillsChange = (selected) => {
+        setEventData(prevData => ({
+            ...prevData,
+            skills: selected
+        }));
     };
 
     // For making new skills
     const handleCreate = (inputValue) => {
         const newOption = { value: inputValue, label: inputValue };
         setOptions(prev => [...prev, newOption]);
-        setSelectedOptions(prev => [...(prev || []), newOption]);
+        setEventData(prevData => ({
+            ...prevData,
+            skills: [...(prevData.skills || []), newOption]
+        }));
     };
 
-    // For handling date selection
-    const [values, setValues] = useState([new DateObject()]);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+        setMessage('');
+
+        const urgencyMap = {
+            high: "Help Needed",
+            medium: "Help Wanted",
+            low: "Help Would be Appreciated"
+        };
+
+        const updatedData = {
+            name: eventName, 
+            newName: eventData.name,
+            description: eventData.description,
+            location: eventData.location,
+            volunteersNeeded: eventData.volunteerCount,
+            urgency: urgencyMap[eventData.urgency] || eventData.urgency,
+            date: eventData.date.format(),
+            time: eventData.time.format("HH:mm"),
+            requiredSkills: eventData.skills.map(s => s.value).join(', ')
+        };
+
+        try {
+            const response = await axios.put('http://localhost:8800/update-event', updatedData);
+
+            if (response.status !== 200) {
+                throw new Error('Failed to update event');
+            }
+            setMessage('Event updated successfully!');
+            setTimeout(() => {
+                navigate('/manage-events');
+            }, 2000);
+
+
+        } catch (err) {
+            setError(err.message || 'Something went wrong');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return(
         <div>
-            <form className="create-event-form">
-                <h2>Create Event</h2>
+            <form className="create-event-form" onSubmit={handleSubmit}>
+                <h2>Update Event</h2>
 
                 {/* Event name */}
-                <label for="name" className="create-event-label">Event Name:</label>
-                <input className="create-event-input" placeholder='Volunteer Clean Up' name="name" required maxLength={100}/>
-                
+                <label htmlFor="name" className="create-event-label">Event Name:</label>
+                <input
+                    className="create-event-input"
+                    placeholder='Volunteer Clean Up'
+                    name="name"
+                    required
+                    maxLength={100}
+                    value={eventData.name} // Set the value here
+                    onChange={e => setEventData({...eventData, name: e.target.value})} // And handle changes
+                />
+
                 {/* Required skills */}
-                <label for="skills" className="create-event-label">Required Skills:</label>
+                <label htmlFor="skills" className="create-event-label">Required Skills:</label>
                 <CreatableSelect
                     name="skills"
                     options={options}
                     isMulti
-                    onChange={handleChange}
+                    onChange={handleSkillsChange}
                     onCreateOption={handleCreate}
-                    value={selectedOptions}
+                    value={eventData.skills}
                     className="create-event-skills"
                     required
                 />
 
                 {/* Urgency Level */}
-                <label for="urgency" className="create-event-label">Urgency Level:</label>
-                <select className="create-event-select" name="urgency" required>
-                    <option value="" disabled selected required>Select Urgency Level</option>
+                <label htmlFor="urgency" className="create-event-label">Urgency Level:</label>
+                <select
+                    className="create-event-select"
+                    name="urgency"
+                    required
+                    value={eventData.urgency}
+                    onChange={e => setEventData({...eventData, urgency: e.target.value})}
+                >
+                    <option value="" disabled>Select Urgency Level</option>
                     <option value="high">Help Necessary</option>
                     <option value="medium">Help Wanted</option>
                     <option value="low">Help Would be Appreciated</option>
                 </select>
 
-                <label for="date" className="create-event-label">Event Date and Time:</label>
+                {/* Date Picker */}
+                <label htmlFor="date" className="create-event-label">Event Date:</label>
                 <DatePicker
-                    format="MM/DD/YYYY HH:mm"
-                    value={values}
-                    onChange={setValues}
-                    plugins={[<TimePicker hideSeconds/>]} 
-                    range
-                    rangeHover
-                    className="create-event-input"
-                    required
-                    inputClass="date-picker"
+                  value={eventData.date}
+                  onChange={date => setEventData({...eventData, date: date})}
+                  format="YYYY-MM-DD"
+                  className="create-event-input"
+                  inputClass="date-picker"
+                  required
                 />
 
-                <label for="location" className="create-event-label">Event Location:</label>
-                <input type="text" className="create-event-input" name="location" placeholder='123 parkplace 74029 NY'required/>
+                {/* Time Picker */}
+                <label htmlFor="time" className="create-event-label">Event Time:</label>
+                <DatePicker
+                  value={eventData.time}
+                  onChange={time => setEventData({...eventData, time: time})}
+                  plugins={[<TimePicker hideSeconds />]}
+                  disableDayPicker
+                  format="hh:mm A"
+                  className="create-event-input"
+                  inputClass="date-picker"
+                  required
+                />
 
-                <label for="volunteer-count" className="create-event-label">Number of Volunteers Needed:</label>
-                <input type="number" className="create-event-input" name="volunteer-count" placeholder='1-100' required min="1" max="100" />
+                {/* Location Text Field */}
+                <label htmlFor="location" className="create-event-label">Event Location:</label>
+                <input
+                    type="text"
+                    className="create-event-input"
+                    name="location"
+                    placeholder='123 parkplace 74029 NY'
+                    required
+                    value={eventData.location}
+                    onChange={e => setEventData({...eventData, location: e.target.value})}
+                />
 
-                <label for="description" className="create-event-label">Event Description:</label>
-                <textarea className="create-event-textarea" name="description" placeholder="Describe the event..." required maxLength={500}></textarea>
+                {/* Volunteer Count */}
+                <label htmlFor="volunteer-count" className="create-event-label">Number of Volunteers Needed:</label>
+                <input
+                    type="number"
+                    className="create-event-input"
+                    name="volunteer-count"
+                    placeholder='1-100'
+                    required
+                    min="1"
+                    max="100"
+                    value={eventData.volunteerCount}
+                    onChange={e => setEventData({...eventData, volunteerCount: e.target.value})}
+                />
 
-                <button className="create-event-button" type="submit">Create Event</button>
+                {/* Description */}
+                <label htmlFor="description" className="create-event-label">Event Description:</label>
+                <textarea
+                    className="create-event-textarea"
+                    name="description"
+                    placeholder="Describe the event..."
+                    required
+                    maxLength={500}
+                    value={eventData.description}
+                    onChange={e => setEventData({...eventData, description: e.target.value})}
+                ></textarea>
+
+                <button className="create-event-button" type="submit" disabled={loading}>
+                    {loading ? 'Updating...' : 'Update Event'}
+                </button>
+                {message && <p className="success-message">{message}</p>}
+                {error && <p className="error-message">{error}</p>}
             </form>
         </div>
     )
 }
- 
+
 export default UpdateEvent

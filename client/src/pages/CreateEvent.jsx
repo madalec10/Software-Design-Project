@@ -1,7 +1,13 @@
 import React from 'react';
 import CreatableSelect from 'react-select/creatable';
+<<<<<<< Updated upstream
 import { useState } from 'react';
 
+=======
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/analog_time_picker";
+import { useNavigate } from 'react-router-dom';
+>>>>>>> Stashed changes
 import "./CreateEvent.css";
 
 const initialOptions = [
@@ -13,6 +19,7 @@ const initialOptions = [
 ];
 
 const CreateEvent = () => {
+<<<<<<< Updated upstream
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [options, setOptions] = useState(initialOptions);
     const [message, setMessage] = useState('');
@@ -28,6 +35,57 @@ const CreateEvent = () => {
         setOptions(prev => [...prev, newOption]);
         setSelectedOptions(prev => [...(prev || []), newOption]);
     };
+=======
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [options, setOptions] = useState(initialOptions);
+  const [selectedDate, setSelectedDate] = useState(new DateObject());
+  const [selectedTime, setSelectedTime] = useState(new DateObject());
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+
+  const handleChange = (selected) => {
+    setSelectedOptions(selected);
+  };
+
+  const handleCreate = (inputValue) => {
+    const newOption = { value: inputValue, label: inputValue };
+    setOptions((prev) => [...prev, newOption]);
+    setSelectedOptions((prev) => [...(prev || []), newOption]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setMessage('');
+
+    const formData = new FormData(e.target);
+
+    const formattedDate = selectedDate?.format("YYYY-MM-DD");
+    const formattedTime = selectedTime?.format("HH:mm");
+
+    const data = {
+      name: formData.get('name'),
+      description: formData.get('description'),
+      location: formData.get('location'),
+      volunteersNeeded: formData.get('volunteer-count'), // ✅ match backend
+      urgency: formData.get('urgency'),
+      date: formattedDate,
+      time: formattedTime,
+      requiredSkills: selectedOptions.map(option => option.value).join(', '), // ✅ match backend string format
+    };
+
+
+    try {
+      const response = await fetch('http://localhost:8800/create-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+>>>>>>> Stashed changes
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,6 +95,7 @@ const CreateEvent = () => {
 
         const formData = new FormData(e.target);
 
+<<<<<<< Updated upstream
         const data = {
             name: formData.get('name'),
             description: formData.get('description'),
@@ -47,6 +106,19 @@ const CreateEvent = () => {
             time: formData.get('time'),        // e.g. '09:00'
             skills: selectedOptions.map(option => option.value),
         };
+=======
+      e.target.reset();
+      setSelectedOptions([]);
+      navigate('/manage-events')
+    } catch (err) {
+      setError(err.message || 'Something went wrong');
+      console.error(err);
+    } finally {
+      setLoading(false);
+
+    }
+  };
+>>>>>>> Stashed changes
 
         try {
             const response = await fetch('http://localhost:8800/create-event', {

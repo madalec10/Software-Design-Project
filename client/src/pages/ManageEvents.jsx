@@ -129,7 +129,7 @@ const ManageEvents = () => {
         ) : (
           <ul className="Events-List">
             {events.map((event, index) => (
-              <li key={index} className="Event-Card">
+              <li key={index} className = "Event-Card">
                 <div>
                   <h3> {event.name}</h3>
                   <p> Location:{event.location}</p>

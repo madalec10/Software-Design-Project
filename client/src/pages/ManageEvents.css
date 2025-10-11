@@ -54,7 +54,10 @@ h2 {
 }
 
 .Event-Card {
+<<<<<<< Updated upstream
  
+=======
+>>>>>>> Stashed changes
   justify-content: space-between;
   align-items: center;
   border: 1px solid #e5e7eb;

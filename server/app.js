@@ -4,7 +4,12 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/UserAuthRoutes.js";
 import eventRoutes from "./routes/EventsRoutes.js";
+<<<<<<< Updated upstream
 import UserProfileRoutes from "./routes/UserProfileRoutes.js"
+=======
+import userProfileRoutes from "./routes/UserProfileRoutes.js";
+
+>>>>>>> Stashed changes
 const app = express()
 
 app.use(cors({
@@ -23,7 +28,11 @@ app.use("/", authRoutes);
 app.use("/",eventRoutes);
 =======
 app.use("/", eventRoutes);
+<<<<<<< Updated upstream
 app.use("/",UserProfileRoutes);
+=======
+app.use("/", userProfileRoutes);
+>>>>>>> Stashed changes
 
 >>>>>>> Stashed changes
 export default app

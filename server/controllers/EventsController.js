@@ -46,14 +46,9 @@ const getEvent = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)
-<<<<<<< Updated upstream
-    res.status(200).send("Event Deleted Successfully!")
-  }
-=======
     res.status(200).json(events)
 }
 
->>>>>>> Stashed changes
 const updateEvent = async (req, res) => {
   // Identify which event to update
   const name = req.body.name;

@@ -96,12 +96,6 @@ const EditAccount = () => {
         <div className="titleEA">
           <h1 className="pageNameEA">Edit Account</h1>
         </div>
-<<<<<<< Updated upstream
-    )
-}
- 
-export default EditAccount
-=======
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -387,4 +381,3 @@ export default EditAccount
 };
 
 export default EditAccount;
->>>>>>> Stashed changes

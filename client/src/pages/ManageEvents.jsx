@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-
-import React, { useEffect, useState } from 'react';
-import './ManageEvents.css';
-
-const ManageEvents = () => {
-=======
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './ManageEvents.css';
 
 const ManageEvents = () => {
   const navigate = useNavigate();
->>>>>>> cc920832b4175d639abfb1fbc72395efddae52df
   const [events, setEvents] = useState([]);  // This will hold fetched data for Upcoming
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -69,10 +61,6 @@ const ManageEvents = () => {
       </div>
     );
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> cc920832b4175d639abfb1fbc72395efddae52df
   const handleDelete = async (eventName) => {
     // Step 1: Confirm deletion to prevent accidents
     if (!window.confirm(`Are you sure you want to delete "${eventName}"? This cannot be undone.`)) {
@@ -120,9 +108,6 @@ const ManageEvents = () => {
     }
   };
 
-<<<<<<< HEAD
-
-=======
   const handleUpdate = async (eventName) => {
     try {
       const response = await fetch(`http://localhost:8800/update-event/${eventName}`, {
@@ -144,7 +129,6 @@ const ManageEvents = () => {
       console.error('Error fetching event data:', err);
     }
   };
->>>>>>> cc920832b4175d639abfb1fbc72395efddae52df
 
 
 
@@ -166,11 +150,7 @@ const ManageEvents = () => {
         ) : (
           <ul className="Events-List">
             {events.map((event, index) => (
-<<<<<<< HEAD
-              <li key={index} className = "Event-Card">
-=======
               <li key={index} className="Event-Card">
->>>>>>> cc920832b4175d639abfb1fbc72395efddae52df
                 <div>
                   <h3> {event.name}</h3>
                   <p> Location:{event.location}</p>
@@ -180,12 +160,8 @@ const ManageEvents = () => {
                   <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>
                   <p>{event.description}</p>  {/* Full description */}
                   <div className='buttons'>
-<<<<<<< HEAD
-                    <button className='Event-Button-update'> Update Event</button> <button className='Event-Button-delete' onClick={() => handleDelete(event.name)} > Delete Event</button>
-=======
                     <button className='Event-Button-update' onClick={() => navigate(`/update-event/${event.name}`)}>Update</button> 
                     <button className='Event-Button-delete' onClick={() => handleDelete(event.name)} > Delete Event</button>
->>>>>>> cc920832b4175d639abfb1fbc72395efddae52df
                   </div>
                 </div>
               </li>

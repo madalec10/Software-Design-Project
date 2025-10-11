@@ -1,12 +1,7 @@
-<<<<<<< Updated upstream
-import React from 'react'
- 
-=======
 import React, { useEffect, useState } from 'react';
 import './AccountDetails.css'
 
 
->>>>>>> Stashed changes
 const AccountDetails = () => {
     const [user, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -65,9 +60,6 @@ const AccountDetails = () => {
 
     return (
         <div>
-<<<<<<< Updated upstream
-            Account Details
-=======
 
 
             {/* PAGE TITLE */}
@@ -206,7 +198,6 @@ const AccountDetails = () => {
             </div>
 
 
->>>>>>> Stashed changes
         </div>
     )
 }

@@ -28,9 +28,22 @@ let events = [
 const getEvents = async (req, res) => {
     res.status(200).json(events)
 }
+
+// const getEvent = async (req, res) => {
+//     res.json(events.filter(event => event.name === req.body.name))
+// }
+
 const getEvent = async (req, res) => {
-    res.json(events.filter(event => event.name === req.body.name))
+    const eventName = req.params.eventName;
+    const event = events.find(event => event.name === eventName);
+
+    if (event) {
+        res.json(event);
+    } else {
+        res.status(404).send('Event not found');
+    }
 }
+
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)
 <<<<<<< Updated upstream
@@ -39,6 +52,7 @@ const deleteEvent = async (req, res) => {
 =======
     res.status(200).json(events)
 }
+
 >>>>>>> Stashed changes
 const updateEvent = async (req, res) => {
   // Identify which event to update
@@ -120,4 +134,8 @@ const createEvent = async (req, res) => {
     event: newEvent
   });
 };
+
+
+
+
 export { getEvents, getEvent, deleteEvent, updateEvent,createEvent }

@@ -1,0 +1,88 @@
+/* * {
+  outline: 2px solid red;
+} */
+.grandparentEA {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    gap: 70px;
+}
+.parentEA {
+    padding: 40px;
+    list-style-type: none;
+    margin: 0;
+    padding: 1;
+    outline: 10px solid black;
+    border-radius: 30px;
+    width: 20%;
+}
+.headerEA {
+    font-size: 35px;
+}
+.labelEA {
+    font-weight: 800;
+}
+/* .inputEA {
+
+}
+.selectEA {
+
+} */
+
+
+/* -------------------- */
+.parentTitleEA {
+    margin: 40px;
+}
+.titleEA {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 500px; /*top&bottom, left&right*/
+}
+.pageNameEA {
+    font-size: 70px;
+}
+.requiredEA {
+    font-size: 20px;
+}
+/* -------------------- */
+/* .personalEA {
+
+} */
+/* -------------------- */
+/* .contactEA {
+
+}
+.addressBoxEA {
+
+} */
+.subHeaderEA {
+    font-size: 25px;
+    font-weight: 400;
+}
+/* -------------------- */
+/* .attributesEA {
+
+}
+.multiSelectEA {
+
+} */
+.textAreaEA {
+    margin: 5px;
+    width: 330px;
+    height: 100px;
+    resize: vertical;
+}
+/* .availableEA {
+
+} */
+/* -------------------- */
+.buttonEA {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 50px 500px;
+}

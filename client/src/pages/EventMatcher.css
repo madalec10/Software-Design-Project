@@ -1,0 +1,41 @@
+.match-page {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.match-page h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.match-page label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.match-page select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.form-actions {
+  text-align: center;
+}
+
+.form-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}

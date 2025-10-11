@@ -109,6 +109,13 @@ h2 {
   background-color: #f7f7f7;
   color: #666;
   box-shadow: none;
+
+}
+.buttons{
+  display: flex;
+  justify-content: center;
+  gap:5px;
+
 }
 .buttons
 {

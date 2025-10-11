@@ -1,0 +1,73 @@
+/* * {
+  outline: 2px solid red;
+} */
+
+.parentAD {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  gap: 70px;
+}
+.childAD {
+  padding: 40px;
+  list-style-type: none;
+  margin: 0;
+  padding: 1;
+  outline: 10px solid black;
+  border-radius: 30px;
+  width: 20%;
+}
+.headerAD {
+  font-size: 35px;
+}
+
+.fieldAD {
+  font-weight: 800;
+}
+/* .valueAD {
+
+} */
+.textLineAD {
+  margin-bottom: 7px;
+}
+/* -------------------- */
+.parentTitleAD {
+  margin: 40px;
+}
+.titleAD {
+  margin: 20px 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pageNameAD {
+  font-size: 70px;
+}
+/* -------------------- */
+/* .personalAD {
+
+} */
+/* -------------------- */
+/* .contactAD {
+
+} */
+/* .addressBoxAD {
+
+} */
+.subHeaderAD {
+  font-size: 25px;
+  font-weight: 400;
+}
+/* -------------------- */
+/* .attributesAD {
+
+} */
+/* -------------------- */
+.buttonAD {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px 500px;
+}

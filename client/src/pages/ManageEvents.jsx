@@ -61,7 +61,6 @@ const ManageEvents = () => {
       </div>
     );
   }
-
   const handleDelete = async (eventName) => {
     // Step 1: Confirm deletion to prevent accidents
     if (!window.confirm(`Are you sure you want to delete "${eventName}"? This cannot be undone.`)) {

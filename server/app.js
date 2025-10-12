@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/UserAuthRoutes.js";
 import eventRoutes from "./routes/EventsRoutes.js";
+import userProfileRoutes from "./routes/UserProfileRoutes.js";
 
 const app = express()
 
@@ -19,6 +20,10 @@ app.use(cookieParser());
 
 // Mount routes
 app.use("/", authRoutes);
+
+app.use("/",eventRoutes);
+
 app.use("/", eventRoutes);
 
+app.use("/", userProfileRoutes);
 export default app

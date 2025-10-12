@@ -7,8 +7,8 @@ let events = [
         location: "Riverside Park, Main Entrance",
         requiredSkills: "None (just enthusiasm!)",
         urgency: "Help Needed",
-        date: "10/12/25",
-        time: " 9:00 AM to 12:00 PM",
+        date: "2025-10-07",
+        time: "12:45",
         volunteersNeeded: "15"
 
     },
@@ -26,27 +26,17 @@ let events = [
 
 ];
 const getEvents = async (req, res) => {
-    res.json(events)
+    res.status(200).json(events)
 }
 
-// const getEvent = async (req, res) => {
-//     res.json(events.filter(event => event.name === req.body.name))
-// }
-
-const getEvent = async (req, res) => {
-    const eventName = req.params.eventName;
-    const event = events.find(event => event.name === eventName);
-
-    if (event) {
-        res.json(event);
-    } else {
-        res.status(404).send('Event not found');
-    }
+ const getEvent = async (req, res) => {
+     res.status(200).json(events.filter(event => event.name === req.body.name))
 }
+
 
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)
-    res.json(events)
+    res.status(200).json(events)
 }
 
 const updateEvent = async (req, res) => {
@@ -108,7 +98,7 @@ const createEvent = async (req, res) => {
   // Prevent duplicates
   const exists = events.find(e => e.name === name);
   if (exists) {
-    return res.status(409).json({ message: "Event already exists" });
+    return res.status(400).json({ message: "Event already exists" });
   }
 
   const newEvent = {
@@ -124,7 +114,7 @@ const createEvent = async (req, res) => {
 
   events.push(newEvent);
 
-  res.status(201).json({
+  res.status(200).json({
     message: "Event created successfully",
     event: newEvent
   });
@@ -133,4 +123,4 @@ const createEvent = async (req, res) => {
 
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent, createEvent }
+export { getEvents, getEvent, deleteEvent, updateEvent,createEvent }

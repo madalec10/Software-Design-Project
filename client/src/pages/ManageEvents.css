@@ -54,7 +54,6 @@ h2 {
 }
 
 .Event-Card {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1px solid #e5e7eb;
@@ -63,6 +62,7 @@ h2 {
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-size:16px
 }
 
 .Event-Card h3 {
@@ -83,11 +83,12 @@ h2 {
   cursor: pointer;
   margin-left: 6px;
   font-size: 0.85rem;
+  
 }
 
 .Event-Button-update {
   background-color: #28a745;
-  color: white;
+  color: rgb(241, 241, 241);
 }
 
 .Event-Button-update:hover {
@@ -115,4 +116,14 @@ h2 {
   gap:5px;
 
 }
-
+.buttons
+{
+  display: flex;
+  justify-content: center;
+  gap:5px
+}
+.Event-Name
+{
+  text-align: left;
+  
+}

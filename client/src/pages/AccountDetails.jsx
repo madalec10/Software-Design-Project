@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './AccountDetails.css';
 
 const AccountDetails = () => {
-  const [user, setProfile] = useState([]);
+  const [user, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

@@ -29,20 +29,10 @@ const getEvents = async (req, res) => {
     res.status(200).json(events)
 }
 
-// const getEvent = async (req, res) => {
-//     res.json(events.filter(event => event.name === req.body.name))
-// }
-
-const getEvent = async (req, res) => {
-    const eventName = req.params.eventName;
-    const event = events.find(event => event.name === eventName);
-
-    if (event) {
-        res.json(event);
-    } else {
-        res.status(404).send('Event not found');
-    }
+ const getEvent = async (req, res) => {
+     res.status(200).json(events.filter(event => event.name === req.body.name))
 }
+
 
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)

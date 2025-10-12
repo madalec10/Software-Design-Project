@@ -1,4 +1,4 @@
-let userData =
+let userData = [
 {
     FullName: "Matthew Sean Kalanta",
     DateOfBirth: "2000-10-20",
@@ -7,14 +7,14 @@ let userData =
     City: "Houston",
     State: "TX",
     ZipCode: "77056",
-    Availability: " 2025-05-01 to 2025-08-31",
+    Availability: "2025-10-14, 2025-10-15, 2025-10-16, 2025-10-17, 2025-10-18, 2025-10-20, 2025-10-21, 2025-10-22, 2025-10-23, 2025-10-24",
     Skills: "Teamwork , Communication",
     Preferences: "None",
 
 
 
 
-}
+}];
 const getUserInfo = async (req, res) => {
     res.status(200).json(userData)
 

@@ -77,8 +77,8 @@ const VolunteerHistory = () => {
                             <li key={index} className="Event-Card">
                                 <div>
                                     <h3>{event.name}</h3>
-                                    <p>Location: {event.location}</p>
-                                    <p>Date and time: {event.date} {event.time}</p>
+                                    <p><strong>Location:</strong> {event.location}</p>
+                                    <p><strong>Date and time:</strong> {event.date} {event.time}</p>
                                     <p><strong>Skills:</strong> {event.requiredSkills}</p>
                                     <p><strong>Urgency:</strong> {event.urgency}</p>
                                     <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>

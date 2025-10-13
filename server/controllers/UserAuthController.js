@@ -2,7 +2,8 @@ import app from "../app.js";
 import express from "express";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken"
-
+import { createUser } from "./UserProfileController.js";
+import { userData } from "./UserProfileController.js";
 
 
 const hashedPassword1 = bcrypt.hashSync("password1111", 10);
@@ -48,7 +49,7 @@ const signUp = async (req, res) => {
             role: "Volunteer"
         }
         users.push(user)
-        
+        createUser(user.email);
         const token = jwt.sign({ email: user.email, role: user.role }, process.env.SECRET_TOKEN)
         res.cookie("token", token, {
             httpOnly: true,   // prevents client-side JS from reading cookie

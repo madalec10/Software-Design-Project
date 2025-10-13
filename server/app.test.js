@@ -50,12 +50,14 @@ describe("GET /all-users", () => {
         expect(response.statusCode).toBe(200)
     })
 })
+
 describe("GET /events", () => {
     test("should respond with a 200 status code", async () => {
         const response = await request(app).get("/events")
         expect(response.statusCode).toBe(200)
     })
 })
+
 describe("POST /create-event", () => {
     test("should respond with a 200 status code for successful creation", async () => {
         const response = await request(app).post("/create-event").send({
@@ -87,6 +89,7 @@ describe("POST /create-event", () => {
         expect(response.statusCode).toBe(400);
     });
 });
+
 describe("DELETE /delete-event", () => {
     test("should respond with a 200 status code", async () => {
         const response = await request(app).delete("/delete-event").send({
@@ -96,6 +99,7 @@ describe("DELETE /delete-event", () => {
         expect(response.statusCode).toBe(200)
     })
 })
+
 describe("GET /get-event", () => {
     test("should respond with a 200 status code", async () => {
         const response = await request(app).get("/get-event").send({
@@ -106,7 +110,30 @@ describe("GET /get-event", () => {
     })
 })
 
+describe("user profile management", () => {
+    test("GET /user-info should respond with 200 and user data", async () => {
+        const response = await request(app).get("/user-info").send();
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("FullName");
+        expect(response.body).toHaveProperty("DateOfBirth");
+    });
 
+    test("PATCH /update-user-profile should update user data", async () => {
+        const updateData = {
+            FullName: "Test User",
+            Gender: "Other",
+            Skills: ["Organizing", "Time Management"]
+        };
+        const response = await request(app).patch("/update-user-profile").send(updateData);
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("message");
+    });
+});
 
-
-
+describe("volunteer history", () => {
+    test("GET /volunteer-history should respond with 200 and an array", async () => {
+        const response = await request(app).get("/volunteer-history").send();
+        expect(response.statusCode).toBe(200);
+        expect(Array.isArray(response.body)).toBe(true);
+    });
+});

@@ -13,6 +13,15 @@ const initialOptions = [
   { value: "Time Management", label: "Time Management" }
 ];
 
+const initialPreferenceOptions = [
+  { value: "Morning", label: "Morning" },
+  { value: "Afternoon", label: "Night" },
+  { value: "Weekends", label: "Weekends" },
+  { value: "Weekdays", label: "Weekdays" },
+  { value: "Outdoor", label: "Outdoor" },
+  { value: "Indoor", label: "Indoor" }
+];
+
 const EditAccount = () => {
   // All hooks at the top!
   const [goToAccountDetails, setGoToAccountDetails] = useState(false);
@@ -21,6 +30,8 @@ const EditAccount = () => {
   const [selectedDates, setSelectedDates] = useState([]); // for availability
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [options, setOptions] = useState(initialOptions);
+  const [selectedPreferences, setSelectedPreferences] = useState([]);
+  const [preferenceOptions, setPreferenceOptions] = useState(initialPreferenceOptions);
   const [address1, setAddress1] = useState("");
   const [city1, setCity1] = useState("");
   const [state1, setState1] = useState("");
@@ -42,7 +53,7 @@ const EditAccount = () => {
       State: state1,
       ZipCode: zip1,
       Skills: (selectedOptions || []).map(option => option.value),
-      Preferences: e.target.preferences?.value || "",
+      Preferences: (selectedPreferences || []).map(option => option.value),
       Availability: (selectedDates || []).length > 0
         ? selectedDates.map(date => (date.format ? date.format("YYYY-MM-DD") : date))
         : []
@@ -87,6 +98,16 @@ const EditAccount = () => {
     const newOption = { value: inputValue, label: inputValue };
     setOptions(prev => [...prev, newOption]);
     setSelectedOptions(prev => [...(prev || []), newOption]);
+  };
+
+  const handlePreferenceChange = (selected) => {
+    setSelectedPreferences(selected);
+  };
+
+  const handlePreferenceCreate = (inputValue) => {
+    const newOption = { value: inputValue, label: inputValue };
+    setPreferenceOptions(prev => [...prev, newOption]);
+    setSelectedPreferences(prev => [...(prev || []), newOption]);
   };
 
   return (
@@ -354,8 +375,16 @@ const EditAccount = () => {
               <br />
 
               <label htmlFor="preferences" className="labelEA">Preferences:</label>
-              <br />
-              <textarea id="preferences" name="preferences" className="textAreaEA" placeholder="No crust on sandwiches" maxLength={500} />
+              <CreatableSelect
+                inputId="preferences"
+                name="preferences"
+                className="multiSelectEA"
+                options={preferenceOptions}
+                isMulti
+                onChange={handlePreferenceChange}
+                onCreateOption={handlePreferenceCreate}
+                value={selectedPreferences}
+              />
 
               <br />
 

@@ -26,6 +26,30 @@ const EditAccount = () => {
   const [state1, setState1] = useState("");
   const [zip1, setZip1] = useState("");
   const [gender, setGender] = useState("");
+  const [data, setData] = useState({gender: "Select Gender"});
+
+  // Fetch user profile data on component mount
+    const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('http://localhost:8800/get-user-profile', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+      } else {
+        console.error('Failed to fetch user profile');
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
   if (goToAccountDetails) {
     return <Navigate to="/account-details" />;
@@ -88,6 +112,8 @@ const EditAccount = () => {
     setOptions(prev => [...prev, newOption]);
     setSelectedOptions(prev => [...(prev || []), newOption]);
   };
+  
+    
 
   return (
     <div>
@@ -138,7 +164,7 @@ const EditAccount = () => {
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
               >
-                <option value="" disabled>Select Gender</option>
+                <option className value= {data.gender} disabled> {data.gender} </option>
                 <option value="Male">Male</option> {/* display default? */}
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
@@ -160,10 +186,12 @@ const EditAccount = () => {
                   id="address1"
                   name="address1"
                   className="inputEA"
-                  placeholder="308 Negra Arroyo Lane"
+                  placeholder={data.address1}
+  
                   maxLength={100}
-                  value={address1}
+  
                   onChange={(e) => setAddress1(e.target.value)}
+                  value={address1}
                 />
 
                 <br />

@@ -1,7 +1,10 @@
 import request from "supertest";
 import app from "./app";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
+
+
 
 describe("POST /sign-up", () => {
     test("should respond with a 200 status code", async () => {
@@ -50,12 +53,14 @@ describe("GET /all-users", () => {
         expect(response.statusCode).toBe(200)
     })
 })
+
 describe("GET /events", () => {
     test("should respond with a 200 status code", async () => {
         const response = await request(app).get("/events")
         expect(response.statusCode).toBe(200)
     })
 })
+
 describe("POST /create-event", () => {
     test("should respond with a 200 status code for successful creation", async () => {
         const response = await request(app).post("/create-event").send({
@@ -87,6 +92,7 @@ describe("POST /create-event", () => {
         expect(response.statusCode).toBe(400);
     });
 });
+
 describe("DELETE /delete-event", () => {
     test("should respond with a 200 status code", async () => {
         const response = await request(app).delete("/delete-event").send({
@@ -96,6 +102,7 @@ describe("DELETE /delete-event", () => {
         expect(response.statusCode).toBe(200)
     })
 })
+
 describe("GET /get-event", () => {
     test("should respond with a 200 status code", async () => {
         const response = await request(app).get("/get-event").send({
@@ -106,7 +113,70 @@ describe("GET /get-event", () => {
     })
 })
 
+describe("GET /user-info", () => {
+    test("should respond with 200 and user data", async () => {
+        const response = await request(app).get("/user-info").send();
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("FullName");
+        expect(response.body).toHaveProperty("DateOfBirth");
+    });
+
+    
+});
+
+describe("PATCH /update-user-profile", () => {
+    test("should respond with a 200 status code", async () => {
+        const updateData = {
+            FullName: "Test User",
+            Gender: "Other",
+            Skills: ["Organizing", "Time Management"]
+        };
+        const response = await request(app).patch("/update-user-profile").send(updateData);
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("message");
+    });
+});
 
 
+describe("GET /volunteer-history", () => {
+    test("should respond with 200 and an array", async () => {
+        const response = await request(app).get("/volunteer-history").send();
+        expect(response.statusCode).toBe(200);
+        expect(Array.isArray(response.body)).toBe(true);
+    });
+});
 
+describe("GET /match-events", () =>{
+    test("should return 200 and include matches and otherEvents", async () => {
+    // Generate a valid token for the volunteer
+    const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+    const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
 
+    const res = await request(app)
+      .get("/match-events")
+      .set("Cookie", [`token=${token}`])  // pass token in cookie
+      .set("Content-Type", "application/json")
+      .send();
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("matches");
+    expect(res.body).toHaveProperty("otherEvents");
+  });
+
+  test("should return 401 if no token is provided", async () => {
+    const res = await request(app)
+      .get("/match-events")
+      .send();
+
+    expect(res.statusCode).toBe(401);
+  });
+
+  test("should return 403 if token is invalid", async () => {
+    const res = await request(app)
+      .get("/match-events")
+      .set("Cookie", ["token=invalidtoken"])
+      .send();
+
+    expect(res.statusCode).toBe(403);
+  });
+});

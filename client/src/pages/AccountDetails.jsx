@@ -117,7 +117,7 @@ const AccountDetails = () => {
 
             <div className="textLineAD">
               <span className="fieldAD">Preferences: </span>
-              <span className="valueAD">{user.Preferences}</span>
+              <span className="valueAD">{formatList(user.Preferences)}</span>
             </div>
 
             <div className="textLineAD">

@@ -13,15 +13,6 @@ const initialOptions = [
   { value: "Time Management", label: "Time Management" }
 ];
 
-const initialPreferenceOptions = [
-  { value: "Morning", label: "Morning" },
-  { value: "Afternoon", label: "Night" },
-  { value: "Weekends", label: "Weekends" },
-  { value: "Weekdays", label: "Weekdays" },
-  { value: "Outdoor", label: "Outdoor" },
-  { value: "Indoor", label: "Indoor" }
-];
-
 const EditAccount = () => {
   // All hooks at the top!
   const [goToAccountDetails, setGoToAccountDetails] = useState(false);
@@ -30,38 +21,53 @@ const EditAccount = () => {
   const [selectedDates, setSelectedDates] = useState([]); // for availability
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [options, setOptions] = useState(initialOptions);
-  const [selectedPreferences, setSelectedPreferences] = useState([]);
-  const [preferenceOptions, setPreferenceOptions] = useState(initialPreferenceOptions);
   const [address1, setAddress1] = useState("");
   const [city1, setCity1] = useState("");
   const [state1, setState1] = useState("");
   const [zip1, setZip1] = useState("");
   const [gender, setGender] = useState("");
-  const [data, setData] = useState({});
+  const[preferences, setPreferences] = useState("");
+  const fetchUserProfile = async () => {
+    const res = await fetch("http://localhost:8800/user-info", {
+      method: "GET",
+      credentials: "include",
+    });
 
-  // Fetch user profile data on component mount
-    const fetchUserProfile = async () => {
-    try {
-      const response = await fetch('http://localhost:8800/get-user-profile', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-      } else {
-        console.error('Failed to fetch user profile');
-      }
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
+    if (!res.ok) return; //
+
+    const p = await res.json();
+
+    setFullName(p.FullName || "");
+    setDateOfBirth(p.DateOfBirth || "");
+    setGender(p.Gender || "");
+    setAddress1(p.Address1 || "");
+    setCity1(p.City || "");
+    setState1(p.State || "");
+    setZip1(p.ZipCode || "");
+    setPreferences(p.Preferences || "");
+
+    const skillsArr = Array.isArray(p.Skills)
+      ? p.Skills
+      : typeof p.Skills === "string"
+        ? p.Skills.split(",").map(s => s.trim()).filter(Boolean)
+        : [];
+    setSelectedOptions(skillsArr.map(s => ({ value: s, label: s })));
+
+    const availArr = Array.isArray(p.Availability)
+      ? p.Availability
+      : typeof p.Availability === "string"
+        ? p.Availability.split(",").map(s => s.trim()).filter(Boolean)
+        : [];
+    setSelectedDates(availArr);
+    setOptions(prev => {
+      const seen = new Set(prev.map(o => o.value));
+      return [...prev, ...skillsArr.filter(s => !seen.has(s)).map(s => ({ value: s, label: s }))];
+    });
   };
 
   React.useEffect(() => {
     fetchUserProfile();
   }, []);
-
   if (goToAccountDetails) {
     return <Navigate to="/account-details" />;
   }
@@ -77,7 +83,7 @@ const EditAccount = () => {
       State: state1,
       ZipCode: zip1,
       Skills: (selectedOptions || []).map(option => option.value),
-      Preferences: (selectedPreferences || []).map(option => option.value),
+      Preferences: e.target.preferences?.value || "",
       Availability: (selectedDates || []).length > 0
         ? selectedDates.map(date => (date.format ? date.format("YYYY-MM-DD") : date))
         : []
@@ -123,18 +129,6 @@ const EditAccount = () => {
     setOptions(prev => [...prev, newOption]);
     setSelectedOptions(prev => [...(prev || []), newOption]);
   };
-  
-    
-
-  const handlePreferenceChange = (selected) => {
-    setSelectedPreferences(selected);
-  };
-
-  const handlePreferenceCreate = (inputValue) => {
-    const newOption = { value: inputValue, label: inputValue };
-    setPreferenceOptions(prev => [...prev, newOption]);
-    setSelectedPreferences(prev => [...(prev || []), newOption]);
-  };
 
   return (
     <div>
@@ -157,7 +151,6 @@ const EditAccount = () => {
                 id="fullName"
                 name="fullName"
                 className="inputEA"
-                placeholder="Walter Hartwell White Sr."
                 maxLength={50}
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
@@ -185,7 +178,7 @@ const EditAccount = () => {
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
               >
-                <option className value= {data.gender} disabled> {data.gender} </option>
+                <option value="" disabled>Select Gender</option>
                 <option value="Male">Male</option> {/* display default? */}
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
@@ -207,12 +200,10 @@ const EditAccount = () => {
                   id="address1"
                   name="address1"
                   className="inputEA"
-                  placeholder={data.address1}
-  
+
                   maxLength={100}
-  
-                  onChange={(e) => setAddress1(e.target.value)}
                   value={address1}
+                  onChange={(e) => setAddress1(e.target.value)}
                 />
 
                 <br />
@@ -403,16 +394,9 @@ const EditAccount = () => {
               <br />
 
               <label htmlFor="preferences" className="labelEA">Preferences:</label>
-              <CreatableSelect
-                inputId="preferences"
-                name="preferences"
-                className="multiSelectEA"
-                options={preferenceOptions}
-                isMulti
-                onChange={handlePreferenceChange}
-                onCreateOption={handlePreferenceCreate}
-                value={selectedPreferences}
-              />
+              <br />
+              <textarea id="preferences" name="preferences" className="textAreaEA" placeholder="No crust on sandwiches" maxLength={500} value={preferences} onChange={(e) => setPreferences(e.target.value)} />
+              <br />
 
               <br />
 

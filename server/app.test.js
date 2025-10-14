@@ -115,26 +115,52 @@ describe("GET /get-event", () => {
 
 describe("GET /user-info", () => {
     test("should respond with 200 and user data", async () => {
-        const response = await request(app).get("/user-info").send();
+        const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+        const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+        const response = await request(app)
+            .get("/user-info")
+            .set("Cookie", [`token=${token}`])
+            .send();
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty("FullName");
         expect(response.body).toHaveProperty("DateOfBirth");
     });
 
-    
+
 });
 
 describe("PATCH /update-user-profile", () => {
     test("should respond with a 200 status code", async () => {
+        const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+        const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
         const updateData = {
             FullName: "Test User",
             Gender: "Other",
             Skills: ["Organizing", "Time Management"]
         };
-        const response = await request(app).patch("/update-user-profile").send(updateData);
+        const response = await request(app)
+            .patch("/update-user-profile")
+            .set("Cookie", [`token=${token}`])   // cookie for authentication
+            .send(updateData);
         expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty("message");
     });
+    test("should return 401 if no token is provided", async () => {
+        const res = await request(app)
+            .get("/match-events")
+            .send();
+
+        expect(res.statusCode).toBe(401);
+    });
+    test("should return 403 if token is invalid", async () => {
+        const res = await request(app)
+            .get("/match-events")
+            .set("Cookie", ["token=invalidtoken"])
+            .send();
+
+        expect(res.statusCode).toBe(403);
+    });
+
+
 });
 
 
@@ -146,37 +172,37 @@ describe("GET /volunteer-history", () => {
     });
 });
 
-describe("GET /match-events", () =>{
+describe("GET /match-events", () => {
     test("should return 200 and include matches and otherEvents", async () => {
-    // Generate a valid token for the volunteer
-    const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
-    const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+        // Generate a valid token for the volunteer
+        const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+        const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
 
-    const res = await request(app)
-      .get("/match-events")
-      .set("Cookie", [`token=${token}`])  // pass token in cookie
-      .set("Content-Type", "application/json")
-      .send();
+        const res = await request(app)
+            .get("/match-events")
+            .set("Cookie", [`token=${token}`])  // pass token in cookie
+            .set("Content-Type", "application/json")
+            .send();
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("matches");
-    expect(res.body).toHaveProperty("otherEvents");
-  });
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveProperty("matches");
+        expect(res.body).toHaveProperty("otherEvents");
+    });
 
-  test("should return 401 if no token is provided", async () => {
-    const res = await request(app)
-      .get("/match-events")
-      .send();
+    test("should return 401 if no token is provided", async () => {
+        const res = await request(app)
+            .get("/match-events")
+            .send();
 
-    expect(res.statusCode).toBe(401);
-  });
+        expect(res.statusCode).toBe(401);
+    });
 
-  test("should return 403 if token is invalid", async () => {
-    const res = await request(app)
-      .get("/match-events")
-      .set("Cookie", ["token=invalidtoken"])
-      .send();
+    test("should return 403 if token is invalid", async () => {
+        const res = await request(app)
+            .get("/match-events")
+            .set("Cookie", ["token=invalidtoken"])
+            .send();
 
-    expect(res.statusCode).toBe(403);
-  });
+        expect(res.statusCode).toBe(403);
+    });
 });

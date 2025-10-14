@@ -26,7 +26,7 @@ const EditAccount = () => {
   const [state1, setState1] = useState("");
   const [zip1, setZip1] = useState("");
   const [gender, setGender] = useState("");
-  const [data, setData] = useState({gender: "Select Gender"});
+  const [data, setData] = useState({});
 
   // Fetch user profile data on component mount
     const fetchUserProfile = async () => {

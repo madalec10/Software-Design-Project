@@ -56,11 +56,9 @@ const UpdateEvent = () => {
                 };
 
                 // Format the skills to have it show up correctly
-                const skillsArray = data.requiredSkills
-                    ? data.requiredSkills.split(',').map(skill => skill.trim())
+                const formattedSkills = Array.isArray(data.requiredSkills)
+                    ? data.requiredSkills.map(skill => ({ value: skill, label: skill }))
                     : [];
-                const formattedSkills = skillsArray.map(skill => ({ value: skill, label: skill }));
-
                 // Set the data 
                 setEventData({
                     name: data.name || '',

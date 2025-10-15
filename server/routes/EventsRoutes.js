@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateToken } from "../middleware/authMiddleware.js";
-import { getEvents,getEvent,deleteEvent,updateEvent,createEvent,matchEvents,getEvent_update} from "../controllers/EventsController.js";
+import { getEvents,getEvent,deleteEvent,updateEvent,createEvent,matchEvents, getEvent_update } from "../controllers/EventsController.js";
 import { getHistory} from "../controllers/VolunteerHistController.js";
 
 

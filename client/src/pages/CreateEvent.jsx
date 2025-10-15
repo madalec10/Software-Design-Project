@@ -50,11 +50,11 @@ const CreateEvent = () => {
       name: formData.get('name'),
       description: formData.get('description'),
       location: formData.get('location'),
-      volunteerCount: parseInt(formData.get('volunteer-count'), 10),
+      volunteersNeeded: parseInt(formData.get('volunteer-count'), 10),
       urgency: formData.get('urgency'),
       date: formattedDate,
       time: formattedTime,
-      skills: selectedOptions.map(option => option.value),
+      requiredSkills: selectedOptions.map(option => option.value),
     };
 
     try {

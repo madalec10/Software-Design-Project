@@ -12,6 +12,7 @@ const Events = () => {
 
     const [matchingEvents, setMatchingEvents] = useState([])
     const [otherEvents, setOtherEvents] = useState([])
+    const [signedUpEvents, setSignedUpEvents] = useState([]);
 
     useEffect(() => {
         const fetchMatchingEvents = async () => {
@@ -25,6 +26,7 @@ const Events = () => {
                 }); 
                 setMatchingEvents(res.data.matches)
                 setOtherEvents(res.data.otherEvents)
+                setSignedUpEvents(res.data.signedUpEvents || []);
             }
             catch{
                 console.log("Failed to fetch matching events")
@@ -33,6 +35,51 @@ const Events = () => {
         };
         fetchMatchingEvents();
     }, []);
+
+
+    const handleSignUp = async (eventName) => {
+        try {
+            const res = await axios.post("http://localhost:8800/event/sign-up", { eventName },                     
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+
+            alert(res.data.message || `Signed up for ${eventName} successfully!`);
+
+            setSignedUpEvents(prev => [...prev, eventName]);
+        } catch (err) {
+            console.error(err);
+            if (err.response?.data?.message) {
+                alert(`Error: ${err.response.data.message}`);
+            } else {
+                alert("Failed to sign up. Please try again.");
+            }
+        }
+    };
+
+    const handleCancelSignup = async (eventName) => {
+    try {
+        const res = await axios.post("http://localhost:8800/event/cancel", { eventName },
+        {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            withCredentials: true,
+        });
+
+        alert(res.data.message || `Cancelled signup for ${eventName}`);
+
+    
+        setSignedUpEvents(prev => prev.filter(name => name !== eventName));
+        } catch (err) {
+            console.error(err);
+            alert("Failed to cancel signup.");
+        }
+    };
 
 
     return (
@@ -60,7 +107,11 @@ const Events = () => {
                                 <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>
 
                                 <div className="wrapper">
-                                <button>Sign up</button>
+                                    {signedUpEvents.includes(event.name) ? (
+                                        <button onClick={() => handleCancelSignup(event.name)}>Cancel Signup</button>
+                                        ) : (
+                                        <button onClick={() => handleSignUp(event.name)}>Sign Up</button>
+                                    )}
                                 </div>
                             </li>
                         ))}
@@ -91,7 +142,11 @@ const Events = () => {
                                 <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>
 
                                 <div className="wrapper">
-                                <button>Sign up</button>
+                                    {signedUpEvents.includes(event.name) ? (
+                                        <button onClick={() => handleCancelSignup(event.name)}>Cancel Signup</button>
+                                        ) : (
+                                        <button onClick={() => handleSignUp(event.name)}>Sign Up</button>
+                                    )}
                                 </div>
                             </li>
                         ))}

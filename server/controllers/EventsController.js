@@ -12,7 +12,8 @@ let events = [
         urgency: "Help Needed",
         date: "2025-10-14",
         time: "12:45",
-        volunteersNeeded: "15"
+        volunteersNeeded: "15",
+        volunteers: []
 
     },
     {
@@ -25,7 +26,8 @@ let events = [
         urgency: "Help Wanted",
         date: "2025-10-14",
         time: "2:00",
-        volunteersNeeded: "10"
+        volunteersNeeded: "10",
+        volunteers: []
 
     },
 
@@ -114,7 +116,8 @@ const createEvent = async (req, res) => {
     urgency,
     date,
     time,
-    volunteersNeeded
+    volunteersNeeded,
+    volunteers: []
   };
 
   events.push(newEvent);
@@ -157,11 +160,17 @@ const matchEvents = async (req, res) => {
     // Find events that *don’t* match
     const otherEvents = events.filter(event => !matches.includes(event));
 
+    const signedUpEvents = events
+      .filter(event => event.volunteers.includes(userEmail))
+      .map(event => event.name);
+
     res.status(200).json({
       message: matches.length > 0 ? "Matching events found" : "No matching events found",
       matches,
-      otherEvents
+      otherEvents,
+      signedUpEvents, 
     });
+    
   }
   catch(err) {
     console.error(err);
@@ -180,5 +189,55 @@ const getEvent_update = async (req, res) => {
     }
 }
 
+const signUpForEvent = async (req, res) => {
+  try {
+    const { eventName } = req.body;
+    const userEmail = req.user.email;  
 
-export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update }
+    const event = events.find(e => e.name === eventName);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    // Check if event already full
+    if (event.volunteers.length >= parseInt(event.volunteersNeeded)) {
+      return res.status(400).json({ message: "Event is full" });
+    }
+
+    // Check if already signed up
+    if (event.volunteers.includes(userEmail)) {
+      return res.status(400).json({ message: "You are already signed up for this event" });
+    }
+
+    // Add volunteer
+    event.volunteers.push(userEmail);
+
+    res.status(200).json({
+      message: "Successfully signed up for event",
+      event
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const cancelSignup = async (req, res) => {
+  const { eventName } = req.body;
+  const userEmail = req.user.email;
+
+  const event = events.find(e => e.name === eventName);
+  if (!event) {
+    return res.status(404).json({ message: "Event not found" });
+  }
+
+  event.volunteers = event.volunteers.filter(email => email !== userEmail);
+
+  res.status(200).json({
+    message: "You have been removed from this event",
+    event
+  });
+};
+
+
+export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup }

@@ -206,3 +206,74 @@ describe("GET /match-events", () => {
         expect(res.statusCode).toBe(403);
     });
 });
+
+const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+const testEventName = "Food Bank Sorting";
+
+describe("POST /sign-up", () => {
+    test("should sign up for an event successfully", async () => {
+        const res = await request(app)
+            .post("/event/sign-up")
+            .set("Cookie", [`token=${token}`])
+            .send({ eventName: testEventName });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.event.volunteers).toContain(fakeUser.email);
+        expect(res.body.message).toBe("Successfully signed up for event");
+    });
+
+    test("should not allow signing up twice", async () => {
+        const res = await request(app)
+            .post("/event/sign-up")
+            .set("Cookie", [`token=${token}`])
+            .send({ eventName: testEventName });
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("You are already signed up for this event");
+    });
+
+    test("should not allow signing up for a non-existent event", async () => {
+        const res = await request(app)
+            .post("/event/sign-up")
+            .set("Cookie", [`token=${token}`])
+            .send({ eventName: "NonExistentEvent" });
+
+        expect(res.statusCode).toBe(404);
+        expect(res.body.message).toBe("Event not found");
+    });
+});
+
+describe("POST /cancel", () => {
+    test("should cancel signup successfully", async () => {
+        const res = await request(app)
+            .post("/event/cancel")
+            .set("Cookie", [`token=${token}`])
+            .send({ eventName: testEventName });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.event.volunteers).not.toContain(fakeUser.email);
+        expect(res.body.message).toBe("You have been removed from this event");
+    });
+
+    test("should handle canceling when not signed up", async () => {
+        const res = await request(app)
+            .post("/event/cancel")
+            .set("Cookie", [`token=${token}`])
+            .send({ eventName: testEventName });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.event.volunteers).not.toContain(fakeUser.email);
+        expect(res.body.message).toBe("You have been removed from this event");
+    });
+
+    test("should return 404 for a non-existent event", async () => {
+        const res = await request(app)
+            .post("/event/cancel")
+            .set("Cookie", [`token=${token}`])
+            .send({ eventName: "NonExistentEvent" });
+
+        expect(res.statusCode).toBe(404);
+        expect(res.body.message).toBe("Event not found");
+    });
+});

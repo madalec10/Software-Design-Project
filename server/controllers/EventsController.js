@@ -6,7 +6,9 @@ let events = [
         name: "Neighborhood Clean-Up Drive",
         description: "Join us in making our local park a cleaner, safer space. Volunteers will help with trash collection, recycling, and light landscaping.",
         location: "Riverside Park, Main Entrance",
-        requiredSkills: "Teamwork",
+        requiredSkills: [
+          "Teamwork"
+        ],
         urgency: "Help Needed",
         date: "2025-10-14",
         time: "12:45",
@@ -17,10 +19,12 @@ let events = [
         name: "Food Bank Sorting",
         description: "Assist the local food bank by sorting and packaging donated goods for families in need. Great opportunity for group volunteering.",
         location: "Houston Community Food Bank, Warehouse 3",
-        requiredSkills: "Organization, attention to detail",
+        requiredSkills: [
+          "Organization"
+        ],
         urgency: "Help Wanted",
-        date: "10/20/25",
-        time: "2:00 PM to 6:00 PM",
+        date: "2025-10-14",
+        time: "2:00",
         volunteersNeeded: "10"
 
     },
@@ -30,20 +34,10 @@ const getEvents = async (req, res) => {
     res.status(200).json(events)
 }
 
-const getEvent = async (req, res) => {
+ const getEvent = async (req, res) => {
      res.status(200).json(events.filter(event => event.name === req.body.name))
 }
 
-const getEvent_update = async (req, res) => {
-    const eventName = req.params.eventName;
-    const event = events.find(event => event.name === eventName);
-
-    if (event) {
-        res.json(event);
-    } else {
-        res.status(404).send('Event not found');
-    }
-}
 
 const deleteEvent = async (req, res) => {
     events = events.filter(event => event.name != req.body.name)
@@ -148,8 +142,11 @@ const matchEvents = async (req, res) => {
       const eventDateStr = event.date.trim();
 
       const isAvailable = availableDates.includes(eventDateStr);
-      const eventSkills = event.requiredSkills ? event.requiredSkills.split(",").map(s => s.trim().toLowerCase()) : [];
+      const eventSkills = Array.isArray(event.requiredSkills)
+        ? event.requiredSkills.map(s => s.trim().toLowerCase())
+        : [];
 
+      // Check if the user has at least one matching skill
       const hasSkillMatch =
         eventSkills.length === 0 ||
         eventSkills.some(skill => userSkills.includes(skill));
@@ -172,6 +169,16 @@ const matchEvents = async (req, res) => {
   }
 };
 
+const getEvent_update = async (req, res) => {
+    const eventName = req.params.eventName;
+    const event = events.find(event => event.name === eventName);
+
+    if (event) {
+        res.json(event);
+    } else {
+        res.status(404).send('Event not found');
+    }
+}
 
 
 export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update }

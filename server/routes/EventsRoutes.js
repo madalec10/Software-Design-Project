@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateToken } from "../middleware/authMiddleware.js";
-import { getEvents,getEvent,deleteEvent,updateEvent,createEvent,matchEvents, getEvent_update, signUpForEvent, cancelSignup } from "../controllers/EventsController.js";
+import { getEvents,getEvent,deleteEvent,updateEvent,createEvent,matchEvents, getEvent_update, signUpForEvent, cancelSignup} from "../controllers/EventsController.js";
 import { getHistory} from "../controllers/VolunteerHistController.js";
 import { body, validationResult } from "express-validator";
 import { updateUserInfo } from "../controllers/UserProfileController.js";
@@ -68,4 +68,5 @@ router.get('/volunteer-history', (req, res) => getHistory(req, res));
 router.get('/match-events', authenticateToken, (req, res) => matchEvents(req, res))
 router.post('/event/sign-up', authenticateToken, (req, res) => signUpForEvent(req, res))
 router.post('/event/cancel', authenticateToken, (req, res) => cancelSignup(req,res))
+
 export default router;

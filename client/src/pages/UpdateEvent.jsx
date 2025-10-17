@@ -100,6 +100,23 @@ const UpdateEvent = () => {
     // To update the event data regardless if anything was actually changed
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // frontend constraints
+        if (!eventData.skills || eventData.skills.length === 0) {
+            setError("Select at least one skill");
+            return;
+        }
+
+        if (eventData.date.toDate() < new Date()) {
+            setError("Event date cannot be in the past");
+            return;
+        }
+
+        if (eventData.location.length > 100) {
+            setError("Location is too long");
+            return;
+        }
+
         setLoading(true);
         setError('');
         setMessage('');
@@ -220,6 +237,7 @@ const UpdateEvent = () => {
                     name="location"
                     placeholder='123 parkplace 74029 NY'
                     required
+                    maxLength={100}
                     value={eventData.location}
                     onChange={e => setEventData({...eventData, location: e.target.value})}
                 />

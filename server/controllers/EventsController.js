@@ -1,7 +1,7 @@
 import app from "../app.js";
 import express from "express";
 import { userData } from "./UserProfileController.js";
-import { pushNotification,notifyUsersOfEventUpdate,notifyUsersOfNewEvent} from "./NotificationsController.js";
+import { pushNotification, notifyUsersOfEventUpdate, notifyUsersOfNewEvent } from "./NotificationsController.js";
 let events = [
   {
     name: "Neighborhood Clean-Up Drive",
@@ -167,6 +167,8 @@ const matchEvents = async (req, res) => {
       .filter(event => event.volunteers.includes(userEmail))
       .map(event => event.name);
 
+
+
     res.status(200).json({
       message: matches.length > 0 ? "Matching events found" : "No matching events found",
       matches,
@@ -251,4 +253,4 @@ const cancelSignup = async (req, res) => {
 };
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent, createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup,events };
+export { getEvents, getEvent, deleteEvent, updateEvent, createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup, events };

@@ -74,6 +74,17 @@ const EditAccount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!fullName) return alert("Full Name is required");
+    if (!dateOfBirth) return alert("Date of Birth is required");
+    if (!gender) return alert("Gender is required");
+    if (!address1) return alert("Address 1 is required");
+    if (!city1) return alert("City is required");
+    if (!state1) return alert("State is required");
+    if (!zip1 || zip1.length < 5 || zip1.length > 9) return alert("Zip code must be 5-9 characters");
+    if (!selectedOptions || selectedOptions.length === 0) return alert("Select at least one skill");
+    if (!selectedDates || selectedDates.length === 0) return alert("Select at least one availability date");
+
     const userProfile = {
       FullName: fullName,
       DateOfBirth: dateOfBirth,           // ISO: "YYYY-MM-DD"

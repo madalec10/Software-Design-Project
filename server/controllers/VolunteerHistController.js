@@ -1,27 +1,33 @@
-import { readFile } from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const eventsFilePath = path.join(__dirname, 'events.json');
+import app from "../app.js";
+import express from "express";
+import { events } from "./EventsController.js"; 
 
 const getHistory = async (req, res) => {
   try {
-    const data = await readFile(eventsFilePath, 'utf-8');
-    let events = JSON.parse(data);
+    const userEmail = req.user.email;
 
-    //sort events by date and time (most recent at the top)
-    events.sort((a, b) => {
+    if (!userEmail) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+    const allEvents = events.filter(event => 
+      event.volunteers && event.volunteers.includes(userEmail)
+    );
+    
+    allEvents.sort((a, b) => {
       const dateA = new Date(`${a.date}T${a.time}`);
       const dateB = new Date(`${b.date}T${b.time}`);
-      return dateB - dateA;
+      
+      if (isNaN(dateA) || isNaN(dateB)) {
+        return 0; // Don't sort if dates are invalid
+      }
+
+      return dateB - dateA; 
     });
 
-    res.json(events);
+    res.json(allEvents);
+
   } catch (err) {
-    console.error('Error reading events:', err);
+    console.error('Error fetching history:', err);
     res.status(500).json({ error: 'Failed to fetch events' });
   }
 };

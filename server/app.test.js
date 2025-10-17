@@ -165,11 +165,30 @@ describe("PATCH /update-user-profile", () => {
 
 
 describe("GET /volunteer-history", () => {
-    test("should respond with 200 and an array", async () => {
-        const response = await request(app).get("/volunteer-history").send();
-        expect(response.statusCode).toBe(200);
-        expect(Array.isArray(response.body)).toBe(true);
+  test("should respond with 200 and an array of events the user signed up for", async () => {
+    const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+    const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+
+    const response = await request(app)
+      .get("/volunteer-history")
+      .set("Cookie", [`token=${token}`])
+      .send();
+
+    expect(response.statusCode).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+
+    response.body.forEach(event => {
+      expect(event.volunteers).toContain("volunteer@gmail.com");
     });
+  });
+
+  test("should return 401 if no token is provided", async () => {
+    const response = await request(app)
+      .get("/volunteer-history")
+      .send();
+
+    expect(response.statusCode).toBe(401);
+  });
 });
 
 describe("GET /match-events", () => {

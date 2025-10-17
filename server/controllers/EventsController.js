@@ -10,7 +10,7 @@ let events = [
           "Teamwork"
         ],
         urgency: "Help Needed",
-        date: "2025-10-14",
+        date: "2025-10-20", 
         time: "12:45",
         volunteersNeeded: "15",
         volunteers: []
@@ -24,13 +24,89 @@ let events = [
           "Organization"
         ],
         urgency: "Help Wanted",
-        date: "2025-10-14",
-        time: "2:00",
+        date: "2025-10-22", 
+        time: "14:00", 
         volunteersNeeded: "10",
         volunteers: []
 
     },
-
+    {
+    name: "Beach Clean Up",
+    description: "Come on over to Galveston Beach to help clean up trash with your fellow volunteers! Plastic bags will be provided for participants to fill trash with. Afterwards, we will gather together as a group and sort trash into recycling materials and trash materials.",
+    location: "Galveston Beach",
+    requiredSkills: ["Organizing", "Teamwork"],
+    urgency: "Help Necessary", 
+    date: "2024-10-14",
+    time: "15:40",
+    volunteersNeeded: "10",
+    volunteers: ["volunteer@gmail.com"]
+  },
+  {
+    name: "Kids Coal Drive",
+    description: "Calling all volunteers! Mr. Kringle needs your help this holiday season! Using the official North Pole naughty list provided by the man himself, we will be organizing coals by sizes according to childrens' mischief level. Any donated coal would be appreciated.",
+    location: "Downtown Ohio Fire Department",
+    requiredSkills: [], 
+    urgency: "Help Needed",
+    date: "2024-12-05",
+    time: "09:00",
+    volunteersNeeded: "10",
+    volunteers: ["volunteer@gmail.com"]
+  },
+  {
+    name: "Tree Planting",
+    description: "Come together this October in nurturing a better future for Mother Nature. In honor of National Rincon Day, we will be planting 3,360 trees around Rincon National Park. Great opportunity for those who love nature and helping the environment.",
+    location: "Rincon National Park",
+    requiredSkills: ["Time Management"], 
+    urgency: "Help Would be Appreciated",
+    date: "2024-10-18",
+    time: "14:30",
+    volunteersNeeded: "30",
+    volunteers: ["volunteer@gmail.com"] 
+  },
+  {
+    name: "Nursing Homes",
+    description: "While rounding up the gang loose at Arkham Asylum, the Dark Knight needs your help rounding up the elderly in the nursing homes for a good time! Help facilitate several thrilling events like bingo and charades. Includes a brief guest appearance from Justice Gang.",
+    location: "Gotham Nursing Homes",
+    requiredSkills: ["Communication"], 
+    urgency: "Help Necessary", 
+    date: "2024-11-14",
+    time: "11:00",
+    volunteersNeeded: "25",
+    volunteers: ["volunteer@gmail.com"] 
+  },
+  {
+    name: "Animal Shelter",
+    description: "The staff at the IFAS are looking into toys and structures to help relieve the stress of their residents! Join them on January of next year to create wooden climbing structures. Perfect for those who like working with their hands and enjoy socializing with feral animals.",
+    location: "International Feral Animal Shelter",
+    requiredSkills: ["Power Tools"], 
+    urgency: "Help Would be Appreciated",
+    date: "2025-01-08",
+    time: "16:30",
+    volunteersNeeded: "5",
+    volunteers: ["volunteer@gmail.com"] 
+  },
+  {
+    name: "Soup Kitchen",
+    description: "The Cola-Cola Company is looking to get into the soup industry and also happens to be in a giving mood. Come volunteer for the local Missouri community in being one of the first to serve fresh hot bowls of Coca-Cola soup.",
+    location: "Missouri Coca-Cola Factory",
+    requiredSkills: ["Communication", "Time Management"], 
+    urgency: "Help Needed",
+    date: "2025-02-12",
+    time: "13:30",
+    volunteersNeeded: "4",
+    volunteers: ["volunteer@gmail.com"] 
+  },
+  {
+    name: "Special Needs School",
+    description: "Come join us in the grand opening of Lebron James' special needs school. Volunteers will give tours around the campus and facilitate with delivering the end of day kindergarten curriculum.",
+    location: "Lebron James School for Special Needs",
+    requiredSkills: ["Communication"], 
+    urgency: "Help Necessary", 
+    date: "2024-10-20",
+    time: "16:30",
+    volunteersNeeded: "15",
+    volunteers: ["volunteer@gmail.com"] 
+  }
 ];
 const getEvents = async (req, res) => {
     res.status(200).json(events)
@@ -137,32 +213,49 @@ const matchEvents = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    const now = new Date();
+    const upcomingEvents = events.filter(event => {
+        const eventDate = new Date(`${event.date}T${event.time}`);
+        // Check if date is valid
+        if (isNaN(eventDate)) {
+            return false; 
+        }
+        return eventDate >= now;
+    });
+
     const availableDates = user.Availability.map(d => d.trim());
     const userSkills = user.Skills.map(s => s.trim().toLowerCase());
     
-    // Find matching events
-    const matches = events.filter(event => {
-      const eventDateStr = event.date.trim();
+    // Find events user is already signed up for (from the upcoming list)
+    const signedUpEvents = upcomingEvents
+      .filter(e => e.volunteers && e.volunteers.includes(userEmail))
+      .map(e => e.name);
 
+    const matches = [];
+    const otherEvents = [];
+
+    upcomingEvents.forEach(event => {
+      const eventDateStr = event.date.trim();
       const isAvailable = availableDates.includes(eventDateStr);
+
+      // Handle skills being an array or a string
       const eventSkills = Array.isArray(event.requiredSkills)
         ? event.requiredSkills.map(s => s.trim().toLowerCase())
-        : [];
+        : typeof event.requiredSkills === 'string'
+          ? event.requiredSkills.split(',').map(s => s.trim().toLowerCase())
+          : [];
 
       // Check if the user has at least one matching skill
       const hasSkillMatch =
         eventSkills.length === 0 ||
         eventSkills.some(skill => userSkills.includes(skill));
 
-      return isAvailable && hasSkillMatch;
+      if (isAvailable && hasSkillMatch) {
+        matches.push(event);
+      } else {
+        otherEvents.push(event);
+      }
     });
-
-    // Find events that *don’t* match
-    const otherEvents = events.filter(event => !matches.includes(event));
-
-    const signedUpEvents = events
-      .filter(event => event.volunteers.includes(userEmail))
-      .map(event => event.name);
 
     res.status(200).json({
       message: matches.length > 0 ? "Matching events found" : "No matching events found",
@@ -240,4 +333,4 @@ const cancelSignup = async (req, res) => {
 };
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup }
+export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup, events }

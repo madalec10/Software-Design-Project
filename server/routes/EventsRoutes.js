@@ -64,7 +64,7 @@ router.patch('/update-user-profile', updateUserProfileValidation, (req, res, nex
   updateUserInfo(req, res, next);
 });
 router.get('/get-event', (req, res) => getEvent(req, res));
-router.get('/volunteer-history', (req, res) => getHistory(req, res));
+router.get('/volunteer-history', authenticateToken, (req, res) => getHistory(req, res));
 router.get('/match-events', authenticateToken, (req, res) => matchEvents(req, res))
 router.post('/event/sign-up', authenticateToken, (req, res) => signUpForEvent(req, res))
 router.post('/event/cancel', authenticateToken, (req, res) => cancelSignup(req,res))

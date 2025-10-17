@@ -10,7 +10,7 @@ let events = [
           "Teamwork"
         ],
         urgency: "Help Needed",
-        date: "2025-10-14",
+        date: "2025-10-20", 
         time: "12:45",
         volunteersNeeded: "15",
         volunteers: []
@@ -24,10 +24,10 @@ let events = [
           "Organization"
         ],
         urgency: "Help Wanted",
-        date: "2025-10-14",
-        time: "2:00",
+        date: "2025-10-22", 
+        time: "14:00", 
         volunteersNeeded: "10",
-        volunteers: []
+        volunteers: ["volunteer@gmail.com"]
 
     },
 
@@ -240,4 +240,4 @@ const cancelSignup = async (req, res) => {
 };
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup }
+export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup, events }

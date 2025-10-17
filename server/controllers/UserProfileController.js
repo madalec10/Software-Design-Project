@@ -3,13 +3,13 @@ import e from "express";
 let userData = [
     {
         email: "volunteer@gmail.com",
-        FullName: "Matthew Sean Kalanta",
-        DateOfBirth: "2000-10-20",
+        FullName: "John Doe",
+        DateOfBirth: "2000-01-01",
         Gender: "Male",
-        Address1: "5151 Richmond Avenue",
+        Address1: "12344 Something Avenue",
         City: "Houston",
         State: "TX",
-        ZipCode: "77056",
+        ZipCode: "77077",
         Availability: [
             "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17", "2025-10-18", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24"
         ], 

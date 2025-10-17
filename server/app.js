@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/UserAuthRoutes.js";
 import eventRoutes from "./routes/EventsRoutes.js";
 import userProfileRoutes from "./routes/UserProfileRoutes.js";
+import notificationsRouter from "./routes/NotificationRoutes.js";
 
 const app = express()
 
@@ -26,4 +27,5 @@ app.use("/",eventRoutes);
 app.use("/", eventRoutes);
 
 app.use("/", userProfileRoutes);
+app.use("/", notificationsRouter);
 export default app

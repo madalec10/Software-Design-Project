@@ -1,49 +1,51 @@
 import app from "../app.js";
 import express from "express";
 import { userData } from "./UserProfileController.js";
+import { pushNotification,notifyUsersOfEventUpdate,notifyUsersOfNewEvent} from "./NotificationsController.js";
 let events = [
-    {
-        name: "Neighborhood Clean-Up Drive",
-        description: "Join us in making our local park a cleaner, safer space. Volunteers will help with trash collection, recycling, and light landscaping.",
-        location: "Riverside Park, Main Entrance",
-        requiredSkills: [
-          "Teamwork"
-        ],
-        urgency: "Help Needed",
-        date: "2025-10-14",
-        time: "12:45",
-        volunteersNeeded: "15",
-        volunteers: []
+  {
+    name: "Neighborhood Clean-Up Drive",
+    description: "Join us in making our local park a cleaner, safer space. Volunteers will help with trash collection, recycling, and light landscaping.",
+    location: "Riverside Park, Main Entrance",
+    requiredSkills: [
+      "Teamwork"
+    ],
+    urgency: "Help Needed",
+    date: "2025-10-14",
+    time: "12:45",
+    volunteersNeeded: "15",
+    volunteers: []
 
-    },
-    {
-        name: "Food Bank Sorting",
-        description: "Assist the local food bank by sorting and packaging donated goods for families in need. Great opportunity for group volunteering.",
-        location: "Houston Community Food Bank, Warehouse 3",
-        requiredSkills: [
-          "Organization"
-        ],
-        urgency: "Help Wanted",
-        date: "2025-10-14",
-        time: "2:00",
-        volunteersNeeded: "10",
-        volunteers: []
+  },
+  {
+    name: "Food Bank Sorting",
+    description: "Assist the local food bank by sorting and packaging donated goods for families in need. Great opportunity for group volunteering.",
+    location: "Houston Community Food Bank, Warehouse 3",
+    requiredSkills: [
+      "Organization"
+    ],
+    urgency: "Help Wanted",
+    date: "2025-10-14",
+    time: "2:00",
+    volunteersNeeded: "10",
+    volunteers: []
 
-    },
+  },
 
 ];
+
 const getEvents = async (req, res) => {
-    res.status(200).json(events)
+  res.status(200).json(events)
 }
 
- const getEvent = async (req, res) => {
-     res.status(200).json(events.filter(event => event.name === req.body.name))
+const getEvent = async (req, res) => {
+  res.status(200).json(events.filter(event => event.name === req.body.name))
 }
 
 
 const deleteEvent = async (req, res) => {
-    events = events.filter(event => event.name != req.body.name)
-    res.status(200).json(events)
+  events = events.filter(event => event.name != req.body.name)
+  res.status(200).json(events)
 }
 
 const updateEvent = async (req, res) => {
@@ -91,6 +93,7 @@ const updateEvent = async (req, res) => {
   if (req.body.newName !== undefined) {
     target.name = req.body.newName;
   }
+  notifyUsersOfEventUpdate(target);
 
   // Send back updated event
   return res.status(200).json({
@@ -121,7 +124,7 @@ const createEvent = async (req, res) => {
   };
 
   events.push(newEvent);
-
+  notifyUsersOfNewEvent(newEvent);
   res.status(200).json({
     message: "Event created successfully",
     event: newEvent
@@ -130,7 +133,7 @@ const createEvent = async (req, res) => {
 
 const matchEvents = async (req, res) => {
   try {
-    const userEmail = req.user.email;  
+    const userEmail = req.user.email;
     const user = userData.find(u => u.email === userEmail);
 
     if (!user) {
@@ -139,7 +142,7 @@ const matchEvents = async (req, res) => {
 
     const availableDates = user.Availability.map(d => d.trim());
     const userSkills = user.Skills.map(s => s.trim().toLowerCase());
-    
+
     // Find matching events
     const matches = events.filter(event => {
       const eventDateStr = event.date.trim();
@@ -168,31 +171,31 @@ const matchEvents = async (req, res) => {
       message: matches.length > 0 ? "Matching events found" : "No matching events found",
       matches,
       otherEvents,
-      signedUpEvents, 
+      signedUpEvents,
     });
-    
+
   }
-  catch(err) {
+  catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const getEvent_update = async (req, res) => {
-    const eventName = req.params.eventName;
-    const event = events.find(event => event.name === eventName);
+  const eventName = req.params.eventName;
+  const event = events.find(event => event.name === eventName);
 
-    if (event) {
-        res.json(event);
-    } else {
-        res.status(404).send('Event not found');
-    }
+  if (event) {
+    res.json(event);
+  } else {
+    res.status(404).send('Event not found');
+  }
 }
 
 const signUpForEvent = async (req, res) => {
   try {
     const { eventName } = req.body;
-    const userEmail = req.user.email;  
+    const userEmail = req.user.email;
 
     const event = events.find(e => e.name === eventName);
     if (!event) {
@@ -211,6 +214,14 @@ const signUpForEvent = async (req, res) => {
 
     // Add volunteer
     event.volunteers.push(userEmail);
+    pushNotification({
+      userEmail: userEmail,
+      type: "SIGNUP",
+      title: "Event Sign-Up Confirmation",
+      description: `You have successfully signed up for the event "${event.name}". Thank you for volunteering!`,
+      eventName: event.name,
+      meta: { eventDate: event.date }
+    });
 
     res.status(200).json({
       message: "Successfully signed up for event",
@@ -240,4 +251,4 @@ const cancelSignup = async (req, res) => {
 };
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup }
+export { getEvents, getEvent, deleteEvent, updateEvent, createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup,events };

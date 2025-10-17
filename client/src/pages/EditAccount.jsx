@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './EditAccount.css';
 
 import CreatableSelect from 'react-select/creatable';
-import DatePicker from 'react-multi-date-picker';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import { Navigate } from "react-router-dom";
 
 const initialOptions = [
@@ -58,7 +58,7 @@ const EditAccount = () => {
       : typeof p.Availability === "string"
         ? p.Availability.split(",").map(s => s.trim()).filter(Boolean)
         : [];
-    setSelectedDates(availArr);
+    setSelectedDates(availArr.map(d => new DateObject({ date: d, format: "YYYY-MM-DD" })));
     setOptions(prev => {
       const seen = new Set(prev.map(o => o.value));
       return [...prev, ...skillsArr.filter(s => !seen.has(s)).map(s => ({ value: s, label: s }))];

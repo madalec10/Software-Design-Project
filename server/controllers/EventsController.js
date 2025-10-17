@@ -167,6 +167,8 @@ const matchEvents = async (req, res) => {
       .filter(event => event.volunteers.includes(userEmail))
       .map(event => event.name);
 
+
+
     res.status(200).json({
       message: matches.length > 0 ? "Matching events found" : "No matching events found",
       matches,

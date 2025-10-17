@@ -1,0 +1,59 @@
+diff --git a/server/controllers/EventsController.js b/server/controllers/EventsController.js
+index b0d596d..3ad6fea 100644
+--- a/server/controllers/EventsController.js
++++ b/server/controllers/EventsController.js
+@@ -34,6 +34,8 @@ let events = [
+ 
+ ];
+ 
++
++
+ const getEvents = async (req, res) => {
+   res.status(200).json(events)
+ }
+diff --git a/server/controllers/NotificationsController.js b/server/controllers/NotificationsController.js
+index 096b4bc..d47c47d 100644
+--- a/server/controllers/NotificationsController.js
++++ b/server/controllers/NotificationsController.js
+@@ -5,9 +5,13 @@ let notifications = [];
+ // shape: { userEmail, type, title, description, eventName, isRead, createdAt, meta }
+ 
+ export const getAllNotifications = async (req, res) => {
+-  res.status(200).json({ notifications });
++  const email = req.user?.email;
++  if (!email) return res.status(401).json({ message: "Unauthorized" });
++  const mine = notifications.filter(n => n.userEmail === email);
++  res.status(200).json({ notifications: mine });
+ };
+ 
++
+ // helper: add a notification (we’ll call this later from Events)
+ export function pushNotification({ userEmail, type, title, description, eventName, meta }) {
+   notifications.push({
+@@ -21,11 +25,6 @@ export function pushNotification({ userEmail, type, title, description, eventNam
+     meta: meta ?? {}
+   });
+ }
+-
+-// (optional for quick manual testing)
+-export function _seedOne() {
+-  pushNotification({});
+-}
+ function usersThatMatchEvent(event) {
+   const eventDate = event.date;
+   const eventSkills = event.requiredSkills;
+diff --git a/server/routes/NotificationRoutes.js b/server/routes/NotificationRoutes.js
+index 3701f3c..6ddc0db 100644
+--- a/server/routes/NotificationRoutes.js
++++ b/server/routes/NotificationRoutes.js
+@@ -3,7 +3,9 @@ import { getAllNotifications,remindNow } from "../controllers/NotificationsContr
+ import { authenticateToken } from "../middleware/authMiddleware.js";
+ 
+ const router = express.Router();
+-router.get("/notifications", getAllNotifications);
++// routes
++router.get("/notifications", authenticateToken, getAllNotifications);
++
+ router.post("/remind-now", authenticateToken, (req, res) => remindNow(req,res))
+ 
+ export default router;

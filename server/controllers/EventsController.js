@@ -33,6 +33,7 @@ let events = [
   },
 
 ];
+events.forEach(e => notifyUsersOfNewEvent(e));
 
 const getEvents = async (req, res) => {
   res.status(200).json(events)

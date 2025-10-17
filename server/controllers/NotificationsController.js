@@ -1,18 +1,19 @@
-import {events} from "./EventsController.js";
+import { events } from "./EventsController.js";
 import { userData } from "./UserProfileController.js";
-// In-memory notifications (no IDs)
-let notifications = []; 
-// shape: { userEmail, type, title, description, eventName, isRead, createdAt, meta }
 
-export const getAllNotifications = async (req, res) => {
-  res.status(200).json({ notifications });
+let notifications = [];
+
+const getAllNotifications = async (req, res) => {
+  const email = req.user?.email;
+  if (!email) return res.status(401).json({ message: "Unauthorized" });
+  const mine = notifications.filter(n => n.userEmail === email);
+  res.status(200).json({ notifications: mine });
 };
 
-// helper: add a notification (we’ll call this later from Events)
-export function pushNotification({ userEmail, type, title, description, eventName, meta }) {
+function pushNotification({ userEmail, type, title, description, eventName, meta }) {
   notifications.push({
     userEmail: userEmail ?? "test@example.com",
-    type: type ?? "TEST",                       // 'MATCH' | 'UPDATE' | 'REMINDER' | 'TEST'
+    type: type ?? "TEST",
     title: title ?? "Sample notification",
     description: description ?? "Hello world",
     eventName: eventName ?? null,
@@ -22,10 +23,6 @@ export function pushNotification({ userEmail, type, title, description, eventNam
   });
 }
 
-// (optional for quick manual testing)
-export function _seedOne() {
-  pushNotification({});
-}
 function usersThatMatchEvent(event) {
   const eventDate = event.date;
   const eventSkills = event.requiredSkills;
@@ -42,12 +39,11 @@ function usersThatMatchEvent(event) {
       }
     }
   }
-
   return matchedUsers;
 }
+
 function notifyUsersOfNewEvent(event) {
   const matchedUsers = usersThatMatchEvent(event);
-
   matchedUsers.forEach(email => {
     pushNotification({
       userEmail: email,
@@ -59,9 +55,10 @@ function notifyUsersOfNewEvent(event) {
     });
   });
 }
+
 function notifyUsersOfEventUpdate(event) {
   const registeredUsers = event.volunteers;
-  for(let i=0; i<registeredUsers.length; i++) {
+  for (let i = 0; i < registeredUsers.length; i++) {
     const email = registeredUsers[i];
     pushNotification({
       userEmail: email,
@@ -73,9 +70,9 @@ function notifyUsersOfEventUpdate(event) {
     });
   }
 }
+
 function SendReminderForEvent(event) {
   const registeredUsers = event.volunteers;
-
   registeredUsers.forEach(email => {
     pushNotification({
       userEmail: email,
@@ -87,14 +84,23 @@ function SendReminderForEvent(event) {
     });
   });
 }
- function remindNow(req, res) {
+
+function remindNow(req, res) {
   const eventName = req.body.name;
   const event = events.find(e => e.name === eventName);
   if (!event) {
     return res.status(404).json({ message: "Event not found" });
   }
-
   SendReminderForEvent(event);
   res.status(200).json({ message: "Reminder sent" });
 }
-export { notifyUsersOfNewEvent, notifyUsersOfEventUpdate, SendReminderForEvent,remindNow };
+
+export {
+  getAllNotifications,
+  pushNotification,
+  usersThatMatchEvent,
+  notifyUsersOfNewEvent,
+  notifyUsersOfEventUpdate,
+  SendReminderForEvent,
+  remindNow
+};

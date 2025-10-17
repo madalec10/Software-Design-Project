@@ -6,7 +6,9 @@ let events = [
         name: "Neighborhood Clean-Up Drive",
         description: "Join us in making our local park a cleaner, safer space. Volunteers will help with trash collection, recycling, and light landscaping.",
         location: "Riverside Park, Main Entrance",
-        requiredSkills: "None (just enthusiasm!)",
+        requiredSkills: [
+          "Teamwork"
+        ],
         urgency: "Help Needed",
         date: "2025-10-14",
         time: "12:45",
@@ -128,30 +130,23 @@ const createEvent = async (req, res) => {
 
 const matchEvents = async (req, res) => {
   try {
-    // The decoded user info from your JWT middleware
     const userEmail = req.user.email;  
-
-    // Find the user's full profile (this could come from memory or database)
     const user = userData.find(u => u.email === userEmail);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Parse user's availability and skills
-    const availableDates = user.Availability.split(",").map(d => d.trim());
-    const userSkills = user.Skills.split(",").map(s => s.trim().toLowerCase());
+    const availableDates = user.Availability.map(d => d.trim());
+    const userSkills = user.Skills.map(s => s.trim().toLowerCase());
     
     // Find matching events
     const matches = events.filter(event => {
       const eventDateStr = event.date.trim();
 
-      // ✅ Check if event date is in user's available dates
       const isAvailable = availableDates.includes(eventDateStr);
-
-      // ✅ Check for skill overlap
-      const eventSkills = event.requiredSkills
-        ? event.requiredSkills.split(",").map(s => s.trim().toLowerCase())
+      const eventSkills = Array.isArray(event.requiredSkills)
+        ? event.requiredSkills.map(s => s.trim().toLowerCase())
         : [];
 
       // Check if the user has at least one matching skill
@@ -162,13 +157,18 @@ const matchEvents = async (req, res) => {
       return isAvailable && hasSkillMatch;
     });
 
-    if (matches.length === 0) {
-      return res.status(200).json({ message: "No matching events found", matches: [] });
-    }
+    // Find events that *don’t* match
+    const otherEvents = events.filter(event => !matches.includes(event));
+
+    const signedUpEvents = events
+      .filter(event => event.volunteers.includes(userEmail))
+      .map(event => event.name);
 
     res.status(200).json({
-      message: "Matching events found",
-      matches: rankedMatches
+      message: matches.length > 0 ? "Matching events found" : "No matching events found",
+      matches,
+      otherEvents,
+      signedUpEvents, 
     });
     
   }
@@ -240,4 +240,4 @@ const cancelSignup = async (req, res) => {
 };
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents }
+export { getEvents, getEvent, deleteEvent, updateEvent,createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup }

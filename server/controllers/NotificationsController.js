@@ -3,6 +3,7 @@ import { userData } from "./UserProfileController.js";
 
 let notifications = [];
 
+
 const getAllNotifications = async (req, res) => {
   const email = req.user?.email;
   if (!email) return res.status(401).json({ message: "Unauthorized" });
@@ -24,36 +25,52 @@ function pushNotification({ userEmail, type, title, description, eventName, meta
 }
 
 function usersThatMatchEvent(event) {
-  const eventDate = event.date;
-  const eventSkills = event.requiredSkills;
-  let matchedUsers = [];
+  const eventDate = (event?.date || "").trim();
+  const eventSkills = Array.isArray(event?.requiredSkills) ? event.requiredSkills : [];
+
+  const matchedUsers = [];
 
   for (let i = 0; i < userData.length; i++) {
     const user = userData[i];
-    if (user.Availability.includes(eventDate)) {
-      if (
-        eventSkills.length === 0 ||
-        eventSkills.some(skill => user.Skills.includes(skill))
-      ) {
-        matchedUsers.push(user.email);
-      }
+
+    const availability = Array.isArray(user?.Availability)
+      ? user.Availability
+      : (typeof user?.Availability === "string" && user.Availability ? [user.Availability] : []);
+
+    const skills = Array.isArray(user?.Skills)
+      ? user.Skills
+      : (typeof user?.Skills === "string" && user.Skills ? [user.Skills] : []);
+
+    const isAvailable = eventDate ? availability.includes(eventDate) : false;
+
+    const hasSkillMatch =
+      eventSkills.length === 0 ||
+      eventSkills.some(skill => skills.includes(skill));
+
+    if (isAvailable && hasSkillMatch) {
+      matchedUsers.push(user.email);
     }
   }
+
   return matchedUsers;
 }
 
+
 function notifyUsersOfNewEvent(event) {
   const matchedUsers = usersThatMatchEvent(event);
-  matchedUsers.forEach(email => {
+  try{matchedUsers.forEach(email => {
     pushNotification({
       userEmail: email,
       type: "MATCH",
       title: "New Event Matching Your Profile",
-      description: `A new event "${event.name}" matches your skills and availability. Check it out!`,
+      description: `A new event "${event.name}" matches your skills and availability.`,
       eventName: event.name,
       meta: { eventDate: event.date }
     });
+  
   });
+}catch(err){console.error("Error notifying users of new event:", err);
+}
 }
 
 function notifyUsersOfEventUpdate(event) {

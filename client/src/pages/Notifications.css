@@ -65,9 +65,9 @@ h1 {
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 9999px;
-  padding: 12px 18px;
   font-size: 16px;
   font-weight: 500;
+
   cursor: pointer;
   transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .06s ease;
 }
@@ -88,7 +88,7 @@ h1 {
   cursor: pointer;
   transition: background .2s ease, transform .06s ease;
   border: 2px solid black;
-  margin-bottom: ;;
+ 
 }
 .read-button:hover {
   background: linear-gradient(135deg, #60fa60, #3bf63b);
@@ -96,3 +96,14 @@ h1 {
 .read-button:active {
   transform: scale(0.98);
 }
+ 
+.notification-item
+{
+  display: flex;
+
+}
+p{
+  font-size: 12px;
+}
+.Notifications.read { opacity: .55; background: #1a1e29; }
+.notification-item.read { color: #9ca3af; }

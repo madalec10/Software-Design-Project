@@ -1,7 +1,7 @@
 import app from "../app.js";
 import express from "express";
 import { userData } from "./UserProfileController.js";
-import { pushNotification,notifyUsersOfEventUpdate,notifyUsersOfNewEvent} from "./NotificationsController.js";
+import { pushNotification, notifyUsersOfEventUpdate, notifyUsersOfNewEvent } from "./NotificationsController.js";
 let events = [
   {
     name: "Neighborhood Clean-Up Drive",
@@ -105,31 +105,35 @@ const updateEvent = async (req, res) => {
 
 const createEvent = async (req, res) => {
   const { name, description, location, requiredSkills, urgency, date, time, volunteersNeeded } = req.body;
+  try {
+    // Prevent duplicates
+    const exists = events.find(e => e.name === name);
+    if (exists) {
+      return res.status(400).json({ message: "Event already exists" });
+    }
 
-  // Prevent duplicates
-  const exists = events.find(e => e.name === name);
-  if (exists) {
-    return res.status(400).json({ message: "Event already exists" });
+    const newEvent = {
+      name,
+      description,
+      location,
+      requiredSkills,
+      urgency,
+      date,
+      time,
+      volunteersNeeded,
+      volunteers: []
+    };
+
+    events.push(newEvent);
+    notifyUsersOfNewEvent(newEvent);
+    res.status(200).json({
+      message: "Event created successfully",
+      event: newEvent
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
-
-  const newEvent = {
-    name,
-    description,
-    location,
-    requiredSkills,
-    urgency,
-    date,
-    time,
-    volunteersNeeded,
-    volunteers: []
-  };
-
-  events.push(newEvent);
-  notifyUsersOfNewEvent(newEvent);
-  res.status(200).json({
-    message: "Event created successfully",
-    event: newEvent
-  });
 };
 
 const matchEvents = async (req, res) => {
@@ -225,6 +229,15 @@ const signUpForEvent = async (req, res) => {
       eventName: event.name,
       meta: { eventDate: event.date }
     });
+    // NEW: immediate REMINDER so it auto-appears on the frontend
+    pushNotification({
+      userEmail: userEmail,
+      type: "REMINDER",
+      title: "Event Reminder",
+      description: `This is a reminder for the event "${event.name}" on ${event.date}.`,
+      eventName: event.name,
+      meta: { eventDate: event.date }
+    });
 
     res.status(200).json({
       message: "Successfully signed up for event",
@@ -254,4 +267,4 @@ const cancelSignup = async (req, res) => {
 };
 
 
-export { getEvents, getEvent, deleteEvent, updateEvent, createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup,events };
+export { getEvents, getEvent, deleteEvent, updateEvent, createEvent, matchEvents, getEvent_update, signUpForEvent, cancelSignup, events };

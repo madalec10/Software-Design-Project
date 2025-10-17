@@ -13,7 +13,6 @@ const getHistory = async (req, res) => {
       event.volunteers && event.volunteers.includes(userEmail)
     );
     
-    // 2. Sort the combined list (newest first)
     allEvents.sort((a, b) => {
       const dateA = new Date(`${a.date}T${a.time}`);
       const dateB = new Date(`${b.date}T${b.time}`);
@@ -22,10 +21,9 @@ const getHistory = async (req, res) => {
         return 0; // Don't sort if dates are invalid
       }
 
-      return dateB - dateA; // Sort most recent first
+      return dateB - dateA; 
     });
 
-    // 3. Send the complete list to the frontend
     res.json(allEvents);
 
   } catch (err) {

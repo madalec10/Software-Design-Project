@@ -37,6 +37,19 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedOptions || selectedOptions.length === 0) {
+        setError("Select at least one skill");
+        return;
+    }
+
+    if (selectedDate.toDate() < new Date()) {
+        setError("Event date cannot be in the past");
+        return;
+    }
+
+    
+
     setLoading(true);
     setError('');
     setMessage('');
@@ -56,6 +69,11 @@ const CreateEvent = () => {
       time: formattedTime,
       requiredSkills: selectedOptions.map(option => option.value),
     };
+
+    if (formData.get('location').length > 100) {
+        setError("Location is too long");
+        return;
+    }
 
     try {
       const response = await fetch('http://localhost:8800/create-event', {

@@ -140,6 +140,8 @@ const EditAccount = () => {
     setOptions(prev => [...prev, newOption]);
     setSelectedOptions(prev => [...(prev || []), newOption]);
   };
+  
+    
 
   return (
     <div>
@@ -406,8 +408,7 @@ const EditAccount = () => {
 
               <label htmlFor="preferences" className="labelEA">Preferences:</label>
               <br />
-              <textarea id="preferences" name="preferences" className="textAreaEA" placeholder="No crust on sandwiches" maxLength={500} value={preferences} onChange={(e) => setPreferences(e.target.value)} />
-              <br />
+              <textarea id="preferences" name="preferences" className="textAreaEA" placeholder="No crust on sandwiches" maxLength={500} />
 
               <br />
 

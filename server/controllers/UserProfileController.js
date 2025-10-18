@@ -22,8 +22,23 @@ let userData = [
 const createUser = async (e) => {
 
     const email = e;
-    const newUser = {};
+    const newUser = {
+        email,
+        FullName: "",
+        DateOfBirth: "",
+        Gender: "",
+        Address1: "",
+        City: "",
+        State: "",
+        ZipCode: "",
+        Availability: ["2025-10-20", "2025-10-22"], // some default upcoming dates
+        Skills: ["Teamwork"],       // default skills
+        Preferences: ""
+    };
+
+    userData.push(newUser);
     newUser.email = e;
+    
     userData.push(newUser);
 
 

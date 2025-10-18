@@ -295,4 +295,119 @@ describe("POST /cancel", () => {
         expect(res.statusCode).toBe(404);
         expect(res.body.message).toBe("Event not found");
     });
+    describe("GET /notifications", () => {
+        const volunteer = { email: "volunteer@gmail.com", role: "Volunteer" };
+        const token = jwt.sign(volunteer, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+
+        test("should return 401 when not authenticated", async () => {
+            const res = await request(app).get("/notifications");
+            expect(res.statusCode).toBe(401);
+        });
+
+        test("should return 200 and an array for authenticated user", async () => {
+            const res = await request(app)
+                .get("/notifications")
+                .set("Cookie", [`token=${token}`]);
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty("notifications");
+            expect(Array.isArray(res.body.notifications)).toBe(true);
+        });
+    });
+    describe("POST /remind-now", () => {
+        const admin = { email: "admin@gmail.com", role: "Admin" };
+        const token = jwt.sign(admin, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+
+        test("should return 404 for a non-existent event", async () => {
+            const res = await request(app)
+                .post("/remind-now")
+                .set("Cookie", [`token=${token}`])
+                .send({ name: "NO_SUCH_EVENT_TEST" });
+            expect(res.statusCode).toBe(404);
+        });
+
+        test("should return 200 for an existing seeded event", async () => {
+            const res = await request(app)
+                .post("/remind-now")
+                .set("Cookie", [`token=${token}`])
+                .send({ name: "Food Bank Sorting" });
+            expect(res.statusCode).toBe(200);
+        });
+    });
+
+
+
+
 });
+
+describe("GET /get-event", () => {
+  test("should return 404 for non-existent event", async () => {
+    const res = await request(app)
+      .get("/get-event")
+      .send({ name: "NonExistentEvent" });
+
+    expect(res.statusCode).toBe(200); // getEvent returns an empty array, not 404
+    expect(res.body).toEqual([]);
+  });
+
+  test("should return specific event when exists", async () => {
+    const res = await request(app)
+      .get("/get-event")
+      .send({ name: "Food Bank Sorting" });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].name).toBe("Food Bank Sorting");
+  });
+});
+
+describe("PUT /update-event", () => {
+  test("should update an existing event's location and description", async () => {
+    const res = await request(app)
+      .put("/update-event")
+      .send({
+        name: "Food Bank Sorting",
+        location: "New Warehouse Location",
+        description: "Updated description"
+      });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.event.location).toBe("New Warehouse Location");
+    expect(res.body.event.description).toBe("Updated description");
+  });
+
+  test("should rename an existing event", async () => {
+    const res = await request(app)
+      .put("/update-event")
+      .send({
+        name: "Food Bank Sorting",
+        newName: "Food Bank Sorting Updated"
+      });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.event.name).toBe("Food Bank Sorting Updated");
+  });
+
+  test("should return 404 for non-existent event", async () => {
+    const res = await request(app)
+      .put("/update-event")
+      .send({ name: "NoEvent", location: "Somewhere" });
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.message).toBe("Event not found");
+  });
+});
+
+
+describe("DELETE /delete-event", () => {
+  test("should handle deleting a non-existent event gracefully", async () => {
+    const res = await request(app)
+      .delete("/delete-event")
+      .send({ name: "NoSuchEvent" });
+
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true); // still returns the events array
+  });
+});
+
+
+

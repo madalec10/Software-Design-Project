@@ -136,9 +136,9 @@ const CreateEvent = () => {
           defaultValue=""
         >
           <option value="" disabled>Select Urgency Level</option>
-          <option value="high">Help Necessary</option>
-          <option value="medium">Help Wanted</option>
-          <option value="low">Help Would be Appreciated</option>
+          <option value="Help Necessary">Help Necessary</option>
+          <option value="Help Wanted">Help Wanted</option>
+          <option value="Help Would be Appreciated">Help Would be Appreciated</option>
         </select>
 
         {/* Date Picker */}

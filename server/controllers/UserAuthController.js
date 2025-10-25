@@ -25,11 +25,24 @@ const hashedPassword2 = bcrypt.hashSync("password1234", 10);
 // ];
 
 const getAllUsers = async (req, res) => {
-    res.status(200).json(users)
+    try {
+        const [rows] = await db.query("SELECT email, role FROM userCredentials");
+        res.status(200).json(rows);
+    } 
+    catch (err) {
+        console.error(err);
+        res.status(500).send("Database error");
+    }
 }
 
 const getUser = async (req, res) => {
-    res.json(users.filter(user => user.email === req.user.email))
+    try {
+        const [rows] = await db.query("SELECT email, role FROM userCredentials WHERE email = ?", [req.user.email]);
+        res.json(rows[0]);
+    } 
+    catch (err) {
+        res.status(500).send("Database error");
+    }
 }
 
 const signUp = async (req, res) => {
@@ -76,12 +89,19 @@ const signUp = async (req, res) => {
 
 const logIn = async (req, res) => {
     //Authenticate user
-    const user = users.find(user => user.email === req.body.email)
-    if(user == null){
-        return res.status(400).send('Cannot find user')
-    }
+    const { email, password } = req.body;
+
+    
+    
     try {
-        if(await bcrypt.compare(req.body.password, user.password)){
+        const [rows] = await db.query("SELECT * FROM userCredentials WHERE email = ?", [email]);
+        const user = rows[0];
+
+        if (!user) {
+            return res.status(400).send("Cannot find user");
+        }
+        
+        if(await bcrypt.compare(password, user.password)){
             const token = jwt.sign({ email: user.email, role: user.role }, process.env.SECRET_TOKEN)
             res.cookie("token", token, {
                 httpOnly: true,   // prevents client-side JS from reading cookie

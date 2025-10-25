@@ -4,10 +4,11 @@ import './VolunteerHistory.css'
 const VolunteerHistory = () => {
     console.log("VolunteerHistory")
 
+    // --- MODIFICATION 1: Use two state variables ---
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true); // Added loading state
 
     useEffect(() => {
         fetchEvents();
@@ -15,7 +16,7 @@ const VolunteerHistory = () => {
 
     const fetchEvents = async () => {
         try {
-            setLoading(true);
+            setLoading(true); // Start loading
             setError("");
 
             const response = await fetch('http://localhost:8800/volunteer-history', {
@@ -30,11 +31,13 @@ const VolunteerHistory = () => {
 
             const combinedEvents = Array.isArray(data) ? data.flat() : [];
 
+            // --- MODIFICATION 2: Separate events into past and upcoming ---
             const now = new Date();
             const upcoming = [];
             const past = [];
 
             combinedEvents.forEach(event => {
+                // Try to create a valid date. Handles YYYY-MM-DD and HH:mm
                 const eventDate = new Date(`${event.date}T${event.time}`);
                 
                 // Check if the event date is valid before comparing
@@ -48,6 +51,7 @@ const VolunteerHistory = () => {
                 }
             });
 
+            // --- MODIFICATION 3: Sort each list ---
             // Sort upcoming events: oldest first (ascending)
             upcoming.sort((a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
             
@@ -62,7 +66,7 @@ const VolunteerHistory = () => {
             setError(err.message);
             console.error('Error fetching events:', err);
         } finally {
-            setLoading(false); 
+            setLoading(false); // Stop loading
         }
     };
 
@@ -74,6 +78,7 @@ const VolunteerHistory = () => {
         return <div className="ManageEvents-BG"><div className="ManageEvents-Page"><h1>Error: {error}</h1></div></div>;
     }
 
+    // --- MODIFICATION 5: Render two separate lists ---
     return (
         <div className="ManageEvents-BG">
             <div className="ManageEvents-Page">

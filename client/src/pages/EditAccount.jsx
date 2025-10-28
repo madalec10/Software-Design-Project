@@ -75,6 +75,9 @@ const EditAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const email = localStorage.getItem("userEmail");
+    if (!email) return alert("User email not found");
+
     if (!fullName) return alert("Full Name is required");
     if (!dateOfBirth) return alert("Date of Birth is required");
     if (!gender) return alert("Gender is required");
@@ -86,6 +89,7 @@ const EditAccount = () => {
     if (!selectedDates || selectedDates.length === 0) return alert("Select at least one availability date");
 
     const userProfile = {
+      email,
       FullName: fullName,
       DateOfBirth: dateOfBirth,           // ISO: "YYYY-MM-DD"
       Gender: gender,

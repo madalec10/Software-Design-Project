@@ -45,7 +45,8 @@ const createUser = async (e) => {
 }
 const getUserInfo = async (req, res) => {
     try {
-        const userEmail = req.user.email;
+        const userEmail = req.query.email;
+        if (!userEmail) return res.status(400).json({ error: "Email is required" });
 
         const user = userData.find((u) => u.email === userEmail);
         if (!user) return res.status(404).json({ error: "User not found" });
@@ -56,7 +57,7 @@ const getUserInfo = async (req, res) => {
     }
 };
 const updateUserInfo = async (req, res) => {
-    const userEmail = req.user.email;
+    const userEmail = req.body.email;
     const { ...patch } = req.body || {};
 
     if (!userEmail) {

@@ -32,6 +32,10 @@ const AccountDetails = () => {
     try {
       setLoading(true);
       setError("");
+
+      const email = localStorage.getItem("userEmail");
+      if (!email) throw new Error("User email not found");
+
       const response = await fetch('http://localhost:8800/user-info', { credentials: 'include' });
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();

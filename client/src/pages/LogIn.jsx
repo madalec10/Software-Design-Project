@@ -49,11 +49,12 @@ const LogIn = () => {
                 },
                 withCredentials: true,
             }); 
-            const { role } = res.data
-            
-                
-            login(userData.email, role)
-            navigate('/')
+            const { email, role } = res.data;
+
+            localStorage.setItem("userEmail", email);//save email for future cals
+
+            login(email, role);
+            navigate('/');
         }
         catch(err){
             login(null, null);

@@ -165,30 +165,30 @@ describe("PATCH /update-user-profile", () => {
 
 
 describe("GET /volunteer-history", () => {
-  test("should respond with 200 and an array of events the user signed up for", async () => {
-    const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
-    const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+    test("should respond with 200 and an array of events the user signed up for", async () => {
+        const fakeUser = { email: "volunteer@gmail.com", role: "Volunteer" };
+        const token = jwt.sign(fakeUser, process.env.SECRET_TOKEN, { expiresIn: "1h" });
 
-    const response = await request(app)
-      .get("/volunteer-history")
-      .set("Cookie", [`token=${token}`])
-      .send();
+        const response = await request(app)
+            .get("/volunteer-history")
+            .set("Cookie", [`token=${token}`])
+            .send();
 
-    expect(response.statusCode).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
+        expect(response.statusCode).toBe(200);
+        expect(Array.isArray(response.body)).toBe(true);
 
-    response.body.forEach(event => {
-      expect(event.volunteers).toContain("volunteer@gmail.com");
+        response.body.forEach(event => {
+            expect(event.volunteers).toContain("volunteer@gmail.com");
+        });
     });
-  });
 
-  test("should return 401 if no token is provided", async () => {
-    const response = await request(app)
-      .get("/volunteer-history")
-      .send();
+    test("should return 401 if no token is provided", async () => {
+        const response = await request(app)
+            .get("/volunteer-history")
+            .send();
 
-    expect(response.statusCode).toBe(401);
-  });
+        expect(response.statusCode).toBe(401);
+    });
 });
 
 describe("GET /match-events", () => {
@@ -340,73 +340,73 @@ describe("POST /cancel", () => {
 });
 
 describe("GET /get-event", () => {
-  test("should return 404 for non-existent event", async () => {
-    const res = await request(app)
-      .get("/get-event")
-      .send({ name: "NonExistentEvent" });
+    test("should return 404 for non-existent event", async () => {
+        const res = await request(app)
+            .get("/get-event")
+            .send({ name: "NonExistentEvent" });
 
-    expect(res.statusCode).toBe(200); // getEvent returns an empty array, not 404
-    expect(res.body).toEqual([]);
-  });
+        expect(res.statusCode).toBe(200); // getEvent returns an empty array, not 404
+        expect(res.body).toEqual([]);
+    });
 
-  test("should return specific event when exists", async () => {
-    const res = await request(app)
-      .get("/get-event")
-      .send({ name: "Food Bank Sorting" });
+    test("should return specific event when exists", async () => {
+        const res = await request(app)
+            .get("/get-event")
+            .send({ name: "Food Bank Sorting" });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.length).toBe(1);
-    expect(res.body[0].name).toBe("Food Bank Sorting");
-  });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body[0].name).toBe("Food Bank Sorting");
+    });
 });
 
 describe("PUT /update-event", () => {
-  test("should update an existing event's location and description", async () => {
-    const res = await request(app)
-      .put("/update-event")
-      .send({
-        name: "Food Bank Sorting",
-        location: "New Warehouse Location",
-        description: "Updated description"
-      });
+    test("should update an existing event's location and description", async () => {
+        const res = await request(app)
+            .put("/update-event")
+            .send({
+                name: "Food Bank Sorting",
+                location: "New Warehouse Location",
+                description: "Updated description"
+            });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.event.location).toBe("New Warehouse Location");
-    expect(res.body.event.description).toBe("Updated description");
-  });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.event.location).toBe("New Warehouse Location");
+        expect(res.body.event.description).toBe("Updated description");
+    });
 
-  test("should rename an existing event", async () => {
-    const res = await request(app)
-      .put("/update-event")
-      .send({
-        name: "Food Bank Sorting",
-        newName: "Food Bank Sorting Updated"
-      });
+    test("should rename an existing event", async () => {
+        const res = await request(app)
+            .put("/update-event")
+            .send({
+                name: "Food Bank Sorting",
+                newName: "Food Bank Sorting Updated"
+            });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.event.name).toBe("Food Bank Sorting Updated");
-  });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.event.name).toBe("Food Bank Sorting Updated");
+    });
 
-  test("should return 404 for non-existent event", async () => {
-    const res = await request(app)
-      .put("/update-event")
-      .send({ name: "NoEvent", location: "Somewhere" });
+    test("should return 404 for non-existent event", async () => {
+        const res = await request(app)
+            .put("/update-event")
+            .send({ name: "NoEvent", location: "Somewhere" });
 
-    expect(res.statusCode).toBe(404);
-    expect(res.body.message).toBe("Event not found");
-  });
+        expect(res.statusCode).toBe(404);
+        expect(res.body.message).toBe("Event not found");
+    });
 });
 
 
 describe("DELETE /delete-event", () => {
-  test("should handle deleting a non-existent event gracefully", async () => {
-    const res = await request(app)
-      .delete("/delete-event")
-      .send({ name: "NoSuchEvent" });
+    test("should handle deleting a non-existent event gracefully", async () => {
+        const res = await request(app)
+            .delete("/delete-event")
+            .send({ name: "NoSuchEvent" });
 
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true); // still returns the events array
-  });
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true); // still returns the events array
+    });
 });
 
 

@@ -32,10 +32,6 @@ export default function Notifications() {
   const markOneRead = (idx) =>
     setNotifications(ns => ns.map((n, i) => (i === idx ? { ...n, isRead: true } : n)));
 
-  const fmtTime = (iso) => {
-    try { return new Date(iso).toLocaleString(); } catch { return iso || ''; }
-  };
-
   if (loading) {
     return (
       <div className="Notifications-Page">
@@ -72,7 +68,7 @@ export default function Notifications() {
       <ul className="Notifications-List">
         {notifications.map((n, idx) => (
           <li
-            key={`${n.createdAt || idx}-${n.eventName || idx}`}
+            key={`${n.id || idx}-${n.eventName || idx}`}
             className={`Notifications ${n.isRead ? 'read' : ''}`}
           >
             <button
@@ -85,9 +81,6 @@ export default function Notifications() {
                 </p>
                 <p className="Notification-description">
                   {n.description || n.title || 'Notification'}
-                </p>
-                <p className="Notification-eventName">
-                  {fmtTime(n.createdAt)}
                 </p>
               </div>
             </button>

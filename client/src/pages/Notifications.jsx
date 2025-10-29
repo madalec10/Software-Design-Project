@@ -6,12 +6,13 @@ export default function Notifications() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // initial load
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch('http://localhost:8800/notifications', {
           method: 'GET',
-          credentials: 'include'
+          credentials: 'include',
         });
         if (!res.ok) throw new Error('failed to fetch notifications');
         const data = await res.json();
@@ -26,11 +27,40 @@ export default function Notifications() {
 
   const alertCount = notifications.filter(n => !n.isRead).length;
 
-  const markAllRead = () =>
+  // Mark ALL as read (optimistic), then persist
+  const markAllRead = async () => {
+    const prev = notifications;
     setNotifications(ns => ns.map(n => ({ ...n, isRead: true })));
+    try {
+      const res = await fetch('http://localhost:8800/notifications/mark-all-read', {
+        method: 'PUT',
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('failed to mark all read');
+    } catch {
+      // rollback if server fails
+      setNotifications(prev);
+    }
+  };
 
-  const markOneRead = (idx) =>
-    setNotifications(ns => ns.map((n, i) => (i === idx ? { ...n, isRead: true } : n)));
+  // Mark ONE as read (optimistic), then persist
+  const markOneRead = async (idx) => {
+    const n = notifications[idx];
+    if (!n?.id || n.isRead) return;
+
+    const prev = notifications;
+    setNotifications(ns => ns.map((x, i) => (i === idx ? { ...x, isRead: true } : x)));
+    try {
+      const res = await fetch(`http://localhost:8800/notifications/${n.id}/read`, {
+        method: 'PUT',
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('failed to mark read');
+    } catch {
+      // rollback if server fails
+      setNotifications(prev);
+    }
+  };
 
   if (loading) {
     return (
@@ -71,10 +101,7 @@ export default function Notifications() {
             key={`${n.id || idx}-${n.eventName || idx}`}
             className={`Notifications ${n.isRead ? 'read' : ''}`}
           >
-            <button
-              className="noti-button"
-              onClick={() => markOneRead(idx)}
-            >
+            <button className="noti-button" onClick={() => markOneRead(idx)}>
               <div className={`notification-item ${n.isRead ? 'read' : 'unread'}`}>
                 <p className="Notification-title">
                   {n.type}{n.eventName ? `: ${n.eventName}` : ''}

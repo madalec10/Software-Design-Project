@@ -2,6 +2,9 @@ import app from "../app.js";
 import express from "express";
 import { userData } from "./UserProfileController.js";
 import { pushNotification, notifyUsersOfEventUpdate, notifyUsersOfNewEvent } from "./NotificationsController.js";
+import db from "../db.js";
+import e from "express";
+
 let events = [
     {
         name: "Neighborhood Clean-Up Drive",
@@ -180,35 +183,38 @@ const updateEvent = async (req, res) => {
 };
 
 const createEvent = async (req, res) => {
-  const { name, description, location, requiredSkills, urgency, date, time, volunteersNeeded } = req.body;
+  const { name, description, location, requiredSkills, urgency, date, time, volunteerCount } = req.body;
+  //let volunteerCounts = parseInt(volunteerCount, 10);
   try {
     // Prevent duplicates
-    const exists = events.find(e => e.name === name);
-    if (exists) {
-      return res.status(400).json({ message: "Event already exists" });
+    const [exists] = await db.query("SELECT * FROM events WHERE name = ?", [name]);  // query existing event
+    
+    if (exists.length > 0) {
+      return res.status(400).send("Event already exists");
     }
 
-    const newEvent = {
-      name,
-      description,
-      location,
-      requiredSkills,
-      urgency,
-      date,
-      time,
-      volunteersNeeded,
-      volunteers: []
-    };
+    // insert events into the DB
+    await db.query(
+      "INSERT INTO events (name, urgency, date, time, location, volunteerCount, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [name, urgency, date, time, location, volunteerCount, description]
+    );
 
-    events.push(newEvent);
+    // get event ID for skills
+    const [eventID] = await db.query("SELECT eventID FROM events WHERE name = ?", [name]);
+
+    // insert skills into DB
+    for(const skill of requiredSkills) {
+      await db.query(
+        "INSERT INTO eventSkills (eventID, skill) VALUES (?, ?)",
+        [Number(eventID[0].eventID), skill]
+      );
+    }
+
     notifyUsersOfNewEvent(newEvent);
-    res.status(200).json({
-      message: "Event created successfully",
-      event: newEvent
-    });
+    res.status(200).send("Event created successfully");
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).send("Internal server error");
   }
 };
 

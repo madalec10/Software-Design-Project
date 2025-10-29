@@ -4,7 +4,6 @@ import './VolunteerHistory.css'
 const VolunteerHistory = () => {
     console.log("VolunteerHistory")
 
-    // --- MODIFICATION 1: Use two state variables ---
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
     const [error, setError] = useState("");
@@ -31,19 +30,17 @@ const VolunteerHistory = () => {
 
             const combinedEvents = Array.isArray(data) ? data.flat() : [];
 
-            // --- MODIFICATION 2: Separate events into past and upcoming ---
             const now = new Date();
             const upcoming = [];
             const past = [];
 
             combinedEvents.forEach(event => {
-                // Try to create a valid date. Handles YYYY-MM-DD and HH:mm
                 const eventDate = new Date(`${event.date}T${event.time}`);
                 
                 // Check if the event date is valid before comparing
                 if (isNaN(eventDate)) {
                     console.warn("Invalid date for event:", event.name);
-                    past.push(event); // Put invalid dates in past by default
+                    past.push(event); // Put invalid dates in past 
                 } else if (eventDate >= now) {
                     upcoming.push(event);
                 } else {
@@ -51,14 +48,12 @@ const VolunteerHistory = () => {
                 }
             });
 
-            // --- MODIFICATION 3: Sort each list ---
-            // Sort upcoming events: oldest first (ascending)
+            // Sort upcoming events oldest first ascending
             upcoming.sort((a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
             
-            // Sort past events: newest first (descending)
+            // Sort past events newest first descending
             past.sort((a, b) => new Date(`${b.date}T${b.time}`) - new Date(`${a.date}T${a.time}`));
 
-            // --- MODIFICATION 4: Set both states ---
             setUpcomingEvents(upcoming);
             setPastEvents(past);
 
@@ -78,7 +73,6 @@ const VolunteerHistory = () => {
         return <div className="ManageEvents-BG"><div className="ManageEvents-Page"><h1>Error: {error}</h1></div></div>;
     }
 
-    // --- MODIFICATION 5: Render two separate lists ---
     return (
         <div className="ManageEvents-BG">
             <div className="ManageEvents-Page">
@@ -111,7 +105,6 @@ const VolunteerHistory = () => {
                 <ul className="Events-List">
                     {pastEvents.length > 0 ? (
                         pastEvents.map((event, index) => (
-                            // Added "past" class for potential styling
                             <li key={`past-${index}`} className="Event-Card past"> 
                                 <div>
                                     <h3>{event.name}</h3>

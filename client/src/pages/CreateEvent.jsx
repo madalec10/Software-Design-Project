@@ -57,13 +57,13 @@ const CreateEvent = () => {
     const formData = new FormData(e.target);
 
     const formattedDate = selectedDate?.format("YYYY-MM-DD");
-    const formattedTime = selectedTime?.format("HH:mm");
+    const formattedTime = selectedTime?.format("HH:mm:ss");
 
     const data = {
       name: formData.get('name'),
       description: formData.get('description'),
       location: formData.get('location'),
-      volunteersNeeded: parseInt(formData.get('volunteer-count'), 10),
+      volunteerCount: parseInt(formData.get('volunteer-count'), 10),
       urgency: formData.get('urgency'),
       date: formattedDate,
       time: formattedTime,

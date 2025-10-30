@@ -147,53 +147,44 @@ async function notifyUsersOfNewEvent(event) {
 
     const { eventID, name: eventName, date: eventDate } = eventRow;
 
+    // Fetch required skills for the event
     const [reqSkillRows] = await db.query(
       `SELECT skill
        FROM eventSkills
        WHERE eventID = ?`,
       [eventID]
     );
+
     const requiredSkills = reqSkillRows.map(r => r.skill);
-
-    const [availRows] = await db.query(
-      `SELECT email
-       FROM availability
-       WHERE date = ?`,
-      [eventDate]
-    );
-    const availableEmails = availRows.map(r => r.email);
-
-    if (availableEmails.length === 0) return;
-
     if (requiredSkills.length === 0) {
-      for (const email of availableEmails) {
-        await pushNotification({
-          userEmail: email,
-          type: "MATCH",
-          title: "New Event Matching Your Availability",
-          description: `A new event "${eventName}" is available on ${eventDate}.`,
-          eventName
-        });
-      }
+      // No skills required => DO NOT notify based on availability alone
       return;
     }
 
-    const placeholders = requiredSkills.map(() => "?").join(",");
-    const [skilledRows] = await db.query(
-      `SELECT DISTINCT email
-       FROM skills
-       WHERE skill IN (${placeholders})`,
-      requiredSkills
-    );
-    const skilledEmails = new Set(skilledRows.map(r => r.email));
-    const matched = availableEmails.filter(e => skilledEmails.has(e));
+    // Build placeholders for IN (...)
+    const skillPlaceholders = requiredSkills.map(() => '?').join(',');
 
-    for (const email of matched) {
+    // Single query: users who are available on date AND have >=1 required skill
+    const [matchedRows] = await db.query(
+      `
+      SELECT DISTINCT a.email
+      FROM availability a
+      JOIN skills s ON s.email = a.email
+      WHERE a.date = ?
+        AND s.skill IN (${skillPlaceholders})
+      `,
+      [eventDate, ...requiredSkills]
+    );
+
+    if (matchedRows.length === 0) return;
+
+    // Notify matched users
+    for (const { email } of matchedRows) {
       await pushNotification({
         userEmail: email,
         type: "MATCH",
         title: "New Event Matching Your Profile",
-        description: `A new event "${eventName}" matches your skills and availability.`,
+        description: `A new event "${eventName}" matches your skills and availability on ${eventDate}.`,
         eventName
       });
     }
@@ -201,6 +192,7 @@ async function notifyUsersOfNewEvent(event) {
     console.error("notifyUsersOfNewEvent SQL error:", err);
   }
 }
+
 
 async function remindNow(req, res) {
   try {

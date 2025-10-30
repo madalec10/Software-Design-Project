@@ -139,59 +139,57 @@ async function SendReminderForEvent(event) {
     console.error("SendReminderForEvent SQL error:", err);
   }
 }
-
 async function notifyUsersOfNewEvent(event) {
   try {
-    const eventRow = await getEventRowByName(event.name);
-    if (!eventRow) return;
+    const [rows] = await db.query(
+      `
+      SELECT e.eventID, e.name AS eventName, e.date AS eventDate
+      FROM events e
+      WHERE e.name = ?
+      LIMIT 1
+      `,
+      [event.name]
+    );
+    if (rows.length === 0) return;
 
-    const { eventID, name: eventName, date: eventDate } = eventRow;
+    const { eventID, eventName, eventDate } = rows[0];
 
-    // Fetch required skills for the event
-    const [reqSkillRows] = await db.query(
-      `SELECT skill
-       FROM eventSkills
-       WHERE eventID = ?`,
+    // require at least one event skill; if none, do nothing
+    const [hasSkills] = await db.query(
+      `SELECT 1 FROM eventSkills WHERE eventID = ? LIMIT 1`,
       [eventID]
     );
+    if (hasSkills.length === 0) return;
 
-    const requiredSkills = reqSkillRows.map(r => r.skill);
-    if (requiredSkills.length === 0) {
-      // No skills required => DO NOT notify based on availability alone
-      return;
-    }
-
-    // Build placeholders for IN (...)
-    const skillPlaceholders = requiredSkills.map(() => '?').join(',');
-
-    // Single query: users who are available on date AND have >=1 required skill
-    const [matchedRows] = await db.query(
+    // users available on the event date AND having >=1 required skill
+    const [matched] = await db.query(
       `
       SELECT DISTINCT a.email
       FROM availability a
-      JOIN skills s ON s.email = a.email
+      JOIN skills s      ON s.email = a.email
+      JOIN eventSkills es ON es.skill = s.skill AND es.eventID = ?
       WHERE a.date = ?
-        AND s.skill IN (${skillPlaceholders})
       `,
-      [eventDate, ...requiredSkills]
+      [eventID, eventDate]
     );
+    if (matched.length === 0) return;
 
-    if (matchedRows.length === 0) return;
-
-    // Notify matched users
-    for (const { email } of matchedRows) {
-      await pushNotification({
-        userEmail: email,
-        type: "MATCH",
-        title: "New Event Matching Your Profile",
-        description: `A new event "${eventName}" matches your skills and availability on ${eventDate}.`,
-        eventName
-      });
-    }
+    await Promise.all(
+      matched.map(({ email }) =>
+        pushNotification({
+          userEmail: email,
+          type: "MATCH",
+          title: "New Event Matching Your Profile",
+          description: `A new event "${eventName}" matches your skills and availability on ${eventDate}.`,
+          eventName
+        })
+      )
+    );
   } catch (err) {
     console.error("notifyUsersOfNewEvent SQL error:", err);
   }
 }
+
 
 
 async function remindNow(req, res) {

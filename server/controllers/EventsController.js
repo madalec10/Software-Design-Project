@@ -5,6 +5,16 @@ import { pushNotification, notifyUsersOfEventUpdate, notifyUsersOfNewEvent } fro
 import db from "../db.js";
 import e from "express";
 
+/*
+
+  TO DO LIST:
+
+    - TEST SIGN UP 
+    - TEST CANCEL SIGN UP
+
+*/
+
+
 let events = [
     {
         name: "Neighborhood Clean-Up Drive",
@@ -115,17 +125,74 @@ let events = [
 events.forEach(e => notifyUsersOfNewEvent(e));
 
 const getEvents = async (req, res) => {
-  res.status(200).json(events)
+  // fetch the event info
+  // date and time gets formated to work with our stuff
+  // skills get joined into events
+    const [rows] = await db.query(
+      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
+    );
+
+    // turns the skills back into a array for the json
+    const Events = rows.map(event => {
+      return {
+        ...event,
+        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+      };
+    });
+
+    res.status(200).json(Events);  
 }
 
 const getEvent = async (req, res) => {
-  res.status(200).json(events.filter(event => event.name === req.body.name))
+  
+  const [rows] = await db.query(
+      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID" +
+      "WHERE events.name = ?", 
+      [req.body.name]
+    );
+
+    // turns the skills back into a array for the json
+    const Events = rows.map(event => {
+      return {
+        ...event,
+        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+      };
+    });
+  
+  res.status(200).json(Events)
 }
 
 
 const deleteEvent = async (req, res) => {
-  events = events.filter(event => event.name != req.body.name)
-  res.status(200).json(events)
+  // delete event , cascade deletes volunteers and skills
+  await db.query("DELETE FROM events WHERE name = ?", [req.body.name]);
+  
+  // get updated event list
+  const [rows] = await db.query(
+      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
+    );
+
+    // turns the skills back into a array for the json
+    const Events = rows.map(event => {
+      return {
+        ...event,
+        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+      };
+    });
+  
+  res.status(200).json(Events)
 }
 
 const updateEvent = async (req, res) => {
@@ -301,39 +368,47 @@ const signUpForEvent = async (req, res) => {
     const { eventName } = req.body;
     const userEmail = req.user.email;
 
-    const event = events.find(e => e.name === eventName);
-    if (!event) {
+    const [event] = await db.query("SELECT * FROM events WHERE name = ?", [eventName]);
+    
+    if (event.length === 0) {
       return res.status(404).json({ message: "Event not found" });
     }
 
     // Check if event already full
-    if (event.volunteers.length >= parseInt(event.volunteersNeeded)) {
+    const [volunteerCount] = await db.query("SELECT email FROM volunteers WHERE eventID = ?", [event[0].eventID]);
+    if (volunteerCount.length >= parseInt(event[0].volunteerCount, 10)) {
       return res.status(400).json({ message: "Event is full" });
     }
 
     // Check if already signed up
-    if (event.volunteers.includes(userEmail)) {
-      return res.status(400).json({ message: "You are already signed up for this event" });
+    for(const email of volunteerCount) {
+      if(email === userEmail) {
+        return res.status(400).json({ message: "You are already signed up for this event" });
+      }
     }
 
+    await db.query(
+      "INSERT INTO volunteers (eventID, email) VALUES (?, ?)",
+      [event[0].eventID, userEmail]
+    );
+
     // Add volunteer
-    event.volunteers.push(userEmail);
     pushNotification({
       userEmail: userEmail,
       type: "SIGNUP",
       title: "Event Sign-Up Confirmation",
-      description: `You have successfully signed up for the event "${event.name}". Thank you for volunteering!`,
-      eventName: event.name,
-      meta: { eventDate: event.date }
+      description: `You have successfully signed up for the event "${event[0].name}". Thank you for volunteering!`,
+      eventName: event[0].name,
+      meta: { eventDate: event[0].date }
     });
     // NEW: immediate REMINDER so it auto-appears on the frontend
     pushNotification({
       userEmail: userEmail,
       type: "REMINDER",
       title: "Event Reminder",
-      description: `This is a reminder for the event "${event.name}" on ${event.date}.`,
-      eventName: event.name,
-      meta: { eventDate: event.date }
+      description: `This is a reminder for the event "${event[0].name}" on ${event[0].date}.`,
+      eventName: event[0].name,
+      meta: { eventDate: event[0].date }
     });
 
     res.status(200).json({
@@ -350,12 +425,14 @@ const cancelSignup = async (req, res) => {
   const { eventName } = req.body;
   const userEmail = req.user.email;
 
-  const event = events.find(e => e.name === eventName);
-  if (!event) {
+  const [event] = await db.query("SELECT * FROM events WHERE name = ?", [eventName]);
+    
+  if (event.length === 0) {
     return res.status(404).json({ message: "Event not found" });
   }
 
   event.volunteers = event.volunteers.filter(email => email !== userEmail);
+  await db.query("DELETE FROM volunteers WHERE eventID = ? AND email = ?", [event[0].eventID, userEmail]);
 
   res.status(200).json({
     message: "You have been removed from this event",

@@ -11,6 +11,7 @@ import e from "express";
 
     - TEST SIGN UP 
     - TEST CANCEL SIGN UP
+    - TEST MATCHING EVENTS
 
 */
 
@@ -21,7 +22,7 @@ import e from "express";
     - GET EVENTS (full list)
     - DELETE EVENT
     - CREATE EVENT
-    - GET EVENT (singular, probably done)-
+    - UPDATE EVENT
 
 */
 
@@ -331,50 +332,57 @@ const createEvent = async (req, res) => {
 const matchEvents = async (req, res) => {
   try {
     const userEmail = req.user.email;
-    const user = userData.find(u => u.email === userEmail);
+    const [user] = await db.query("SELECT * FROM userprofile WHERE email = ?", [userEmail]);
 
-    if (!user) {
+    if (user.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const now = new Date();
-    const upcomingEvents = events.filter(event => {
-        const eventDate = new Date(`${event.date}T${event.time}`);
-        // Check if date is valid
-        if (isNaN(eventDate)) {
-            return false; 
-        }
-        return eventDate >= now;
+    const [userSkillRows] = await db.query("SELECT skill FROM skills WHERE email = ?", [userEmail]);
+    const userSkills = userSkillRows.map(s => s.skill.trim().toLowerCase());
+    
+    const [allEvents] = await db.query(
+      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+      "FROM events " +
+      "LEFT JOIN eventskills ON events.eventID = eventskills.eventID " +
+      "WHERE events.date >= CURDATE() " + 
+      "GROUP BY events.eventID"
+    );
+
+    const upcomingEvents = allEvents.map(event => {
+      return {
+        ...event,
+        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+      };
     });
 
-    const availableDates = user.Availability.map(d => d.trim());
-    const userSkills = user.Skills.map(s => s.trim().toLowerCase());
+    const [signedUpRows] = await db.query(
+      "SELECT events.name FROM volunteers " +
+      "JOIN events ON volunteers.eventID = events.eventID " +
+      "WHERE volunteers.email = ?",
+      [userEmail]
+    );
+    const signedUpEvents = signedUpRows.map(r => r.name);
     
-    // Find events user is already signed up for (from the upcoming list)
-    const signedUpEvents = upcomingEvents
-      .filter(e => e.volunteers && e.volunteers.includes(userEmail))
-      .map(e => e.name);
-
     const matches = [];
     const otherEvents = [];
 
-    upcomingEvents.forEach(event => {
-      const eventDateStr = event.date.trim();
-      const isAvailable = availableDates.includes(eventDateStr);
+    upcomingEvents.forEach(event => {         
+      // If the event name is in the signedUpEvents list, skip it.
+      if (signedUpEvents.includes(event.name)) {
+        return; 
+      }
 
-      // Handle skills being an array or a string
-      const eventSkills = Array.isArray(event.requiredSkills)
-        ? event.requiredSkills.map(s => s.trim().toLowerCase())
-        : typeof event.requiredSkills === 'string'
-          ? event.requiredSkills.split(',').map(s => s.trim().toLowerCase())
-          : [];
-
-      // Check if the user has at least one matching skill
+      const eventSkills = event.requiredSkills.map(s => s.trim().toLowerCase());
+      
       const hasSkillMatch =
         eventSkills.length === 0 ||
         eventSkills.some(skill => userSkills.includes(skill));
 
-      if (isAvailable && hasSkillMatch) {
+      if (hasSkillMatch) {
         matches.push(event);
       } else {
         otherEvents.push(event);

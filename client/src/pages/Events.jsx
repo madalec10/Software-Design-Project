@@ -104,7 +104,7 @@ const Events = () => {
                                 <p>
                                 <strong>Date &amp; Time:</strong> {event.date} – {event.time}
                                 </p>
-                                <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>
+                                <p><strong>Volunteers Needed:</strong> {event.volunteerCount}</p>
 
                                 <div className="wrapper">
                                     {signedUpEvents.includes(event.name) ? (
@@ -139,7 +139,7 @@ const Events = () => {
                                 <p>
                                 <strong>Date &amp; Time:</strong> {event.date} – {event.time}
                                 </p>
-                                <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>
+                                <p><strong>Volunteers Needed:</strong> {event.volunteerCount}</p>
 
                                 <div className="wrapper">
                                     {signedUpEvents.includes(event.name) ? (

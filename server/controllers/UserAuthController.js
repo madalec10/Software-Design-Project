@@ -3,7 +3,7 @@ import express from "express";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken"
 import { createUser } from "./UserProfileController.js";
-import { userData } from "./UserProfileController.js";
+
 import db from "../db.js";
 
 

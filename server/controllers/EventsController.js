@@ -1,6 +1,5 @@
 import app from "../app.js";
 import express from "express";
-import { userData } from "./UserProfileController.js";
 import { pushNotification, notifyUsersOfEventUpdate, notifyUsersOfNewEvent } from "./NotificationsController.js";
 import db from "../db.js";
 import e from "express";

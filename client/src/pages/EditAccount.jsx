@@ -25,6 +25,10 @@ const EditAccount = () => {
   const [city1, setCity1] = useState("");
   const [state1, setState1] = useState("");
   const [zip1, setZip1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [city2, setCity2] = useState("");
+  const [state2, setState2] = useState("");
+  const [zip2, setZip2] = useState("");
   const [gender, setGender] = useState("");
   const[preferences, setPreferences] = useState("");
   const fetchUserProfile = async () => {
@@ -37,26 +41,30 @@ const EditAccount = () => {
 
     const p = await res.json();
 
-    setFullName(p.FullName || "");
-    setDateOfBirth(p.DateOfBirth || "");
-    setGender(p.Gender || "");
-    setAddress1(p.Address1 || "");
-    setCity1(p.City || "");
-    setState1(p.State || "");
-    setZip1(p.ZipCode || "");
-    setPreferences(p.Preferences || "");
+    setFullName(p.fullName || "");
+    setDateOfBirth(p.dateOfBirth ? p.dateOfBirth.split('T')[0] : "");
+    setGender(p.gender || "");
+    setAddress1(p.address1 || "");
+    setCity1(p.city1 || "");
+    setState1(p.state1 || "");
+    setZip1(p.zip1 || "");
+    setPreferences(p.preferences || "");
+    setAddress2(p.address2 || "");
+    setCity2(p.city2 || "");
+    setState2(p.state2 || "");
+    setZip2(p.zip2 || "");
 
-    const skillsArr = Array.isArray(p.Skills)
-      ? p.Skills
-      : typeof p.Skills === "string"
-        ? p.Skills.split(",").map(s => s.trim()).filter(Boolean)
+    const skillsArr = Array.isArray(p.skills)
+      ? p.skills
+      : typeof p.skills === "string"
+        ? p.skills.split(",").map(s => s.trim()).filter(Boolean)
         : [];
     setSelectedOptions(skillsArr.map(s => ({ value: s, label: s })));
 
-    const availArr = Array.isArray(p.Availability)
-      ? p.Availability
-      : typeof p.Availability === "string"
-        ? p.Availability.split(",").map(s => s.trim()).filter(Boolean)
+    const availArr = Array.isArray(p.availability)
+      ? p.availability
+      : typeof p.availability === "string"
+        ? p.availability.split(",").map(s => s.trim()).filter(Boolean)
         : [];
     setSelectedDates(availArr);
     setOptions(prev => {
@@ -86,16 +94,20 @@ const EditAccount = () => {
     if (!selectedDates || selectedDates.length === 0) return alert("Select at least one availability date");
 
     const userProfile = {
-      FullName: fullName,
-      DateOfBirth: dateOfBirth,           // ISO: "YYYY-MM-DD"
-      Gender: gender,
-      Address1: address1,
-      City: city1,
-      State: state1,
-      ZipCode: zip1,
-      Skills: (selectedOptions || []).map(option => option.value),
-      Preferences: e.target.preferences?.value || "",
-      Availability: (selectedDates || []).length > 0
+      fullName: fullName,
+      dateOfBirth: dateOfBirth && dateOfBirth.includes('T') ? dateOfBirth.split('T')[0] : dateOfBirth,           // ISO: "YYYY-MM-DD"
+      gender: gender,
+      address1: address1,
+      city1: city1,
+      state1: state1,
+      zip1: zip1,
+      address2: address2,
+      city2: city2,
+      state2: state2,
+      zip2: zip2,
+      skills: (selectedOptions || []).map(option => option.value),
+      preferences: e.target.preferences?.value || "",
+      availability: (selectedDates || []).length > 0
         ? selectedDates.map(date => (date.format ? date.format("YYYY-MM-DD") : date))
         : []
     };
@@ -313,17 +325,39 @@ const EditAccount = () => {
                 <h1 className="subHeaderEA">Address 2</h1>
 
                 <label htmlFor="address2" className="labelEA">Address 2:</label>
-                <input id="address2" name="address2" className="inputEA" placeholder="308 Negra Arroyo Lane" maxLength={100} />
+                <input
+                  id="address2"
+                  name="address2"
+                  className="inputEA"
+                  placeholder="308 Negra Arroyo Lane"
+                  maxLength={100}
+                  value={address2}
+                  onChange={(e) => setAddress2(e.target.value)}
+                />
 
                 <br />
 
                 <label htmlFor="city2" className="labelEA">City:</label>
-                <input id="city2" name="city2" className="inputEA" placeholder="Albuquerque" maxLength={100} />
+                <input
+                  id="city2"
+                  name="city2"
+                  className="inputEA"
+                  placeholder="Albuquerque"
+                  maxLength={100}
+                  value={city2}
+                  onChange={(e) => setCity2(e.target.value)}
+                />
 
                 <br />
 
                 <label htmlFor="state2" className="labelEA">State:</label>
-                <select id="state2" name="state2" className="selectEA">
+                <select
+                  id="state2"
+                  name="state2"
+                  className="selectEA"
+                  value={state2}
+                  onChange={(e) => setState2(e.target.value)}
+                >
                   <option value="" disabled>Select State</option>
                   <option value="AK">AK</option>
                   <option value="AL">AL</option>
@@ -380,7 +414,16 @@ const EditAccount = () => {
                 <br />
 
                 <label htmlFor="zip2" className="labelEA">Zip Code:</label>
-                <input id="zip2" name="zip2" className="inputEA" placeholder="87111" minLength={5} maxLength={9} />
+                <input
+                  id="zip2"
+                  name="zip2"
+                  className="inputEA"
+                  placeholder="87111"
+                  minLength={5}
+                  maxLength={9}
+                  value={zip2}
+                  onChange={(e) => setZip2(e.target.value)}
+                />
               </div>
             </div>
           </li>

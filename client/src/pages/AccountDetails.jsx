@@ -24,6 +24,16 @@ const AccountDetails = () => {
     return String(value);
   };
 
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    if (isNaN(date)) return dateStr; // fallback
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${mm}/${dd}/${yyyy}`;
+  };
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -59,17 +69,17 @@ const AccountDetails = () => {
 
             <div className="textLineAD">
               <span className="fieldAD">Full Name: </span>
-              <span className="valueAD">{user.FullName}</span>
+              <span className="valueAD">{user.fullName}</span>
             </div>
 
             <div className="textLineAD">
               <span className="fieldAD">Date of Birth: </span>
-              <span className="valueAD">{user.DateOfBirth}</span>
+              <span className="valueAD">{formatDate(user.dateOfBirth)}</span>
             </div>
 
             <div className="textLineAD">
               <span className="fieldAD">Gender: </span>
-              <span className="valueAD">{user.Gender}</span>
+              <span className="valueAD">{user.gender}</span>
             </div>
           </div>
         </li>
@@ -83,22 +93,44 @@ const AccountDetails = () => {
 
               <div className="textLineAD">
                 <span className="fieldAD">Address 1: </span>
-                <span className="valueAD">{user.Address1}</span>
+                <span className="valueAD">{user.address1}</span>
               </div>
 
               <div className="textLineAD">
                 <span className="fieldAD">City: </span>
-                <span className="valueAD">{user.City}</span>
+                <span className="valueAD">{user.city1}</span>
               </div>
 
               <div className="textLineAD">
                 <span className="fieldAD">State: </span>
-                <span className="valueAD">{user.State}</span>
+                <span className="valueAD">{user.state1}</span>
               </div>
 
               <div className="textLineAD">
                 <span className="fieldAD">Zip Code: </span>
-                <span className="valueAD">{user.ZipCode}</span>
+                <span className="valueAD">{user.zip1}</span>
+              </div>
+
+              <h1 className="subHeaderAD">Address 2</h1>
+
+              <div className="textLineAD">
+                <span className="fieldAD">Address 2: </span>
+                <span className="valueAD">{user.address2}</span>
+              </div>
+
+              <div className="textLineAD">
+                <span className="fieldAD">City: </span>
+                <span className="valueAD">{user.city2}</span>
+              </div>
+
+              <div className="textLineAD">
+                <span className="fieldAD">State: </span>
+                <span className="valueAD">{user.state2}</span>
+              </div>
+
+              <div className="textLineAD">
+                <span className="fieldAD">Zip Code: </span>
+                <span className="valueAD">{user.zip2}</span>
               </div>
             </div>
 
@@ -112,17 +144,17 @@ const AccountDetails = () => {
 
             <div className="textLineAD">
               <span className="fieldAD">Skills: </span>
-              <span className="valueAD">{formatList(user.Skills)}</span>
+              <span className="valueAD">{formatList(user.skills)}</span>
             </div>
 
             <div className="textLineAD">
               <span className="fieldAD">Preferences: </span>
-              <span className="valueAD">{formatList(user.Preferences)}</span>
+              <span className="valueAD">{formatList(user.preferences)}</span>
             </div>
 
             <div className="textLineAD">
               <span className="fieldAD">Availability: </span>
-              <span className="valueAD">{formatList(user.Availability)}</span>
+              <span className="valueAD">{Array.isArray(user.availability) ? user.availability.map(formatDate).join(', ') : ''}</span>
             </div>
           </div>
         </li>

@@ -157,7 +157,7 @@ const ManageEvents = () => {
                   <p> Date and time : {event.date} {event.time}</p>
                   <p><strong>Skills:</strong> {event.requiredSkills}</p>
                   <p><strong>Urgency:</strong> {event.urgency}</p>
-                  <p><strong>Volunteers Needed:</strong> {event.volunteersNeeded}</p>
+                  <p><strong>Volunteers Needed:</strong> {event.volunteerCount}</p>
                   <p>{event.description}</p>  {/* Full description */}
                   <div className='buttons'>
                     <button className='Event-Button-update' onClick={() => navigate(`/update-event/${event.name}`)}>Update</button> 

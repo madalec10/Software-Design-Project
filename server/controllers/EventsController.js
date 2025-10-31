@@ -149,12 +149,15 @@ const getEvents = async (req, res) => {
 
 const getEvent = async (req, res) => {
 
+  try{
+
+  
   const [rows] = await db.query(
     "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
     "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
     "DATE_FORMAT(events.time, '%H:%i') AS time, " +
     "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
-    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID" +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID" +
     "WHERE events.name = ?",
     [req.body.name]
   );
@@ -168,6 +171,10 @@ const getEvent = async (req, res) => {
   });
 
   res.status(200).json(Events)
+  }
+  catch(err){
+    console.log(err);
+  }
 }
 
 
@@ -387,13 +394,29 @@ const matchEvents = async (req, res) => {
 
 const getEvent_update = async (req, res) => {
   const eventName = req.params.eventName;
-  const event = events.find(event => event.name === eventName);
 
-  if (event) {
-    res.json(event);
-  } else {
+  const [rows] = await db.query(
+    "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+    "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+    "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+    "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID " +
+    "WHERE events.name = ?" +
+    "GROUP BY events.eventID",
+    [eventName]
+  );
+
+  if (rows.length === 0) {
     res.status(404).send('Event not found');
   }
+
+  // turns the skills back into a array for the json
+  const event = {
+    ...rows[0],
+    requiredSkills: rows[0].requiredSkills ? rows[0].requiredSkills.split(',') : []
+  };
+
+  res.json(event);
 }
 
 const signUpForEvent = async (req, res) => {

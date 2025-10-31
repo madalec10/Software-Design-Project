@@ -49,7 +49,7 @@ const UpdateEvent = () => {
 
                 // format the urgency                      maybe fix this later to not need it
                 const mapUrgencyToValue = (urgencyText) => {
-                    if (urgencyText === "Help Needed") return "high";
+                    if (urgencyText === "Help Necessary") return "high";
                     if (urgencyText === "Help Wanted") return "medium";
                     if (urgencyText === "Help Would be Appreciated") return "low";
                     return ""; // Default case
@@ -67,7 +67,7 @@ const UpdateEvent = () => {
                     date: data.date ? new DateObject(data.date) : new DateObject(),
                     time: data.time ? new DateObject().setHour(data.time.split(':')[0]).setMinute(data.time.split(':')[1]) : new DateObject(),
                     location: data.location || '',
-                    volunteerCount: data.volunteersNeeded || '',
+                    volunteerCount: data.volunteerCount || '',
                     description: data.description || ''
                 });
 
@@ -122,7 +122,7 @@ const UpdateEvent = () => {
         setMessage('');
 
         const urgencyMap = {
-            high: "Help Needed",
+            high: "Help Necessary",
             medium: "Help Wanted",
             low: "Help Would be Appreciated"
         };
@@ -132,11 +132,11 @@ const UpdateEvent = () => {
             newName: eventData.name,
             description: eventData.description,
             location: eventData.location,
-            volunteersNeeded: eventData.volunteerCount,
+            volunteerCount: eventData.volunteerCount,
             urgency: urgencyMap[eventData.urgency] || eventData.urgency,
             date: eventData.date.format(),
             time: eventData.time.format("HH:mm"),
-            requiredSkills: eventData.skills.map(s => s.value).join(', ')
+            requiredSkills: eventData.skills.map(option => option.value)
         };
 
         try {

@@ -128,45 +128,45 @@ const getEvents = async (req, res) => {
   // fetch the event info
   // date and time gets formated to work with our stuff
   // skills get joined into events
-    const [rows] = await db.query(
-      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
-      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
-      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
-      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
-      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
-    );
+  const [rows] = await db.query(
+    "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+    "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+    "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+    "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
+  );
 
-    // turns the skills back into a array for the json
-    const Events = rows.map(event => {
-      return {
-        ...event,
-        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
-      };
-    });
+  // turns the skills back into a array for the json
+  const Events = rows.map(event => {
+    return {
+      ...event,
+      requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+    };
+  });
 
-    res.status(200).json(Events);  
+  res.status(200).json(Events);
 }
 
 const getEvent = async (req, res) => {
-  
-  const [rows] = await db.query(
-      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
-      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
-      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
-      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
-      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID" +
-      "WHERE events.name = ?", 
-      [req.body.name]
-    );
 
-    // turns the skills back into a array for the json
-    const Events = rows.map(event => {
-      return {
-        ...event,
-        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
-      };
-    });
-  
+  const [rows] = await db.query(
+    "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+    "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+    "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+    "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID" +
+    "WHERE events.name = ?",
+    [req.body.name]
+  );
+
+  // turns the skills back into a array for the json
+  const Events = rows.map(event => {
+    return {
+      ...event,
+      requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+    };
+  });
+
   res.status(200).json(Events)
 }
 
@@ -174,80 +174,112 @@ const getEvent = async (req, res) => {
 const deleteEvent = async (req, res) => {
   // delete event , cascade deletes volunteers and skills
   await db.query("DELETE FROM events WHERE name = ?", [req.body.name]);
-  
+
   // get updated event list
   const [rows] = await db.query(
-      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
-      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
-      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
-      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
-      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
-    );
+    "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+    "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+    "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+    "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
+  );
 
-    // turns the skills back into a array for the json
-    const Events = rows.map(event => {
-      return {
-        ...event,
-        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
-      };
-    });
-  
+  // turns the skills back into a array for the json
+  const Events = rows.map(event => {
+    return {
+      ...event,
+      requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+    };
+  });
+
   res.status(200).json(Events)
 }
 
 const updateEvent = async (req, res) => {
-  // Identify which event to update
-  const name = req.body.name;
+  try {
+    const {
+      name,               // current event name (identifier)
+      newName,            // optional rename
+      description,
+      location,
+      requiredSkills,     // optional: replace skills set
+      urgency,
+      date,
+      time,
+      volunteerCount
+    } = req.body;
 
-  // Find the existing event
-  const target = events.find(e => e.name === name);
+    if (!name) return res.status(400).json({ message: "Missing event name" });
 
-  // If not found, return 404
-  if (!target) {
-    return res.status(404).json({ message: "Event not found" });
+    // Find eventID by name
+    const [found] = await db.query(
+      "SELECT eventID FROM events WHERE name = ? LIMIT 1",
+      [name]
+    );
+    if (found.length === 0) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    const eventID = found[0].eventID;
+
+    // Build dynamic UPDATE for provided fields only
+    const sets = [];
+    const vals = [];
+    if (description !== undefined) { sets.push("description = ?"); vals.push(description); }
+    if (location !== undefined) { sets.push("location = ?"); vals.push(location); }
+    if (urgency !== undefined) { sets.push("urgency = ?"); vals.push(urgency); }
+    if (date !== undefined) { sets.push("date = ?"); vals.push(date); }
+    if (time !== undefined) { sets.push("time = ?"); vals.push(time); }
+    if (volunteerCount !== undefined) { sets.push("volunteerCount = ?"); vals.push(volunteerCount); }
+    if (newName !== undefined) { sets.push("name = ?"); vals.push(newName); }
+
+    if (sets.length > 0) {
+      await db.query(
+        `UPDATE events SET ${sets.join(", ")} WHERE eventID = ?`,
+        [...vals, eventID]
+      );
+    }
+
+    // Replace skills if provided
+    if (Array.isArray(requiredSkills)) {
+      await db.query("DELETE FROM eventSkills WHERE eventID = ?", [eventID]);
+      if (requiredSkills.length > 0) {
+        const values = requiredSkills.map(s => [eventID, s]);
+        await db.query(
+          "INSERT INTO eventSkills (eventID, skill) VALUES ?",
+          [values]
+        );
+      }
+    }
+
+    // Notify volunteers that the event was updated
+    await notifyUsersOfEventUpdate({ name: newName ?? name });
+
+    // Return the updated event (same shape your GET uses)
+    const [rows] = await db.query(
+      "SELECT e.eventID, e.name, e.description, e.location, e.urgency, e.volunteerCount, " +
+      "DATE_FORMAT(e.date, '%Y-%m-%d') AS date, " +
+      "DATE_FORMAT(e.time, '%H:%i') AS time, " +
+      "GROUP_CONCAT(es.skill) AS requiredSkills " +
+      "FROM events e LEFT JOIN eventSkills es ON e.eventID = es.eventID " +
+      "WHERE e.eventID = ? " +
+      "GROUP BY e.eventID",
+      [eventID]
+    );
+
+    const updated = rows.length
+      ? { ...rows[0], requiredSkills: rows[0].requiredSkills ? rows[0].requiredSkills.split(",") : [] }
+      : null;
+
+    return res.status(200).json({
+      message: "Event updated successfully",
+      event: updated
+    });
+  } catch (err) {
+    console.error("updateEvent error:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
-
-  // Update only the provided fields
-  if (req.body.description !== undefined) {
-    target.description = req.body.description;
-  }
-
-  if (req.body.location !== undefined) {
-    target.location = req.body.location;
-  }
-
-  if (req.body.requiredSkills !== undefined) {
-    target.requiredSkills = req.body.requiredSkills;
-  }
-
-  if (req.body.urgency !== undefined) {
-    target.urgency = req.body.urgency;
-  }
-
-  if (req.body.date !== undefined) {
-    target.date = req.body.date;
-  }
-
-  if (req.body.time !== undefined) {
-    target.time = req.body.time;
-  }
-
-  if (req.body.volunteersNeeded !== undefined) {
-    target.volunteersNeeded = req.body.volunteersNeeded;
-  }
-
-  // Optionally allow renaming the event itself
-  if (req.body.newName !== undefined) {
-    target.name = req.body.newName;
-  }
-  notifyUsersOfEventUpdate(target);
-
-  // Send back updated event
-  return res.status(200).json({
-    message: "Event updated successfully",
-    event: target
-  });
 };
+
 
 const createEvent = async (req, res) => {
   const { name, description, location, requiredSkills, urgency, date, time, volunteerCount } = req.body;
@@ -277,7 +309,7 @@ const createEvent = async (req, res) => {
       );
     }
 
-    notifyUsersOfNewEvent({name}); // Matt changed this from eventName to {name}
+    notifyUsersOfNewEvent({ name }); // Matt changed this from eventName to {name}
     res.status(200).send("Event created successfully");
   } catch (err) {
     console.error(err);
@@ -288,69 +320,70 @@ const createEvent = async (req, res) => {
 const matchEvents = async (req, res) => {
   try {
     const userEmail = req.user.email;
-    const user = userData.find(u => u.email === userEmail);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    // Pull user's availability & skills from DB
+    const [availRows] = await db.query(
+      "SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date FROM availability WHERE email = ?",
+      [userEmail]
+    );
+    const availableDates = new Set(availRows.map(r => r.date));
 
-    const now = new Date();
-    const upcomingEvents = events.filter(event => {
-      const eventDate = new Date(`${event.date}T${event.time}`);
-      // Check if date is valid
-      if (isNaN(eventDate)) {
-        return false;
-      }
-      return eventDate >= now;
-    });
+    const [skillRows] = await db.query(
+      "SELECT LOWER(skill) AS skill FROM skills WHERE email = ?",
+      [userEmail]
+    );
+    const userSkills = new Set(skillRows.map(r => r.skill));
 
-    const availableDates = user.Availability.map(d => d.trim());
-    const userSkills = user.Skills.map(s => s.trim().toLowerCase());
+    // Pull upcoming events with their required skills
+    const [rows] = await db.query(
+      `SELECT e.eventID, e.name, e.description, e.location, e.urgency, e.volunteerCount,
+              DATE_FORMAT(e.date, '%Y-%m-%d') AS date,
+              DATE_FORMAT(e.time, '%H:%i')       AS time,
+              GROUP_CONCAT(es.skill)             AS requiredSkills
+       FROM events e
+       LEFT JOIN eventSkills es ON es.eventID = e.eventID
+       WHERE e.date >= CURDATE()
+       GROUP BY e.eventID
+       ORDER BY e.date, e.time`
+    );
 
-    // Find events user is already signed up for (from the upcoming list)
-    const signedUpEvents = upcomingEvents
-      .filter(e => e.volunteers && e.volunteers.includes(userEmail))
-      .map(e => e.name);
+    const upcoming = rows.map(r => ({
+      ...r,
+      requiredSkills: r.requiredSkills ? r.requiredSkills.split(',') : []
+    }));
 
     const matches = [];
     const otherEvents = [];
 
-    upcomingEvents.forEach(event => {
-      const eventDateStr = event.date.trim();
-      const isAvailable = availableDates.includes(eventDateStr);
+    for (const ev of upcoming) {
+      const isAvailable = availableDates.has(ev.date);
+      const evSkills = ev.requiredSkills.map(s => s.toLowerCase());
+      const hasSkillMatch = evSkills.length === 0 || evSkills.some(s => userSkills.has(s));
+      (isAvailable && hasSkillMatch ? matches : otherEvents).push(ev);
+    }
 
-      // Handle skills being an array or a string
-      const eventSkills = Array.isArray(event.requiredSkills)
-        ? event.requiredSkills.map(s => s.trim().toLowerCase())
-        : typeof event.requiredSkills === 'string'
-          ? event.requiredSkills.split(',').map(s => s.trim().toLowerCase())
-          : [];
-
-      // Check if the user has at least one matching skill
-      const hasSkillMatch =
-        eventSkills.length === 0 ||
-        eventSkills.some(skill => userSkills.includes(skill));
-
-      if (isAvailable && hasSkillMatch) {
-        matches.push(event);
-      } else {
-        otherEvents.push(event);
-      }
-    });
+    // If you want to show already-signed-up events, read from volunteers table:
+    const [signedRows] = await db.query(
+      `SELECT e.name
+       FROM volunteers v
+       JOIN events e ON e.eventID = v.eventID
+       WHERE v.email = ?`,
+      [userEmail]
+    );
+    const signedUpEvents = signedRows.map(r => r.name);
 
     res.status(200).json({
-      message: matches.length > 0 ? "Matching events found" : "No matching events found",
+      message: matches.length ? "Matching events found" : "No matching events found",
       matches,
       otherEvents,
-      signedUpEvents,
+      signedUpEvents
     });
-
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 const getEvent_update = async (req, res) => {
   const eventName = req.params.eventName;
@@ -369,7 +402,7 @@ const signUpForEvent = async (req, res) => {
     const userEmail = req.user.email;
 
     const [event] = await db.query("SELECT * FROM events WHERE name = ?", [eventName]);
-    
+
     if (event.length === 0) {
       return res.status(404).json({ message: "Event not found" });
     }
@@ -381,8 +414,8 @@ const signUpForEvent = async (req, res) => {
     }
 
     // Check if already signed up
-    for(const email of volunteerCount) {
-      if(email === userEmail) {
+    for (const email of volunteerCount) {
+      if (email === userEmail) {
         return res.status(400).json({ message: "You are already signed up for this event" });
       }
     }
@@ -426,12 +459,10 @@ const cancelSignup = async (req, res) => {
   const userEmail = req.user.email;
 
   const [event] = await db.query("SELECT * FROM events WHERE name = ?", [eventName]);
-    
+
   if (event.length === 0) {
     return res.status(404).json({ message: "Event not found" });
   }
-
-  event.volunteers = event.volunteers.filter(email => email !== userEmail);
   await db.query("DELETE FROM volunteers WHERE eventID = ? AND email = ?", [event[0].eventID, userEmail]);
 
   res.status(200).json({

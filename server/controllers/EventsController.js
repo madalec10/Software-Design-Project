@@ -14,6 +14,17 @@ import e from "express";
 
 */
 
+/*
+
+  THINGS DONE:
+
+    - GET EVENTS (full list)
+    - DELETE EVENT
+    - CREATE EVENT
+    - GET EVENT (singular, probably done)-
+
+*/
+
 
 let events = [
     {
@@ -150,24 +161,27 @@ const getEvents = async (req, res) => {
 const getEvent = async (req, res) => {
   
   const [rows] = await db.query(
-      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
-      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
-      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
-      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
-      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID" +
-      "WHERE events.name = ?", 
-      [req.body.name]
-    );
+    "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+    "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+    "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+    "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID " +
+    "WHERE events.name = ?" +  
+    "GROUP BY events.eventID",
+    [eventName]
+  );
 
-    // turns the skills back into a array for the json
-    const Events = rows.map(event => {
-      return {
-        ...event,
-        requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
-      };
-    });
-  
-  res.status(200).json(Events)
+  if (rows.length === 0) {
+    res.status(404).send('Event not found');
+  }
+
+  // turns the skills back into a array for the json
+  const event = {
+    ...rows[0],
+    requiredSkills: rows[0].requiredSkills ? rows[0].requiredSkills.split(',') : []
+  };
+
+  res.status(200).json(event)
 }
 
 
@@ -199,53 +213,82 @@ const updateEvent = async (req, res) => {
   // Identify which event to update
   const name = req.body.name;
 
-  // Find the existing event
-  const target = events.find(e => e.name === name);
-
-  // If not found, return 404
-  if (!target) {
+  let [event] = await db.query("SELECT * FROM events WHERE name = ?", [name]);
+    
+  if (event.length === 0) {
     return res.status(404).json({ message: "Event not found" });
   }
-
   // Update only the provided fields
   if (req.body.description !== undefined) {
-    target.description = req.body.description;
+    event[0].description = req.body.description;
+    await db.query("UPDATE events SET description = ? WHERE name = ?", [req.body.description, name]);
   }
 
   if (req.body.location !== undefined) {
-    target.location = req.body.location;
+    event[0].location = req.body.location;
+    await db.query("UPDATE events SET location = ? WHERE name = ?", [req.body.location, name]);
   }
 
   if (req.body.requiredSkills !== undefined) {
-    target.requiredSkills = req.body.requiredSkills;
+    event[0].requiredSkills = req.body.requiredSkills;
+    await db.query("DELETE FROM eventskills WHERE eventID = ?", [event[0].eventID]);
+
+    for(const skill of req.body.requiredSkills) {
+      await db.query(
+        "INSERT INTO eventSkills (eventID, skill) VALUES (?, ?)",
+        [Number(event[0].eventID), skill]
+      );
+    }
   }
 
   if (req.body.urgency !== undefined) {
-    target.urgency = req.body.urgency;
+    event[0].urgency = req.body.urgency;
+    await db.query("UPDATE events SET urgency = ? WHERE name = ?", [req.body.urgency, name]);
   }
 
   if (req.body.date !== undefined) {
-    target.date = req.body.date;
+    event[0].date = req.body.date;
+    await db.query("UPDATE events SET date = ? WHERE name = ?", [req.body.date, name]);
   }
 
   if (req.body.time !== undefined) {
-    target.time = req.body.time;
+    event[0].time = req.body.time;
+    await db.query("UPDATE events SET time = ? WHERE name = ?", [req.body.time, name]);
   }
 
-  if (req.body.volunteersNeeded !== undefined) {
-    target.volunteersNeeded = req.body.volunteersNeeded;
+  if (req.body.volunteerCount !== undefined) {
+    event[0].volunteerCount = req.body.volunteerCount;
+    await db.query("UPDATE events SET volunteerCount = ? WHERE name = ?", [req.body.volunteerCount, name]);
   }
 
   // Optionally allow renaming the event itself
   if (req.body.newName !== undefined) {
-    target.name = req.body.newName;
+    event[0].name = req.body.newName;
+    await db.query("UPDATE events SET name = ? WHERE name = ?", [req.body.newName, name]);
   }
-  notifyUsersOfEventUpdate(target);
+
+  // gets the updated event
+  const [rows] = await db.query(
+      "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+      "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+      "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+      "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+      "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID GROUP BY events.eventID"
+    );
+
+  const Events = rows.map(event => {
+    return {
+      ...event,
+      requiredSkills: event.requiredSkills ? event.requiredSkills.split(',') : []
+    };
+  });
+
+  //notifyUsersOfEventUpdate(target);
 
   // Send back updated event
   return res.status(200).json({
     message: "Event updated successfully",
-    event: target
+    event: Events
   });
 };
 
@@ -354,13 +397,29 @@ const matchEvents = async (req, res) => {
 
 const getEvent_update = async (req, res) => {
   const eventName = req.params.eventName;
-  const event = events.find(event => event.name === eventName);
 
-  if (event) {
-    res.json(event);
-  } else {
+  const [rows] = await db.query(
+    "SELECT events.eventID, events.name, events.description, events.location, events.urgency, events.volunteerCount, " +
+    "DATE_FORMAT(events.date, '%Y-%m-%d') AS date, " +
+    "DATE_FORMAT(events.time, '%H:%i') AS time, " +
+    "GROUP_CONCAT(eventskills.skill) AS requiredSkills " +
+    "FROM events LEFT JOIN eventskills ON events.eventID = eventskills.eventID " +
+    "WHERE events.name = ?" +  
+    "GROUP BY events.eventID",
+    [eventName]
+  );
+
+  if (rows.length === 0) {
     res.status(404).send('Event not found');
   }
+
+  // turns the skills back into a array for the json
+  const event = {
+    ...rows[0],
+    requiredSkills: rows[0].requiredSkills ? rows[0].requiredSkills.split(',') : []
+  };
+    
+  res.json(event);
 }
 
 const signUpForEvent = async (req, res) => {
@@ -431,7 +490,6 @@ const cancelSignup = async (req, res) => {
     return res.status(404).json({ message: "Event not found" });
   }
 
-  event.volunteers = event.volunteers.filter(email => email !== userEmail);
   await db.query("DELETE FROM volunteers WHERE eventID = ? AND email = ?", [event[0].eventID, userEmail]);
 
   res.status(200).json({

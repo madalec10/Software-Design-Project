@@ -2,6 +2,8 @@ import express from "express";
 import { authenticateToken } from "../middleware/authMiddleware.js";
 import { getEvents,getEvent,deleteEvent,updateEvent,createEvent,matchEvents, getEvent_update, signUpForEvent, cancelSignup} from "../controllers/EventsController.js";
 import { getHistory} from "../controllers/VolunteerHistController.js";
+import { getVolunteersForEvent } from "../controllers/VolunteerHistController.js";
+
 
 
 
@@ -16,5 +18,6 @@ router.get('/volunteer-history', authenticateToken, (req, res) => getHistory(req
 router.get('/match-events', authenticateToken, (req, res) => matchEvents(req, res))
 router.post('/event/sign-up', authenticateToken, (req, res) => signUpForEvent(req, res))
 router.post('/event/cancel', authenticateToken, (req, res) => cancelSignup(req,res))
+router.get('/event/volunteers/:eventID', authenticateToken, (req, res) => getVolunteersForEvent(req, res));
 
 export default router;

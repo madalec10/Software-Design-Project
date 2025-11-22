@@ -61,5 +61,31 @@ const getHistory = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch events' });
   }
 };
+const getVolunteersForEvent = async (req, res) => {
+  try {
+    const { eventID } = req.params;
 
-export { getHistory };
+    const id = parseInt(eventID, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid eventID" });
+    }
+
+    const [rows] = await db.query(
+      `SELECT 
+         COALESCE(up.fullName, v.email) AS name
+       FROM volunteers v
+       LEFT JOIN userProfile up ON up.email = v.email
+       WHERE v.eventID = ?`,
+      [id]
+    );
+
+    // Will return:  [ { name: "Matt Kalanta" }, { name: "John Doe" } ]
+    return res.status(200).json(rows);
+  } catch (err) {
+    console.error("Error fetching volunteers for event:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+export { getHistory, getVolunteersForEvent };

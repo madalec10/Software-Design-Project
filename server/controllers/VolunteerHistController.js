@@ -5,12 +5,16 @@ import db from "../db.js";
 
 const getHistory = async (req, res) => {
   try {
-    const userEmail = req.user.email;
+
+    const queryEmail = req.query.email;
+    const tokenEmail = req.user?.email;
+
+    const userEmail = queryEmail || tokenEmail;
 
     if (!userEmail) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
-  
+
     // get all event IDs the user signed up for
     const [allEventIDs] = await db.query("SELECT * FROM volunteers WHERE email = ?", [userEmail]);
     

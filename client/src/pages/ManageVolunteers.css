@@ -54,3 +54,86 @@
     background-color: #ececec;
 }
 
+.Filters-Section-Container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    gap: 16px;
+}
+
+.Filters-Input-Group {
+    display: flex; 
+    gap: 20px; 
+    align-items: center; 
+}
+
+.Filter-Item {
+    display: flex;
+    flex-direction: column; 
+    gap: 3px;
+}
+
+.Filter-Item p {
+    font-weight: bold; 
+    margin: 0;
+    font-size: 13px; 
+    color: #333; 
+}
+
+.Filter-Input-Button {
+    display: flex;
+    align-items: center;
+    gap: 2px; 
+}
+
+.Filter-Input-Button input {
+    padding: 6px 8px; 
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    min-width: 140px; 
+    font-size: 13px;
+}
+
+.Filter-Input-Button button {
+    padding: 6px 8px; 
+    border: 2px solid #007bff; 
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff; 
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.Filter-Input-Button button:hover {
+    background-color: #3f79d9;
+    border-color: #3f79d9;
+}
+
+.Filters-Reset-Buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+    height: 100%;
+    margin-top: 20px; 
+}
+
+.reset-button {
+    padding: 7px 8px; 
+    border: 2px solid #6c757d;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background-color: #6c757d;
+    transition: background-color 0.2s, border-color 0.2s;
+    font-size: 13px;
+    margin-left: 0;
+}
+.reset-button:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}

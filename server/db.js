@@ -3,7 +3,7 @@ import mysql from "mysql2/promise";
 const db = mysql.createPool({
   host: "localhost",
   user: "root",          
-  password: "7927", 
+  password: "Lamadev123", 
   database: "mydb",
   port: 3306
 });

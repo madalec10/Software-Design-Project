@@ -90,11 +90,13 @@ const signUp = async (req, res) => {
 const logIn = async (req, res) => {
     //Authenticate user
     const { email, password } = req.body;
+    console.log("Logging in user:", email, password);
 
     
     
     try {
         const [rows] = await db.query("SELECT * FROM userCredentials WHERE email = ?", [email]);
+        console.log("Query result:", rows);
         const user = rows[0];
 
         if (!user) {
@@ -118,8 +120,12 @@ const logIn = async (req, res) => {
         }
 
     }
-    catch {
-        res.status(500).send("login failed")
+    // catch {
+    //     res.status(500).send("login failed")
+    // }
+    catch (err) {
+        console.error("Login error:", err);
+        res.status(500).send("login failed");
     }
 }
 

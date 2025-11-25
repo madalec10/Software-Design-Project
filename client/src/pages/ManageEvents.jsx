@@ -8,6 +8,8 @@ const ManageEvents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");  // For success messages like "Event deleted!
+  const [filterTime, setFilterTime] = useState("all"); //event time filter: all(default)/upcoming/pass
+  const [sortTitle, setSortTitle] = useState("none"); //title =event name filter: none(default)/A-Z/Z-A (not case sensitive)
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -35,6 +37,22 @@ const ManageEvents = () => {
     }
   };
 
+  const filteredEvents = events.filter((event) => {
+    const eventDate = new Date(event.date);
+    const now = new Date();
+
+    //based on current time now
+    if (filterTime === "upcoming") return eventDate >= now;
+    if (filterTime === "past") return eventDate < now;
+    else return true; //"all"
+  });
+
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
+    if (sortTitle === "ascend") return a.name.localeCompare(b.name);
+    if (sortTitle === "descend") return b.name.localeCompare(a.name);
+    else return 0; //"none"
+  });
+
   // Loading state (only affects Upcoming Events section)
   if (loading) {
     return (
@@ -61,6 +79,8 @@ const ManageEvents = () => {
       </div>
     );
   }
+
+
   const handleDelete = async (eventName) => {
     // Step 1: Confirm deletion to prevent accidents
     if (!window.confirm(`Are you sure you want to delete "${eventName}"? This cannot be undone.`)) {
@@ -143,8 +163,56 @@ const ManageEvents = () => {
           Create New Event
         </a>
 
+        <div className="Filters-Section-Container">
+          <div className="Filter-Item">
+            <p>Filter by Time:</p>
+            <select value={filterTime} onChange={(e) => setFilterTime(e.target.value)}>
+              <option value="all">All</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="past">Past</option>
+            </select>
+          </div>
+
+          <div className="Filter-Item">
+            <p>Sort by Name:</p>
+            <select value={sortTitle} onChange={(e) => setSortTitle(e.target.value)}>
+              <option value="none">None</option>
+              <option value="ascend">A - Z</option>
+              <option value="descend">Z - A</option>
+            </select>
+          </div>
+
+        </div>
+
+        {sortedEvents.length === 0 ? (
+          <p>No events found for this filter.</p>
+        ) : (
+          <ul className="Events-List">
+            {sortedEvents.map((event, index) => (
+              <li key={index} className="Event-Card">
+                <div>
+                  <h3>{event.name}</h3>
+                  <p><strong>Location:</strong> {event.location}</p>
+                  <p><strong>Date and Time:</strong> {event.date} {event.time}</p>
+                  <p><strong>Skills:</strong> {event.requiredSkills}</p>
+                  <p><strong>Urgency:</strong> {event.urgency}</p>
+                  <p><strong>Volunteers Needed:</strong> {event.volunteerCount}</p>
+                  <p><strong>Description:</strong>{event.description}</p>
+                  <div className='buttons'>
+                    <button className='Event-Button-update' onClick={() => navigate(`/update-event/${event.name}`)}>Update</button>
+                    <button className='Event-Button-delete' onClick={() => handleDelete(event.name)}>Delete</button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+
+        {/* old hardcoded upcoming/past events sections: */}
+
         {/* Upcoming Events - DYNAMIC from fetch */}
-        <h2>Upcoming Events</h2>
+        {/* <h2>Upcoming Events</h2>
         {events.length === 0 ? (
           <p>No upcoming events found. Create one!</p>
         ) : (
@@ -157,9 +225,13 @@ const ManageEvents = () => {
                   <p> Date and time : {event.date} {event.time}</p>
                   <p><strong>Skills:</strong> {event.requiredSkills}</p>
                   <p><strong>Urgency:</strong> {event.urgency}</p>
-                  <p><strong>Volunteers Needed:</strong> {event.volunteerCount}</p>
-                  <p>{event.description}</p>  {/* Full description */}
-                  <div className='buttons'>
+                  <p><strong>Volunteers Needed:</strong> {event.volunteerCount}</p> */}
+                  
+                  {/* Full description */}
+                  {/* <p>{event.description}</p> */}
+
+
+                  {/* <div className='buttons'>
                     <button className='Event-Button-update' onClick={() => navigate(`/update-event/${event.name}`)}>Update</button> 
                     <button className='Event-Button-delete' onClick={() => handleDelete(event.name)} > Delete Event</button>
                   </div>
@@ -167,10 +239,10 @@ const ManageEvents = () => {
               </li>
             ))}
           </ul>
-        )}
+        )} */}
 
         {/* Past Events - HARDCODED (your original examples) */}
-        <h2>Past Events</h2>
+        {/* <h2>Past Events</h2>
         <ul className="Events-List">
           <li className="Event-Card past">
             <div>
@@ -199,7 +271,8 @@ const ManageEvents = () => {
               <p>Apr 10, 2025 • 7:00 AM • Downtown Houston</p>
             </div>
           </li>
-        </ul>
+        </ul> */}
+
       </div>
     </div>
   );

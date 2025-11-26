@@ -161,6 +161,8 @@ const ManageVolunteers = () => {
   const handleResetFilter = () => {
     setFilterEmail("");
     setFilterEvent("");
+    setFilterTime("all");
+    setSortTitle("none");
     fetchEventsAndVolunteers();
   };
 
@@ -202,6 +204,24 @@ const ManageVolunteers = () => {
                 </div>
             </div>
 
+            <div className="Filter-Item">
+              <p>Filter by Time:</p>
+              <select value={filterTime} onChange={(e) => setFilterTime(e.target.value)}>
+                <option value="all">All</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="past">Past</option>
+              </select>
+            </div>
+
+            <div className="Filter-Item">
+              <p>Sort by Event Name:</p>
+              <select value={sortTitle} onChange={(e) => setSortTitle(e.target.value)}>
+                <option value="none">None</option>
+                <option value="ascend">A - Z</option>
+                <option value="descend">Z - A</option>
+              </select>
+            </div>
+
         </div> 
         
     <div className="Filters-Reset-Buttons">
@@ -210,25 +230,7 @@ const ManageVolunteers = () => {
 
       </div> 
 
-      <div className="SortFilterControls">
-        <div className="Filter-Item">
-          <p>Filter by Time:</p>
-          <select value={filterTime} onChange={(e) => setFilterTime(e.target.value)}>
-            <option value="all">All</option>
-            <option value="upcoming">Upcoming</option>
-            <option value="past">Past</option>
-          </select>
-        </div>
-
-        <div className="Filter-Item">
-          <p>Sort by Event Name:</p>
-          <select value={sortTitle} onChange={(e) => setSortTitle(e.target.value)}>
-            <option value="none">None</option>
-            <option value="ascend">A - Z</option>
-            <option value="descend">Z - A</option>
-          </select>
-        </div>
-      </div>
+      
 
       {filteredAndSortedEvents.length === 0 ? (
         <p>No events found.</p>

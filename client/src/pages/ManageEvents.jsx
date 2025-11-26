@@ -163,7 +163,7 @@ const ManageEvents = () => {
           Create New Event
         </a>
 
-        <div className="Filters-Section-Container">
+        <div className="Filter-Container">
           <div className="Filter-Item">
             <p>Filter by Time:</p>
             <select value={filterTime} onChange={(e) => setFilterTime(e.target.value)}>

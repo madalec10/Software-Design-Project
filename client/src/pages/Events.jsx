@@ -5,7 +5,9 @@ import axios from 'axios';
 const Events = () => {
   const [matchingEvents, setMatchingEvents] = useState([]);
   const [otherEvents, setOtherEvents] = useState([]);
-  const [signedUpEvents, setSignedUpEvents] = useState([]);
+  const [signedUpEvents, setSignedUpEvents] = useState([]);  const [filterTime, setFilterTime] = useState("all"); //time filter
+  const [sortTitle, setSortTitle] = useState("none"); //sort event name
+  
 
   useEffect(() => {
     (async () => {
@@ -75,8 +77,27 @@ const handleCancelSignup = async (eventName) => {
   }
 };
 
+const filteredEvents = (events) => {
+  const now = new Date();
+  return events.filter(event => {
+    const eventDate = new Date(event.date + ' ' + (event.time || '00:00:00'));
+    if (filterTime === "upcoming") return eventDate >= now;
+    if (filterTime === "past") return eventDate < now;
+    else return true; //"all"
+  });
+};
+
+const sortedEvents = (events) => {
+    return [...events].sort((a, b) => {
+      if (sortTitle === "ascend") return a.name.localeCompare(b.name);
+      if (sortTitle === "descend") return b.name.localeCompare(a.name);
+      else return 0; //"none"
+    });
+};
+
+
   
-  const renderEventCard = (event, index) => {
+const renderEventCard = (event, index) => {
     const skills = Array.isArray(event.requiredSkills)
       ? event.requiredSkills.join(', ')
       : (event.requiredSkills || '');
@@ -106,33 +127,62 @@ const handleCancelSignup = async (eventName) => {
         </div>
       </li>
     );
-  };
+};
+
+const filteredSortedMatching = sortedEvents(filteredEvents(matchingEvents));
+const filteredSortedOther = sortedEvents(filteredEvents(otherEvents));
+
 
   return (
     <div>
+      <div className="Filter-Container">
+        <div className="Filter-Item">
+          <p>Filter by Time:</p>
+          <select value={filterTime} onChange={(e) => setFilterTime(e.target.value)}>
+            <option value="all">All</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="past">Past</option>
+          </select>
+        </div>
+
+        <div className="Filter-Item">
+          <p>Sort by Name:</p>
+          <select value={sortTitle} onChange={(e) => setSortTitle(e.target.value)}>
+            <option value="none">None</option>
+            <option value="ascend">A - Z</option>
+            <option value="descend">Z - A</option>
+          </select>
+        </div>
+      </div>
+
+      {/* old code */}
       <h2>Events that Match your Preferences:</h2>
-      {matchingEvents.length === 0 ? (
+      {filteredSortedMatching.length === 0 ? (
         <p>No matching events found.</p>
       ) : (
         <div className="EventsMatch">
           <ul className="Events-Match-List">
-            {matchingEvents.map(renderEventCard)}
+            {filteredSortedMatching.map(renderEventCard)}
           </ul>
         </div>
       )}
 
       <h2>Other Events:</h2>
-      {otherEvents.length === 0 ? (
+      {filteredSortedOther.length === 0 ? (
         <p>No other events right now.</p>
       ) : (
         <div className="EventsMatch">
           <ul className="Events-Match-List">
-            {otherEvents.map(renderEventCard)}
+            {filteredSortedOther.map(renderEventCard)}
           </ul>
         </div>
       )}
     </div>
   );
+
 };
+
+
+
 
 export default Events;

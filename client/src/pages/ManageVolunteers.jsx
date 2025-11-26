@@ -8,6 +8,8 @@ const ManageVolunteers = () => {
   const [error, setError] = useState("");
   const [filterEmail, setFilterEmail] = useState("");
   const [filterEvent, setFilterEvent] = useState("");
+  const [filterTime, setFilterTime] = useState("all");
+  const [sortTitle, setSortTitle] = useState("none");
 
   useEffect(() => {
     fetchEventsAndVolunteers()
@@ -91,6 +93,32 @@ const ManageVolunteers = () => {
     }
   };
 
+  const filterByTime = (events, filterTime) => {
+    const now = new Date();//compare to time now
+
+    return events.filter((event) => {
+      const eventDate = new Date(event.date);
+
+      if (filterTime === "upcoming") return eventDate >= now;
+      if (filterTime === "past") return eventDate < now;
+      else return true;//"all"
+    });
+  };
+
+  const filterByName = (events, sortTitle) => {
+    const sorted = [...events];
+
+    if (sortTitle === "ascend") {
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+    } 
+    else if (sortTitle === "descend") {
+      sorted.sort((a, b) => b.name.localeCompare(a.name));
+    }
+    //otherwise, don't sort
+
+    return sorted;
+  };
+
   const formatSkills = (skills) => {
     if (!skills) return "";
     return Array.isArray(skills) ? skills.join(", ") : String(skills);
@@ -136,6 +164,9 @@ const ManageVolunteers = () => {
     fetchEventsAndVolunteers();
   };
 
+  let filteredAndSortedEvents = filterByTime(events, filterTime);
+  filteredAndSortedEvents = filterByName(filteredAndSortedEvents, sortTitle);
+
   return (
     <div className="ManageVolunteers-Wrapper">
       <h1>Manage Volunteers</h1>
@@ -179,7 +210,27 @@ const ManageVolunteers = () => {
 
       </div> 
 
-      {events.length === 0 ? (
+      <div className="SortFilterControls">
+        <div className="Filter-Item">
+          <p>Filter by Time:</p>
+          <select value={filterTime} onChange={(e) => setFilterTime(e.target.value)}>
+            <option value="all">All</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="past">Past</option>
+          </select>
+        </div>
+
+        <div className="Filter-Item">
+          <p>Sort by Event Name:</p>
+          <select value={sortTitle} onChange={(e) => setSortTitle(e.target.value)}>
+            <option value="none">None</option>
+            <option value="ascend">A - Z</option>
+            <option value="descend">Z - A</option>
+          </select>
+        </div>
+      </div>
+
+      {filteredAndSortedEvents.length === 0 ? (
         <p>No events found.</p>
       ) : (
         <div className="ManageVolunteers-TableContainer">
@@ -197,7 +248,7 @@ const ManageVolunteers = () => {
               </tr>
             </thead>
             <tbody>
-              {events.map((event) => (
+              {filteredAndSortedEvents.map((event) => (
                 <tr key={event.eventID}>
                   <td>{event.name}</td>
                   <td>{event.date}</td>

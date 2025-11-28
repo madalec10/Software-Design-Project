@@ -108,6 +108,16 @@ const ManageEvents = () => {
     }
   };
 
+  const isPastEvent = (event) => {
+    const eventDateTime = new Date(`${event.date} ${event.time}`);
+    const now = new Date();
+    return eventDateTime < now;
+  };
+
+  const upcomingEvents = events.filter(event => !isPastEvent(event));
+  const pastEvents = events.filter(event => isPastEvent(event));
+
+
   const handleUpdate = async (eventName) => {
     try {
       const response = await fetch(`http://localhost:8800/update-event/${eventName}`, {
@@ -145,11 +155,11 @@ const ManageEvents = () => {
 
         {/* Upcoming Events - DYNAMIC from fetch */}
         <h2>Upcoming Events</h2>
-        {events.length === 0 ? (
+        {upcomingEvents.length === 0 ? (
           <p>No upcoming events found. Create one!</p>
         ) : (
           <ul className="Events-List">
-            {events.map((event, index) => (
+            {upcomingEvents.map((event, index) => (
               <li key={index} className="Event-Card">
                 <div>
                   <h3> {event.name}</h3>
@@ -171,35 +181,20 @@ const ManageEvents = () => {
 
         {/* Past Events - HARDCODED (your original examples) */}
         <h2>Past Events</h2>
-        <ul className="Events-List">
-          <li className="Event-Card past">
-            <div>
-              <h3>Neighborhood Tree Planting</h3>
-              <p>Sep 7, 2025 • 8:00 AM • Third Ward</p>
-            </div>
-          </li>
-
-          <li className="Event-Card past">
-            <div>
-              <h3>Riverbank Clean Sweep</h3>
-              <p>Aug 24, 2025 • 7:30 AM • Buffalo Bayou</p>
-            </div>
-          </li>
-
-          <li className="Event-Card past">
-            <div>
-              <h3>Summer Youth Camp</h3>
-              <p>Jul 15, 2025 • 9:00 AM • City Park</p>
-            </div>
-          </li>
-
-          <li className="Event-Card past">
-            <div>
-              <h3>Spring Charity Run</h3>
-              <p>Apr 10, 2025 • 7:00 AM • Downtown Houston</p>
-            </div>
-          </li>
+        {pastEvents.length === 0 ? (
+          <p>No past events.</p>
+          ) : (
+          <ul className="Events-List">
+            {pastEvents.map((event, index) => (
+            <li key={index} className="Event-Card past">
+              <div>
+                <h3>{event.name}</h3>
+                <p>{event.date} • {event.time} • {event.location}</p>
+              </div>
+           </li>
+          ))}
         </ul>
+        )}
       </div>
     </div>
   );

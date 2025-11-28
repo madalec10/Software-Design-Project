@@ -29,9 +29,6 @@ const Navbar = () => {
                 <a href="/manage-events">Manage Events</a>
               </li>
               <li>
-                <a href="/event-matcher">Event Matcher</a>
-              </li>
-              <li>
                 <a href="/manage-volunteers">Manage Volunteers</a>
               </li>
             </>

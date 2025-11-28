@@ -1,6 +1,10 @@
 // src/ManageVolunteers.jsx
 import React, { useEffect, useState } from "react";
 import "./ManageVolunteers.css";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+
 
 const ManageVolunteers = () => {
   const [events, setEvents] = useState([]);
@@ -169,6 +173,50 @@ const ManageVolunteers = () => {
   let filteredAndSortedEvents = filterByTime(events, filterTime);
   filteredAndSortedEvents = filterByName(filteredAndSortedEvents, sortTitle);
 
+  const exportPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Volunteer Event Report", 14, 22);
+
+    const tableColumn = [
+      "Event",
+      "Date",
+      "Time",
+      "Location",
+      "Skills Required",
+      "Urgency",
+      "Volunteers Needed",
+      "Volunteers"
+    ];
+
+    const tableRows = [];
+
+    filteredAndSortedEvents.forEach(event => {
+      tableRows.push([
+        event.name,
+        event.date,
+        event.time,
+        event.location,
+        formatSkills(event.requiredSkills),
+        event.urgency,
+        event.volunteerCount ?? event.volunteersNeeded,
+        formatVolunteers(event.volunteers)
+      ]);
+    });
+
+    autoTable(doc, {
+      startY: 30,
+      head: [tableColumn],
+      body: tableRows,
+      theme: "grid",
+      styles: { fontSize: 10 }
+    });
+
+    doc.save("volunteer-events.pdf");
+  };
+
+
   return (
     <div className="ManageVolunteers-Wrapper">
       <h1>Manage Volunteers</h1>
@@ -223,9 +271,11 @@ const ManageVolunteers = () => {
             </div>
 
         </div> 
-        
+    
     <div className="Filters-Reset-Buttons">
       <button className="reset-button" onClick={handleResetFilter}>Reset</button>
+      <button className="reset-button" onClick={exportPDF}>Get PDF</button>
+      <button className="reset-button">Get CSV</button>
     </div>
 
       </div> 

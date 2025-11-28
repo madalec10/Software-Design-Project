@@ -216,6 +216,60 @@ const ManageVolunteers = () => {
     doc.save("volunteer-events.pdf");
   };
 
+  const exportCSV = () => {
+    const headers = [
+      "Event",
+      "Date",
+      "Time",
+      "Location",
+      "Skills Required",
+      "Urgency",
+      "Volunteers Needed",
+      "Volunteers"
+    ];
+
+    const rows = filteredAndSortedEvents.map(event => [
+      event.name,
+      event.date,
+      event.time,
+      event.location,
+      formatSkills(event.requiredSkills),
+      event.urgency,
+      event.volunteerCount ?? event.volunteersNeeded,
+      formatVolunteers(event.volunteers)
+    ]);
+
+    // Convert to CSV
+    let csvContent =
+      headers.join(",") +
+      "\n" +
+      rows
+      .map(row =>
+          row
+              .map(value => {
+              // Escape commas/quotes
+              if (typeof value === "string") {
+                return `"${value.replace(/"/g, '""')}"`;
+              }
+              return value;
+            })
+            .join(",")
+        )
+        .join("\n");
+
+    // Create file & trigger download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "volunteer-events.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
 
   return (
     <div className="ManageVolunteers-Wrapper">
@@ -275,7 +329,7 @@ const ManageVolunteers = () => {
     <div className="Filters-Reset-Buttons">
       <button className="reset-button" onClick={handleResetFilter}>Reset</button>
       <button className="reset-button" onClick={exportPDF}>Get PDF</button>
-      <button className="reset-button">Get CSV</button>
+      <button className="reset-button"onClick={exportCSV}>Get CSV</button>
     </div>
 
       </div> 
